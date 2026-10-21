@@ -666,7 +666,7 @@ button.kvr{transition:border-color .2s,background .2s}button.kvr:hover{border-co
 <div class="vignette"></div>
 <div class="hudf" aria-hidden="true"><i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i><div class="scan-ov"></div><div class="hud-top"><span>DX CORE</span><b id="hudClock">--:--:--</b><span>CELL M-01 · ENGINE BLOCK · ONLINE</span></div><div class="hud-bl" id="hudCoord">CAM X 0.00 · Y 0.00 · Z 0.00</div><div class="hud-br" id="hudFps">RENDER · HOLO</div></div>
 <div class="bar" id="bar"></div>
-<div class="top"><div class="brand"><span class="logo">DX</span><span>LEARNING SPACE</span></div><div class="top-r"><button class="auto" id="auto" aria-pressed="false">▶ เล่นอัตโนมัติ</button><button class="play" data-play>เข้าโหมดเล่นเอง</button></div></div>
+<div class="top"><div class="brand"><span class="logo">DX</span><span>LEARNING SPACE</span></div><div class="top-r"><button class="auto" id="qual" title="คุณภาพภาพ · กดเพื่อสลับ (หน้าจะโหลดใหม่)">คุณภาพ: ต่ำ</button><button class="auto" id="auto" aria-pressed="false">▶ เล่นอัตโนมัติ</button><button class="play" data-play>เข้าโหมดเล่นเอง</button></div></div>
 <nav class="dots" id="dots" aria-label="บท"></nav>
 <svg class="co-svg" id="coSvg" aria-hidden="true"><path id="coPath"/><circle id="coRing2" r="16"/><circle id="coRing" r="22"/><circle id="coDot" r="4.5"/><circle id="coEnd" r="3.5"/></svg>
 <div class="tdock off" id="tdock"><small>เลือกชิ้นส่วน · PART SELECT</small><div class="tdock-row" id="tags"></div></div>
@@ -1765,6 +1765,10 @@ const lerp=(a,b,t)=>a+(b-a)*t;
 const ss=(a,b,x)=>{const t=clamp((x-a)/(b-a),0,1);return t*t*(3-2*t);};
 const sm=u=>u*u*(3-2*u);
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* render quality: low (default) = no bloom, native resolution, fewer particles; mid / high add bloom, resolution and panel blur */
+const QL=(()=>{try{const q=localStorage.getItem('dxQuality');return q==='mid'||q==='high'?q:'low';}catch(e){return 'low';}})();
+const QP={low:{pr:1,px:2.1e6,bloom:false,min:.5,th:'ต่ำ'},mid:{pr:1.25,px:3e6,bloom:true,min:.6,th:'กลาง'},high:{pr:1.5,px:3.7e6,bloom:true,min:.6,th:'สูง'}}[QL];
+if(QL==='high')document.body.classList.remove('lowfx');
 const secs=$$('.ch');
 
 /* ---------- Scroll story ---------- */
@@ -2032,6 +2036,7 @@ const HOLD=4.2,MOVE=2.6;
 function startAuto(fromIdle){auto=true;attract=!!fromIdle;$('#auto').setAttribute('aria-pressed','true');$('#auto').textContent='❚❚ หยุดเล่นอัตโนมัติ';autoIdx=Math.round(F);autoPhase='hold';autoT=0;goTo(autoIdx,false);$('#tapPlay').hidden=!attract;}
 function stopAuto(){if(!auto)return;auto=false;attract=false;$('#tapPlay').hidden=true;$('#auto').setAttribute('aria-pressed','false');$('#auto').textContent='▶ เล่นอัตโนมัติ';}
 $('#auto').onclick=()=>auto?stopAuto():startAuto(false);
+$('#qual').textContent='คุณภาพ: '+QP.th;$('#qual').onclick=()=>{const n={low:'mid',mid:'high',high:'low'}[QL];try{localStorage.setItem('dxQuality',n);}catch(e){}location.reload();};
 let lastInput=performance.now();
 ['wheel','touchstart','keydown','pointerdown'].forEach(ev=>addEventListener(ev,e=>{lastInput=performance.now();if(ev==='pointerdown')return;if(ev==='keydown'&&e.target===$('#auto'))return;if(!G.on)stopAuto();},{passive:true,capture:true}));
 function autoStep(dt){
@@ -2046,7 +2051,7 @@ const cv=$('#gl');
 if(ok){try{R=new T.WebGLRenderer({canvas:cv,antialias:true,powerPreference:'high-performance'});}catch(e){ok=false;}}
 if(!ok){document.body.classList.add('nogl');$('#nogl').hidden=false;$$('[data-play]').forEach(b=>b.hidden=true);
  const loop0=()=>{F=storyPos();$('#bar').style.width=(F/(secs.length-1)*100)+'%';$$('#dots button').forEach((b,i)=>b.classList.toggle('on',i===Math.round(F)));requestAnimationFrame(loop0);};loop0();return;}
-const PRMAX=1.5;const prBudget=()=>Math.max(.6,Math.min(PRMAX,Math.sqrt(3.7e6/Math.max(1,innerWidth*innerHeight))));let PRcap=prBudget(),PR=Math.min(PRcap,1);R.setPixelRatio(PR);R.outputEncoding=T.sRGBEncoding;R.toneMapping=T.ACESFilmicToneMapping;R.toneMappingExposure=1.15;R.shadowMap.enabled=true;R.shadowMap.type=T.PCFSoftShadowMap;
+const PRMAX=QP.pr;const prBudget=()=>Math.max(QP.min,Math.min(PRMAX,Math.sqrt(QP.px/Math.max(1,innerWidth*innerHeight))));let PRcap=prBudget(),PR=Math.min(PRcap,1);R.setPixelRatio(PR);R.outputEncoding=T.sRGBEncoding;R.toneMapping=T.ACESFilmicToneMapping;R.toneMappingExposure=1.15;R.shadowMap.enabled=true;R.shadowMap.type=T.PCFSoftShadowMap;
 const TQ=2;const S=new T.Scene();const FOG=new T.Color(0x01040d);S.fog=new T.FogExp2(FOG,.024);
 const cam=new T.PerspectiveCamera(40,1,.1,300);
 let composer=null,bloom=null;
@@ -2320,7 +2325,7 @@ function registerHolo(root,color){const byP=new Map();root.updateMatrixWorld(tru
   const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(pos,3));g.setAttribute('color',new T.BufferAttribute(col,3));g.computeBoundingSphere();
   const L=new T.LineSegments(g,EDGEM);L.userData.isEdge=true;L.raycast=()=>{};L.visible=HOLO;par.add(L);EDGES.push(L);});}
 function setMat(m,mat){if(m.userData.hreg){m.userData.real=mat;if(MATCOL.has(mat))m.userData.hc=MATCOL.get(mat);applyHolo(m);}else m.material=mat;}
-let bloomOff=false;function setHolo(on){HOLO=on;if(bloom)bloom.enabled=on&&!bloomOff;HMESH.forEach(applyHolo);EDGES.forEach(e=>e.visible=on);key.castShadow=!on;floor.material.color.setHex(on?0x010409:0x0a1838);pad.material.color.setHex(on?0x020812:0x0f2149);grid.material.opacity=on?.6:.4;HG.visible=true;key.intensity=on?.5:1.05;$('#hudFps')&&($('#hudFps').textContent='RENDER · '+(on?'HOLO':'REAL'));}
+let bloomOff=!QP.bloom;function setHolo(on){HOLO=on;if(bloom)bloom.enabled=on&&!bloomOff;HMESH.forEach(applyHolo);EDGES.forEach(e=>e.visible=on);key.castShadow=!on;floor.material.color.setHex(on?0x010409:0x0a1838);pad.material.color.setHex(on?0x020812:0x0f2149);grid.material.opacity=on?.6:.4;HG.visible=true;key.intensity=on?.5:1.05;$('#hudFps')&&($('#hudFps').textContent='RENDER · '+(on?'HOLO':'REAL'));}
 /* holo projector rings */
 const HG=new T.Group();S.add(HG);
 const hlm=(c,o)=>new T.MeshBasicMaterial({color:c,transparent:true,opacity:o,blending:T.AdditiveBlending,depthWrite:false,side:T.DoubleSide});
@@ -2404,11 +2409,11 @@ function pool(n,color,size){const pos=new Float32Array(n*3),vel=new Float32Array
 const SP=pool(300,0xffb34d,.09),CO=pool(260,0x5fd8ff,.07);
 function emit(P,p,n,spd,up,spread){for(let k=0;k<n;k++){const i=P.i++%P.n;P.pos[i*3]=p.x;P.pos[i*3+1]=p.y;P.pos[i*3+2]=p.z;const a=Math.random()*Math.PI*2,s=spd*(.5+Math.random());P.vel[i*3]=Math.cos(a)*s*spread;P.vel[i*3+1]=up*(.4+Math.random());P.vel[i*3+2]=Math.sin(a)*s*spread;P.life[i]=.35+Math.random()*.45;}}
 function stepPool(P,dt,floorY){for(let i=0;i<P.n;i++){if(P.life[i]>0){P.life[i]-=dt;P.vel[i*3+1]-=9.8*dt;P.pos[i*3]+=P.vel[i*3]*dt;P.pos[i*3+1]+=P.vel[i*3+1]*dt;P.pos[i*3+2]+=P.vel[i*3+2]*dt;if(P.pos[i*3+1]<floorY){P.pos[i*3+1]=floorY;P.vel[i*3+1]*=-.25;}}else P.pos[i*3+1]=-50;}P.g.attributes.position.needsUpdate=true;}
-const DN=500,dPos=new Float32Array(DN*3),dSp=new Float32Array(DN);
+const DN=QL==='low'?220:500,dPos=new Float32Array(DN*3),dSp=new Float32Array(DN);
 for(let i=0;i<DN;i++){const a=Math.random()*Math.PI*2,r=1+Math.random()*4.5;dPos[i*3]=Math.cos(a)*r;dPos[i*3+1]=Math.random()*12;dPos[i*3+2]=Math.sin(a)*r;dSp[i]=.6+Math.random()*1.6;}
 const dGeo=new T.BufferGeometry();dGeo.setAttribute('position',new T.BufferAttribute(dPos,3));
 const dMat=new T.PointsMaterial({color:0x33e1ff,size:.12,map:GLOW,transparent:true,blending:T.AdditiveBlending,depthWrite:false,opacity:0});S.add(new T.Points(dGeo,dMat));
-const stN=900,stP=new Float32Array(stN*3);for(let i=0;i<stN;i++){const a=Math.random()*Math.PI*2,r=20+Math.random()*60;stP[i*3]=Math.cos(a)*r;stP[i*3+1]=2+Math.random()*30;stP[i*3+2]=Math.sin(a)*r;}
+const stN=QL==='low'?380:900,stP=new Float32Array(stN*3);for(let i=0;i<stN;i++){const a=Math.random()*Math.PI*2,r=20+Math.random()*60;stP[i*3]=Math.cos(a)*r;stP[i*3+1]=2+Math.random()*30;stP[i*3+2]=Math.sin(a)*r;}
 const stG=new T.BufferGeometry();stG.setAttribute('position',new T.BufferAttribute(stP,3));S.add(new T.Points(stG,new T.PointsMaterial({color:0x6aa8ff,size:.18,map:GLOW,transparent:true,opacity:.6,blending:T.AdditiveBlending,depthWrite:false})));
 
 /* ---------- Data pipeline: modelled stations + always-on data streams ---------- */
@@ -2529,7 +2534,7 @@ SEG.forEach((s,i)=>{S.add(new T.Mesh(new T.TubeGeometry(s.c,80,.035,6,false),seg
 /* Node-RED internal wires become streams too (world space) */
 nodes[1].g.updateMatrixWorld(true);nodes[1].g.userData.wires.forEach(w=>{const c=new T.CubicBezierCurve3(...w.map(p=>new T.Vector3(...p).applyMatrix4(nodes[1].g.matrixWorld)));SEG.push({c,col:0xffb340,len:c.getLength(),inner:true});});
 /* stream particles */
-const SPN=48,SPT=SEG.length*SPN,spPos=new Float32Array(SPT*3),spCol=new Float32Array(SPT*3),spU=new Float32Array(SPT),spV=new Float32Array(SPT),spO=new Float32Array(SPT*2);
+const SPN=QL==='low'?24:48,SPT=SEG.length*SPN,spPos=new Float32Array(SPT*3),spCol=new Float32Array(SPT*3),spU=new Float32Array(SPT),spV=new Float32Array(SPT),spO=new Float32Array(SPT*2);
 SEG.forEach((s,i)=>{const c=new T.Color(s.col);for(let j=0;j<SPN;j++){const k=i*SPN+j;spU[k]=Math.random();spV[k]=(s.inner?.5:.32)+Math.random()*.25;spO[k*2]=(Math.random()-.5)*(s.inner?.03:.22);spO[k*2+1]=(Math.random()-.5)*(s.inner?.03:.22);const b=.6+Math.random()*.4;spCol[k*3]=c.r*b;spCol[k*3+1]=c.g*b;spCol[k*3+2]=c.b*b;}});
 const spGeo=new T.BufferGeometry();spGeo.setAttribute('position',new T.BufferAttribute(spPos,3));spGeo.setAttribute('color',new T.BufferAttribute(spCol,3));
 const spMat=new T.PointsMaterial({size:.34,map:GLOW,vertexColors:true,transparent:true,blending:T.AdditiveBlending,depthWrite:false,opacity:0});const spPts=new T.Points(spGeo,spMat);spPts.frustumCulled=false;S.add(spPts);
@@ -2954,7 +2959,7 @@ const RLG=new T.Group();RLG.visible=false;S.add(RLG);
 const RL=[[0,3.4,3.2,0xfff1dc,.9],[0,3.4,7.2,0xfff1dc,.9],[0,3.2,1.6,0x9fd8ff,.6],[-2,3,3,0xffe6c8,.5]].map(([x,y,z,c,i])=>{const l=new T.PointLight(c,0,14);l.position.copy(RFR.localToWorld(new T.Vector3(x,y,z)));l.userData.i=i;RLG.add(l);return l;});
 const burst=glow(0xffffff,1);burst.position.set(0,RSY,.4);ROOM.add(burst);
 const shockR=new T.Mesh(new T.RingGeometry(1,1.08,96),holoAdd(0xffb340,0));shockR.position.set(0,RSY,.3);ROOM.add(shockR);
-const VXN=240,vxP=new Float32Array(VXN*3),vxG=new T.BufferGeometry();vxG.setAttribute('position',new T.BufferAttribute(vxP,3));
+const VXN=QL==='low'?120:240,vxP=new Float32Array(VXN*3),vxG=new T.BufferGeometry();vxG.setAttribute('position',new T.BufferAttribute(vxP,3));
 const vxM=new T.PointsMaterial({color:0x9fe8ff,size:.17,map:GLOW,transparent:true,opacity:0,blending:T.AdditiveBlending,depthWrite:false});const vxPts=new T.Points(vxG,vxM);vxPts.frustumCulled=false;ROOM.add(vxPts);
 /* camera through the finale: full-screen dashboard → pull back over the CEO's shoulder → slow drift */
 function finShot(mt,oP,oT){const e=ss(1.1,6.6,mt);
@@ -3296,8 +3301,8 @@ function frame(now){
  beams.forEach((b,i)=>b.material.opacity=.12+.1*Math.sin(time*2+i));
  coordT+=rdt;if(coordT>.25){coordT=0;$('#hudCoord').textContent='CAM X '+cam.position.x.toFixed(2)+' · Y '+cam.position.y.toFixed(2)+' · Z '+cam.position.z.toFixed(2);}
  fpsN++;if(!fpsT0)fpsT0=now;if(now-fpsT0>1000){const fps=fpsN*1000/(now-fpsT0);fpsT0=now;fpsN=0;
-  if(now<2500||document.hidden){}else if(fps<45&&PR>.6){PRhi=Math.min(PRhi,PR-.05);setPR(Math.max(.6,PR-.2));goodN=0;}else if(fps<30&&bloom&&bloom.enabled){bloom.enabled=false;bloomOff=true;goodN=0;}
-  else if(fps>58){if(++goodN>=6){if(PR<Math.min(PRcap,PRhi)-.05)setPR(Math.min(PRcap,PRhi,PR+.1));else{PRhi=Math.min(9,PRhi+.05);if(bloomOff&&HOLO&&bloom&&fps>59){bloomOff=false;bloom.enabled=true;}}goodN=0;}}else goodN=0;
+  if(now<2500||document.hidden){}else if(fps<45&&PR>QP.min+.01){PRhi=Math.min(PRhi,PR-.05);setPR(Math.max(QP.min,PR-.2));goodN=0;}else if(fps<30&&bloom&&bloom.enabled){bloom.enabled=false;bloomOff=true;goodN=0;}
+  else if(fps>58){if(++goodN>=6){if(PR<Math.min(PRcap,PRhi)-.05)setPR(Math.min(PRcap,PRhi,PR+.1));else{PRhi=Math.min(9,PRhi+.05);if(QP.bloom&&bloomOff&&HOLO&&bloom&&fps>59){bloomOff=false;bloom.enabled=true;}}goodN=0;}}else goodN=0;
   $('#hudFps').textContent='RENDER · '+(HOLO?'HOLO':'REAL')+' · '+Math.round(fps)+' FPS · '+Math.round(PR*100)+'%';}
  R.setClearColor(CLR.copy(S.fog.color).convertLinearToSRGB());if(composer&&bloom&&bloom.enabled)composer.render(rdt);else R.render(S,cam);requestAnimationFrame(frame);
 }
