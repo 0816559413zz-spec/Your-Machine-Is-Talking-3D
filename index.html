@@ -554,6 +554,107 @@ body.journey .ch[data-t="ข้อมูลเดินทาง"] .card .num{fo
 .nuke-t.go{animation:nukeT 2.6s cubic-bezier(.2,1.4,.4,1)}
 @keyframes nukeF{0%{opacity:0}4%{opacity:1}22%{opacity:.85}100%{opacity:0}}
 @keyframes nukeT{0%{opacity:0;transform:scale(3)}12%{opacity:1;transform:scale(1) rotate(-3deg)}70%{opacity:1;transform:scale(1.08)}100%{opacity:0;transform:scale(1.25)}}
+
+/* ---------- ch.04: pinned stage · machine in the middle, SCADA rail left, business rail right ---------- */
+.ch.ev{display:block;min-height:170vh;padding:0}
+.evstage{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:min(300px,26vw) 1fr min(300px,26vw);grid-template-rows:auto 1fr auto;grid-template-areas:"head head biz" "ops . biz" "ops foot biz";gap:14px 18px;padding:74px 48px 34px max(16px,env(safe-area-inset-left,0px));pointer-events:none}
+.evstage>*{pointer-events:auto;min-width:0}
+.card.evhead{grid-area:head;width:auto;max-width:680px;padding:16px 20px 14px}
+.evh-t{display:flex;align-items:center;gap:14px}
+.evhead .num{font-size:44px}.evhead .en{margin:0 0 2px}.evhead h2{font-size:clamp(24px,2.6vw,32px)}
+.evhead p{margin:8px 0 0;font-size:15.5px;line-height:1.5}
+.evbtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.evb{position:relative;display:grid;grid-template-columns:auto 1fr;column-gap:8px;align-items:center;min-height:52px;padding:6px 14px 6px 8px;text-align:left;border:1px solid var(--line2);background:rgba(92,225,255,.07);clip-path:polygon(9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%,0 9px);overflow:hidden;transition:background .2s,border-color .2s,transform .15s}
+.evb:hover{background:rgba(92,225,255,.16);border-color:var(--holo)}.evb:active{transform:scale(.96)}
+.evb .pr{grid-row:1/3}.evb b{font-size:15px;font-weight:600;line-height:1.2}.evb span{font-size:12px;color:var(--muted);line-height:1.2}
+.evb u{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--amber);transition:width .25s linear}
+.evb.on{border-color:var(--amber);background:rgba(255,179,64,.16)}
+.evb.on.alarm{border-color:var(--alarm);background:rgba(255,59,107,.24);animation:evPulse 1s ease-in-out infinite}.evb.on.alarm u{background:var(--alarm)}
+.evhrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
+.evrst{flex:none;padding:5px 10px;font-size:13px;color:var(--muted);border:1px solid var(--line);transition:color .2s,border-color .2s}.evrst:hover{color:var(--text);border-color:var(--line2)}
+.evbtns.nudge .evb{animation:evNudge 1.8s ease-in-out infinite}
+.evbtns.nudge .evb:nth-child(2){animation-delay:.12s}.evbtns.nudge .evb:nth-child(3){animation-delay:.24s}.evbtns.nudge .evb:nth-child(4){animation-delay:.36s}
+.pr{display:inline-grid;place-items:center;min-width:30px;height:22px;padding:0 5px;font:700 12px var(--f-mono);font-style:normal;color:#fff;clip-path:polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px)}
+.pr.p1{background:var(--alarm)}.pr.p2{background:#d9771e}.pr.p3{background:#4b6a96}
+.alm b .pr{margin-right:6px;vertical-align:1px}
+.evhint{display:flex;gap:8px;align-items:center;min-height:20px;font-size:13.5px;color:var(--amber)}
+.evhint i{flex:none;width:8px;height:8px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor;animation:blinkT 1s steps(2) infinite}
+.evhint.bad{color:#ff8fa8}.evhint.ok{color:var(--ok)}
+.rail{position:relative;min-height:0;overflow:auto;padding:14px 14px 12px;background:linear-gradient(180deg,rgba(14,22,36,.92),rgba(8,13,24,.94));border:1px solid rgba(160,180,210,.22);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);scrollbar-width:thin}
+.rail.ops{grid-area:ops;border-top:2px solid var(--holo)}.rail.biz{grid-area:biz;border-top:2px solid var(--amber)}
+.rail>small{display:block;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.12em;color:var(--holo)}.rail.biz>small{color:var(--amber)}
+.rail h4{margin:2px 0 10px;font-size:17px;font-weight:600}
+.alm.unack{animation:almFlash 1s steps(2) infinite}
+.alm .todo{display:block;margin-top:6px;font-size:13.5px;color:var(--text)}.alm .todo em{font-style:normal;color:var(--muted)}
+.ackrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:8px}
+.btn.ack{height:40px;background:var(--alarm);color:#fff;border:0;animation:evPulse 1s ease-in-out infinite}
+.btn.ack[disabled]{background:rgba(60,240,160,.14);color:var(--ok);opacity:1;animation:none}
+.ackrow span{font:12.5px var(--f-mono);color:var(--muted)}
+.trend{margin-top:10px;padding:8px 10px 6px;border:1px solid rgba(160,180,210,.18);background:rgba(4,8,16,.55)}
+.tr-hd{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:13px;color:var(--muted)}
+.tr-hd b{font:600 17px var(--f-mono);color:var(--text);font-variant-numeric:tabular-nums}
+.trend svg{display:block;width:100%;height:auto;margin-top:4px;overflow:visible}
+.tr-ln{fill:none;stroke:#c9d6ea;stroke-width:1.8;stroke-linejoin:round}
+.trend.warn .tr-ln,.trend.warn .tr-hd b{stroke:var(--warn);color:var(--warn)}.trend.bad .tr-ln,.trend.bad .tr-hd b{stroke:var(--alarm);color:var(--alarm)}
+.tr-lim{stroke:var(--alarm);stroke-width:1.2;stroke-dasharray:5 4}.tr-wrn{stroke:var(--warn);stroke-width:1;stroke-dasharray:2 4;opacity:.7}
+.tr-bad{fill:rgba(255,59,107,.09)}.tr-dot{fill:#fff}.trend.bad .tr-dot{fill:var(--alarm)}
+.tr-ft{display:flex;justify-content:space-between;gap:8px;margin-top:3px;font-size:11px;color:var(--muted)}.tr-ft span:first-child{flex:none;color:#ff8fa8;font-family:var(--f-mono)}
+.kvb{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.kvr{display:grid;grid-template-columns:1fr auto;row-gap:4px;column-gap:10px;align-items:center;width:100%;padding:5px 8px;text-align:left;font-size:14px;color:var(--muted);border:1px solid transparent;background:rgba(255,255,255,.025)}
+button.kvr{transition:border-color .2s,background .2s}button.kvr:hover{border-color:rgba(160,180,210,.4)}
+.kvr.sel{border-color:rgba(92,225,255,.45);background:rgba(92,225,255,.07)}.kvr.lk{box-shadow:inset 3px 0 0 var(--holo)}
+.kvr b{font:600 14.5px var(--f-mono);color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
+.kvr b.bad{color:var(--alarm)}.kvr b.warn{color:var(--warn)}.kvr b.ok{color:var(--ok)}
+.kvr i{grid-column:1/-1;position:relative;height:4px;background:rgba(255,255,255,.08)}
+.kvr i s{position:absolute;left:0;top:0;bottom:0;width:0;background:#8fa3c0;text-decoration:none;transition:width .25s linear}
+.kvr i s.warn{background:var(--warn)}.kvr i s.bad{background:var(--alarm)}
+.kvr i em{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--alarm)}
+.rail .tl li:nth-child(n+5){display:none}
+.cost{margin-top:10px;padding:10px 12px;border:1px solid rgba(255,179,64,.35);background:rgba(255,179,64,.06)}
+.cost em{display:block;font-style:normal;font-size:12px;color:var(--muted)}
+.cost b{display:block;font:700 30px var(--f-mono);color:var(--text);font-variant-numeric:tabular-nums}
+.cost.on{border-color:rgba(255,59,107,.6);background:rgba(255,59,107,.08)}.cost.on b{color:#ff8fa8;text-shadow:0 0 14px rgba(255,59,107,.45)}
+.cost span{font-size:12.5px;color:var(--muted)}
+.rail .kv{margin-top:10px;font-size:13.5px}
+.cmp{margin-top:10px;padding-top:8px;border-top:1px solid var(--line)}
+.cmp>em{display:block;font-style:normal;font-size:12.5px;color:var(--muted);margin-bottom:4px}
+.cmp-b{display:grid;grid-template-columns:76px 1fr auto;gap:8px;align-items:center;margin-top:5px;font-size:12.5px;color:var(--muted)}
+.cmp-b i{position:relative;height:10px;background:rgba(255,255,255,.07)}
+.cmp-b s{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--ok);text-decoration:none;transition:width .7s cubic-bezier(.2,1,.3,1)}
+.cmp-b:last-child s{background:var(--alarm)}
+.cmp-b i em{position:absolute;top:-4px;bottom:-4px;width:2px;background:#fff;box-shadow:0 0 6px #fff;transition:left .25s linear}
+.cmp-b b{min-width:64px;font:600 12.5px var(--f-mono);color:var(--text);text-align:right}
+.gonext{width:100%;margin-top:12px}
+.evtabs{display:none}
+.evfoot{grid-area:foot;align-self:end;text-align:center;pointer-events:none}.evfoot .split{margin-top:0;text-shadow:0 2px 12px #000}
+.evlk{position:fixed;inset:0;width:100vw;height:100vh;z-index:6;pointer-events:none;opacity:0;transition:opacity .4s}
+.evlk.show{opacity:1}
+.evlk path{fill:none;stroke-width:1.8;stroke-dasharray:7 7;animation:lkFlow .9s linear infinite;transition:stroke-width .2s}
+#lkO{stroke:var(--holo);filter:drop-shadow(0 0 4px rgba(92,225,255,.8))}#lkB{stroke:var(--amber);filter:drop-shadow(0 0 4px rgba(255,179,64,.8))}
+.evlk.alarm #lkO{stroke:var(--alarm);filter:drop-shadow(0 0 5px var(--alarm))}
+.evlk.hlO #lkO,.evlk.hlB #lkB{stroke-width:3.4}
+#lkC{fill:#fff;filter:drop-shadow(0 0 6px var(--holo))}.evlk.alarm #lkC{filter:drop-shadow(0 0 8px var(--alarm))}
+.evtag{position:fixed;left:0;top:0;z-index:7;padding:4px 10px;background:rgba(4,10,22,.9);border:1px solid var(--holo);font:600 14px var(--f-mono);color:var(--text);white-space:nowrap;pointer-events:none;font-variant-numeric:tabular-nums;clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.evtag small{margin-left:8px;font-size:11px;color:var(--muted)}
+.evtag.warn{border-color:var(--warn);color:var(--warn)}.evtag.bad{border-color:var(--alarm);background:rgba(120,10,40,.92);animation:evPulse 1s ease-in-out infinite}.evtag.bad small{color:#ffc2cf}
+@keyframes lkFlow{to{stroke-dashoffset:-14}}
+@keyframes evPulse{50%{filter:brightness(1.4)}}
+@keyframes almFlash{50%{background:rgba(255,59,107,.3)}}
+@keyframes evNudge{0%,70%,100%{transform:none}35%{transform:translateY(-3px)}}
+@media (max-width:900px){
+ .ch.ev{min-height:160vh}
+ .evstage{grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto auto;grid-template-areas:"head" "." "tabs" "rail";gap:8px;padding:64px 12px 34px}
+ .card.evhead{padding:12px 14px}.evhead .num{font-size:32px}.evhead h2{font-size:22px}
+ .evhead p,.evfoot{display:none}
+ .evbtns{flex-wrap:nowrap;overflow-x:auto;margin:10px -14px 0;padding:0 14px 4px;scroll-snap-type:x proximity;scrollbar-width:none}
+ .evb{flex:none;scroll-snap-align:start;min-height:46px}
+ .evtabs{display:flex;grid-area:tabs;gap:6px}
+ .evtabs button{position:relative;flex:1;height:40px;font-size:14px;font-weight:600;border:1px solid var(--line2);background:rgba(6,14,28,.88)}
+ .evtabs button.on{border-color:var(--holo);color:var(--holo)}.evtabs button[data-vt=biz].on{border-color:var(--amber);color:var(--amber)}
+ .evtabs button.dot::after{content:"";position:absolute;top:6px;right:8px;width:9px;height:9px;border-radius:50%;background:var(--alarm);box-shadow:0 0 8px var(--alarm);animation:blinkT 1s steps(2) infinite}
+ .rail.ops,.rail.biz{grid-area:rail;max-height:40vh;display:none}.rail.on{display:block}
+}
+@media (max-width:640px){.brand span{display:none}.auto,.play{height:38px;padding:0 12px;font-size:13.5px}}
 </style>
 </head>
 <body>
@@ -569,6 +670,8 @@ body.journey .ch[data-t="ข้อมูลเดินทาง"] .card .num{fo
 <div class="fadeb" id="fadeb"></div>
 <div class="stack" id="stack" hidden><div class="stk-in"><div class="stk-hd"><small>FROM DATA TO ACTION</small><h2>SCADA &amp; IoT <b>Technology Stack</b></h2><p>เทคโนโลยีจริงที่ใช้ในแต่ละ Layer · ข้อมูลไหลจากล่างขึ้นบน</p></div><ol class="stk-l" id="stkL"></ol><div class="stk-ft"><span>Faster Response</span><span>Higher Uptime</span><span>Smarter Decisions</span><button class="btn pri" id="stkGo">ไปต่อ ▸</button></div></div></div>
 <div class="co" id="co" role="status" aria-live="polite"></div>
+<svg class="evlk" id="evLk" aria-hidden="true"><path id="lkO"/><path id="lkB"/><circle id="lkC" r="5"/></svg>
+<div class="evtag" id="evTag" hidden></div>
 <div class="jtl" id="jtl" hidden><small>DATA JOURNEY · เส้นทางของข้อมูล 1 ค่า</small><ol id="jtlN"></ol></div>
 <div class="lbx t"></div><div class="lbx b"></div>
 <div class="fin" id="fin"><small>FROM MACHINE TO BOARDROOM</small><b>จากหัวกัด… ถึงห้องประชุมผู้บริหาร</b><span>ค่าเดียวกันที่เพิ่งออกจากเครื่อง ตอนนี้อยู่บนจอของ CEO แล้ว</span></div>
@@ -604,16 +707,27 @@ body.journey .ch[data-t="ข้อมูลเดินทาง"] .card .num{fo
     <div class="console"><button class="btn pri" id="sendData">▶ ส่งข้อมูลจากเครื่อง</button><button class="btn" id="openStack">ดู Technology Stack</button><span class="live" id="jLive" hidden><i></i><span>เชื่อมต่อข้อมูลสดแล้ว</span></span></div>
     </div>
   </section>
-  <section class="ch r" data-t="สองมุมมอง">
-    <div class="card wide" id="evCard"><span class="num">04</span><span class="en">SOMETHING CHANGED</span><h2>มีบางอย่างผิดปกติ</h2>
-    <p>ลองทำให้เกิดเหตุการณ์ แล้วดูว่าหน้างานเห็นอะไร และธุรกิจเห็นอะไร จากข้อมูลชุดเดียวกัน</p>
-    <div class="console" id="evBtns"><button class="btn" data-ev="hot">ความร้อนสูง</button><button class="btn" data-ev="vib">แรงสั่นสูง</button><button class="btn" data-ev="quality">ขนาดรูเพี้ยน</button><button class="btn" data-ev="manual">Operator กด Alarm</button><button class="btn" data-ev="none">กลับสู่ปกติ</button></div>
-    <div class="views">
-      <div class="view"><small>OPERATIONAL VIEW · SCADA</small><h4>ตอนนี้เกิดอะไรขึ้น?</h4><div class="alm" id="opsAlm"></div><div class="kv" id="opsKv"></div><ul class="tl" id="evTl"></ul></div>
-      <div class="view biz"><small>BUSINESS VIEW · DASHBOARD</small><h4>มันหมายถึงอะไร?</h4><div class="alm" id="bizAlm"></div><div class="kv" id="bizKv"></div></div>
-    </div>
-    <div class="split">ข้อมูลเดียวกัน · <span>คุณค่าทางธุรกิจต่างกัน</span></div>
-    <div class="fine">ค่าเกณฑ์และตัวเลขทั้งหมดเป็นค่าสาธิตจากเดโมนี้ ไม่ใช่ข้อมูลหรือมาตรฐานการผลิตจริงของ STM</div></div>
+  <section class="ch ev" data-t="สองมุมมอง">
+   <div class="evstage">
+    <div class="card evhead" id="evCard"><div class="evh-t"><span class="num">04</span><div><span class="en">SOMETHING CHANGED</span><h2>มีบางอย่างผิดปกติ</h2></div></div>
+    <p>เลือกจำลองเหตุการณ์ แล้วดูค่าเดียวกันกลายเป็น 2 มุมมอง: หน้างานเห็นอะไร และธุรกิจเห็นอะไร</p>
+    <div class="evbtns" id="evBtns"><button class="evb" data-ev="hot"><i class="pr p1">P1</i><b>ความร้อนสูง</b><span>หัวกัด</span><u></u></button><button class="evb" data-ev="vib"><i class="pr p2">P2</i><b>แรงสั่นสูง</b><span>มอเตอร์</span><u></u></button><button class="evb" data-ev="quality"><i class="pr p2">P2</i><b>ขนาดรูเพี้ยน</b><span>หัววัด</span><u></u></button><button class="evb" data-ev="manual"><i class="pr p3">P3</i><b>Operator กด Alarm</b><span>ตู้ควบคุม</span><u></u></button></div>
+    <div class="evhrow"><div class="evhint" id="evHint"></div><button class="evrst" data-ev="none">↺ กลับสู่ปกติ</button></div></div>
+    <div class="evtabs" id="evTabs"><button data-vt="ops" class="on">หน้างาน · SCADA</button><button data-vt="biz">ธุรกิจ · Dashboard</button></div>
+    <div class="rail ops on" id="railOps"><small>OPERATIONAL VIEW · SCADA</small><h4>ตอนนี้เกิดอะไรขึ้น?</h4>
+     <div class="alm" id="opsAlm"></div>
+     <div class="ackrow" id="ackRow" hidden><button class="btn ack" id="ackBtn">รับทราบ Alarm (ACK)</button><span id="ackInfo"></span></div>
+     <div class="trend" id="trend"><div class="tr-hd"><span id="trName"></span><b id="trVal"></b></div><svg viewBox="0 0 240 64"><rect class="tr-bad" id="trBad" x="0" y="0" width="240"/><line class="tr-wrn" id="trWrn" x1="0" x2="240"/><line class="tr-lim" id="trLim" x1="0" x2="240"/><polyline class="tr-ln" id="trLn"/><circle class="tr-dot" id="trDot" r="3"/></svg><div class="tr-ft"><span id="trLimT"></span><span>30 วินาทีล่าสุด · แตะค่าด้านล่างเพื่อดูกราฟ</span></div></div>
+     <div class="kvb" id="opsKv"></div>
+     <ul class="tl" id="evTl"></ul></div>
+    <div class="rail biz" id="railBiz"><small>BUSINESS VIEW · DASHBOARD</small><h4>มันหมายถึงอะไร?</h4>
+     <div class="alm" id="bizAlm"></div>
+     <div class="cost" id="cost"><em>มูลค่าความเสี่ยงสะสม · ค่าสาธิต</em><b id="costV">฿0</b><span id="costR"></span></div>
+     <div class="kv" id="bizKv"></div>
+     <div class="cmp" id="cmp"><em>ตอบสนองเร็ว vs ช้า ต่างกันแค่ไหน?</em><div class="cmp-b"><span>ตอบใน 2 นาที</span><i><s id="cmpA"></s></i><b id="cmpAV">—</b></div><div class="cmp-b"><span>ปล่อย 20 นาที</span><i><s id="cmpB"></s><em id="cmpNow" hidden></em></i><b id="cmpBV">—</b></div></div>
+     <button class="btn gonext" id="toDec">ตัดสินใจว่าจะทำอะไรต่อ →</button></div>
+    <div class="evfoot"><div class="split">ข้อมูลเดียวกัน · <span>คุณค่าทางธุรกิจต่างกัน</span></div><div class="fine">ค่าเกณฑ์ ตัวเลข และมูลค่าทั้งหมดเป็นค่าสาธิตจากเดโมนี้ ไม่ใช่ข้อมูลหรือมาตรฐานการผลิตจริงของ STM</div></div>
+   </div>
   </section>
   <section class="ch r" data-t="ตัดสินใจ">
     <div class="card mid" id="decCard"><span class="num">05</span><span class="en">DATA → DECISION → ACTION</span><h2>ควรทำอะไรต่อ?</h2>
@@ -1666,7 +1780,7 @@ const G={on:false,phase:'off',mission:true,dx:true,mode:'normal',time:60,run:tru
  issues:{},stage:0,mult:1,sel:null,hover:null,spin:false,slow:1,shake:0,name:'',coached:false,camKey:'all',nextRand:25,lastDx:null,lastNo:null};
 
 /* ---------- Experience tour content (story interactions) ---------- */
-const TOUR={t0:performance.now(),tag:null,focus:null,ev:'none',userNone:false,dec:null,decT:0,decShown:-1,jT:-1,jStep:0,jDone:false,pulse:[],stopped:false,alarmOn:false,resolved:false,ct:42,runT:0,sesT:0,riskT:0,check:0,chkAcc:0,log:[],area:0,idea:null,domT:0};
+const TOUR={t0:performance.now(),tag:null,focus:null,ev:'none',userNone:false,dec:null,decT:0,decShown:-1,jT:-1,jStep:0,jDone:false,pulse:[],stopped:false,alarmOn:false,resolved:false,ct:42,runT:0,sesT:0,riskT:0,check:0,chkAcc:0,log:[],area:0,idea:null,domT:0,evT:0,latch:false,alm:false,almAt:0,ack:false,ackAt:0,idle4:0,cost:0,lost:0};
 const TAGS=[
  {k:'status',n:'สถานะเครื่อง',q:'ฉันเดินอยู่ หรือหยุดอยู่?',d:'เรื่องแรกที่ทุกคนอยากรู้ ไฟสถานะบนเครื่องบอกได้ทันที',v:()=>TOUR.stopped?'หยุด':'กำลังเดิน',bad:()=>TOUR.stopped,f:'tower'},
  {k:'temp',n:'อุณหภูมิหัวกัด',q:'ฉันร้อนเกินไปหรือเปล่า?',d:'ความร้อนมักเป็นสัญญาณแรกของปัญหา',v:()=>V.temp.toFixed(1)+' °C',bad:()=>V.temp>=80,f:'temp'},
@@ -1678,10 +1792,10 @@ const TAGS=[
  {k:'alarm',n:'Alarm',q:'ตอนนี้ฉันต้องการความช่วยเหลือไหม?',d:'Alarm คือการขอให้ใครสักคนลงมือ ไม่ใช่แค่ไฟกะพริบ',v:()=>TOUR.alarmOn?'มี Alarm':'ไม่มี',bad:()=>TOUR.alarmOn,f:'tower'}];
 const EVT={
  none:{t:'ไม่มี Alarm',d:'ทุกค่าอยู่ในเกณฑ์สาธิต',biz:'ทุกอย่างปกติ · ผลิตตามแผน',bizD:'ยังไม่มีความเสี่ยงที่ต้องตัดสินใจ',cls:'',bcls:''},
- hot:{t:'อุณหภูมิหัวกัดสูง',d:'อุณหภูมิเกินเกณฑ์สาธิต 85 °C',lb:'TEMP HIGH',sens:'temp',ph:'TEMP 92.4 °C · ต้องการช่าง',biz:'เสี่ยงเครื่องหยุดแบบไม่ได้วางแผน',bizD:'ถ้าปล่อยไว้ หัวกัดอาจเสียหาย และเสียเวลาผลิตทั้งกะ',cls:'bad',bcls:'bad',tl:'อุณหภูมิหัวกัดสูง'},
- vib:{t:'แรงสั่นมอเตอร์สูง',d:'แรงสั่นเกินเกณฑ์สาธิต 7 mm/s',lb:'VIB HIGH',sens:'vib',ph:'VIB 8.6 mm/s · ต้องการช่าง',biz:'สัญญาณสึกหรอ · ควรวางแผนซ่อมก่อนพัง',bizD:'ซ่อมตามแผนเร็วกว่าและถูกกว่าซ่อมตอนเครื่องพัง',cls:'bad',bcls:'warn',tl:'แรงสั่นมอเตอร์สูง'},
- quality:{t:'ขนาดรูหลุดช่วง',d:'Ø เกินช่วงสาธิต ±0.015 mm',lb:'BORE OUT OF RANGE',sens:'meas',ph:'Ø หลุดช่วง · ตรวจชิ้นงาน',biz:'ความเสี่ยงด้านคุณภาพ',bizD:'ชิ้นงานที่ผลิตตอนนี้ต้องตรวจ กันไม่ให้ของเสียไหลไปถึงลูกค้า',cls:'warn',bcls:'warn',tl:'ค่ากระบวนการหลุดช่วง'},
- manual:{t:'Operator กด Alarm',d:'คนหน้างานขอความช่วยเหลือ',lb:'OPERATOR CALL',sens:null,ph:'M-01 · Operator ขอความช่วยเหลือ',biz:'มีคนรอความช่วยเหลืออยู่',bizD:'เวลาตอบสนองเริ่มนับตั้งแต่วินาทีนี้ ยิ่งเร็วยิ่งเสียน้อย',cls:'warn',bcls:'warn',tl:'Operator กด Alarm'}};
+ hot:{t:'อุณหภูมิหัวกัดสูง',d:'อุณหภูมิเกินเกณฑ์สาธิต 85 °C',lb:'TEMP HIGH',sens:'temp',ph:'TEMP 92.4 °C · ต้องการช่าง',biz:'เสี่ยงเครื่องหยุดแบบไม่ได้วางแผน',bizD:'ถ้าปล่อยไว้ หัวกัดอาจเสียหาย และเสียเวลาผลิตทั้งกะ',cls:'bad',bcls:'bad',tl:'อุณหภูมิหัวกัดสูง',pr:'P1',pc:'p1',lim:'HI-HI 85 °C',act:'ส่งช่างตรวจระบบหล่อเย็น / ลดความเร็ว',within:'ภายใน 5 นาที',rate:1500},
+ vib:{t:'แรงสั่นมอเตอร์สูง',d:'แรงสั่นเกินเกณฑ์สาธิต 7 mm/s',lb:'VIB HIGH',sens:'vib',ph:'VIB 8.6 mm/s · ต้องการช่าง',biz:'สัญญาณสึกหรอ · ควรวางแผนซ่อมก่อนพัง',bizD:'ซ่อมตามแผนเร็วกว่าและถูกกว่าซ่อมตอนเครื่องพัง',cls:'bad',bcls:'warn',tl:'แรงสั่นมอเตอร์สูง',pr:'P2',pc:'p2',lim:'HI-HI 7 mm/s',act:'วางแผนเปลี่ยนแบริ่งมอเตอร์',within:'ภายในกะนี้',rate:800},
+ quality:{t:'ขนาดรูหลุดช่วง',d:'Ø เกินช่วงสาธิต ±0.015 mm',lb:'BORE OUT OF RANGE',sens:'meas',ph:'Ø หลุดช่วง · ตรวจชิ้นงาน',biz:'ความเสี่ยงด้านคุณภาพ',bizD:'ชิ้นงานที่ผลิตตอนนี้ต้องตรวจ กันไม่ให้ของเสียไหลไปถึงลูกค้า',cls:'warn',bcls:'warn',tl:'ค่ากระบวนการหลุดช่วง',pr:'P2',pc:'p2',lim:'Ø เกิน 86.015',act:'กักชิ้นงานตั้งแต่ Alarm ไว้ตรวจ',within:'ก่อนชิ้นถัดไปออกจากเซลล์',rate:600},
+ manual:{t:'Operator กด Alarm',d:'คนหน้างานขอความช่วยเหลือ',lb:'OPERATOR CALL',sens:null,ph:'M-01 · Operator ขอความช่วยเหลือ',biz:'มีคนรอความช่วยเหลืออยู่',bizD:'เวลาตอบสนองเริ่มนับตั้งแต่วินาทีนี้ ยิ่งเร็วยิ่งเสียน้อย',cls:'warn',bcls:'warn',tl:'Operator กด Alarm',pr:'P3',pc:'p3',lim:'Operator Call',act:'ส่งหัวหน้างานไปที่เครื่อง',within:'ภายใน 3 นาที',rate:400}};
 const JSTEPS=[['เครื่องจักร','Sensor'],['PLC','PLC · Controller'],['ส่งข้อมูล','Node-RED · Kepware · Data Logger'],['ฐานข้อมูล','SQL Server · PostgreSQL'],['SCADA','Genesis64'],['แจ้งเตือน','MS Teams · E-mail'],['Dashboard','Power BI · Superset · Web App']];
 const DECS={
  notify:{s:[['กฎ: Alarm ยังค้าง → เรียกคนช่วย','Node-RED ตรวจเงื่อนไขให้อัตโนมัติ'],['ส่งแจ้งเตือนเข้ามือถือช่าง','พร้อมค่าที่ผิดปกติและตำแหน่งเครื่อง'],['ช่างรับงาน','ระบบบันทึกเวลารับงานให้เอง'],['ตรวจ ซ่อม เครื่องกลับมาปกติ','ปิดงานพร้อมประวัติการซ่อม']],o:['ตอบสนองเร็ว','เริ่มซ่อมเร็วขึ้น เครื่องกลับมาเร็วขึ้น แก้ได้ก่อนจะกลายเป็นเครื่องหยุด'],cls:'',tl:'แจ้งช่างซ่อมบำรุง'},
@@ -1800,16 +1914,56 @@ $('#jtlN').onclick=e=>{const li=e.target.closest('li[data-js]');if(li){stopAuto(
 /* during the journey a tap on any empty spot moves on to the next stop */
 document.addEventListener('click',e=>{if(!JR.on||!JR.vis||JR.mode!=='hold'||e.target.closest('.top,.dots,#jtl li,.card,[data-play],#game'))return;journeyNext();});
 /* events: ops vs business */
-function setEv(k,auto){if(!EVT[k])return;TOUR.ev=k;TOUR.userNone=(k==='none'&&!auto);TOUR.resolved=false;if(TOUR.dec){TOUR.dec=null;renderDec();}
- $$('[data-ev]').forEach(b=>b.classList.toggle('on',b.dataset.ev===k&&k!=='none'));tLog(k==='none'?'กลับสู่ปกติ · ค่ากลับเข้าเกณฑ์':EVT[k].tl);renderViews();}
+function setEv(k,auto){if(!EVT[k])return;
+ /* a repeat tap on the running event (or on "normal" while normal) does nothing, so the timeline doesn't log it twice */
+ if(k===TOUR.ev&&!TOUR.resolved){if(k==='none'&&!auto)TOUR.userNone=true;return;}
+ TOUR.ev=k;TOUR.userNone=(k==='none'&&!auto);TOUR.resolved=false;if(TOUR.dec){TOUR.dec=null;renderDec();}
+ Object.assign(TOUR,{evT:0,latch:false,alm:false,ack:false,idle4:0});if(k!=='none'){Object.assign(TOUR,{riskT:0,cost:0,lost:0,check:0});if(EVT[k].sens&&SIG[EVT[k].sens])TR.key=EVT[k].sens;}
+ $$('[data-ev]').forEach(b=>b.classList.toggle('on',b.dataset.ev===k&&k!=='none'));tLog(k==='none'?'กลับสู่ปกติ · ค่ากลับเข้าเกณฑ์':'เริ่มผิดปกติ · '+EVT[k].tl);renderViews();}
 $$('[data-ev]').forEach(b=>b.onclick=()=>{stopAuto();setEv(b.dataset.ev);});
-function renderViews(){const e=EVT[TOUR.ev]||EVT.none,act=TOUR.alarmOn,fixed=TOUR.resolved;
- const oa=$('#opsAlm');oa.className='alm '+(act?e.cls:'');oa.innerHTML=act?'<b>'+e.t+'</b>'+e.d:fixed?'<b>กลับสู่ปกติแล้ว</b>ปิด Alarm หลังช่างแก้ไข':TOUR.stopped?'<b>เครื่องหยุดอยู่</b>รอคนมาตรวจก่อนเดินเครื่อง':'<b>ไม่มี Alarm</b>ทุกค่าอยู่ในเกณฑ์สาธิต';
- const st=TOUR.stopped?['หยุด','warn']:act?['ALARM','bad']:['กำลังเดิน','ok'];
- $('#opsKv').innerHTML='<span>สถานะเครื่อง</span><b class="'+st[1]+'">'+st[0]+'</b><span>อุณหภูมิหัวกัด</span><b class="'+(V.temp>=80?'bad':'')+'">'+V.temp.toFixed(1)+' °C</b><span>แรงสั่นมอเตอร์</span><b class="'+(V.vib>=5.5?'bad':'')+'">'+V.vib.toFixed(1)+' mm/s</b><span>ขนาดรูกระบอกสูบ</span><b class="'+(Math.abs(V.meas-86)>.015?'bad':'')+'">Ø'+V.meas.toFixed(3)+'</b>';
+/* ch.04 SCADA rail: one value, a warning line and a HI-HI alarm line (ISA-101 style: grey until abnormal) */
+const SPD=20;
+const SIG={temp:{n:'อุณหภูมิหัวกัด',v:()=>V.temp,lo:60,hi:96,w:80,a:85,b:68,f:v=>v.toFixed(1)+' °C',lim:'HI-HI 85 °C'},
+ vib:{n:'แรงสั่นมอเตอร์',v:()=>V.vib,lo:0,hi:11,w:5.5,a:7,b:2.1,f:v=>v.toFixed(1)+' mm/s',lim:'HI-HI 7 mm/s'},
+ meas:{n:'ขนาดรูกระบอกสูบ',v:()=>V.meas,lo:85.996,hi:86.024,w:86.012,a:86.015,b:86.002,f:v=>'Ø'+v.toFixed(3),lim:'สูงสุด Ø86.015'}};
+const sigLv=k=>{const g=SIG[k],v=g.v();return v>=g.a?'bad':v>=g.w?'warn':'';};
+const TR={key:'temp',hist:{temp:[],vib:[],meas:[]},n:0};
+/* 60 samples, one every 0.5 s = the last 30 s */
+function trSample(){if(TR.n++%2)return;Object.keys(SIG).forEach(k=>{const h=TR.hist[k],v=SIG[k].v();if(!h.length)for(let i=0;i<60;i++)h.push(v);h.push(v);if(h.length>60)h.shift();});}
+$('#opsKv').innerHTML='<div class="kvr"><span>สถานะเครื่อง</span><b id="kvSt"></b></div>'+Object.keys(SIG).map(k=>{const g=SIG[k];return '<button class="kvr" data-k="'+k+'"><span>'+g.n+'</span><b></b><i><s></s><em style="left:'+((g.a-g.lo)/(g.hi-g.lo)*100).toFixed(1)+'%"></em></i></button>';}).join('');
+$$('#opsKv [data-k]').forEach(b=>b.onclick=()=>{stopAuto();TR.key=b.dataset.k;renderViews();});
+$$('[data-vt]').forEach(b=>b.onclick=()=>{$$('[data-vt]').forEach(x=>x.classList.toggle('on',x===b));$('#railOps').classList.toggle('on',b.dataset.vt==='ops');$('#railBiz').classList.toggle('on',b.dataset.vt==='biz');renderViews();});
+$('#toDec').onclick=()=>{stopAuto();goTo(5,true);};
+$('#ackBtn').onclick=()=>doAck(false);
+[['#railOps','hlO'],['#railBiz','hlB']].forEach(([q,c])=>{const r=$(q);r.addEventListener('pointerenter',()=>$('#evLk').classList.add(c));r.addEventListener('pointerleave',()=>$('#evLk').classList.remove(c));});
+function doAck(au){if(!TOUR.alarmOn||TOUR.ack)return;TOUR.ack=true;TOUR.ackAt=TOUR.sesT;if(!au)stopAuto();tLog('ACK · รับทราบใน '+Math.round(TOUR.ackAt-TOUR.almAt)+' วินาที');renderViews();}
+function drawTrend(){const g=SIG[TR.key],h=TR.hist[TR.key],lv=sigLv(TR.key),y=v=>(64-clamp((v-g.lo)/(g.hi-g.lo),0,1)*64);
+ $('#trend').className='trend '+lv;$('#trName').textContent=g.n;$('#trVal').textContent=g.f(g.v());$('#trLimT').textContent=g.lim;
+ const ya=y(g.a).toFixed(1),yw=y(g.w).toFixed(1);$('#trBad').setAttribute('height',ya);['y1','y2'].forEach(a=>{$('#trLim').setAttribute(a,ya);$('#trWrn').setAttribute(a,yw);});
+ if(!h.length)return;$('#trLn').setAttribute('points',h.map((v,i)=>(i/59*240).toFixed(1)+','+y(v).toFixed(1)).join(' '));const d=$('#trDot');d.setAttribute('cx',(h.length-1)/59*240);d.setAttribute('cy',y(h[h.length-1]).toFixed(1));}
+function renderViews(){const k=TOUR.ev,e=EVT[k]||EVT.none,act=TOUR.alarmOn,fixed=TOUR.resolved,ack=TOUR.ack,sk=SIG[e.sens]?e.sens:null,pre=!act&&!fixed&&k!=='none'&&sk&&sigLv(sk)==='warn';
+ const oa=$('#opsAlm');oa.className='alm '+(act?e.cls+(ack?'':' unack'):pre?'warn':'');
+ oa.innerHTML=act?'<b><i class="pr '+e.pc+'">'+e.pr+'</i>'+e.t+'</b>'+e.d+'<span class="todo"><em>ต้องทำ:</em> '+e.act+' · <em>'+e.within+'</em></span>'
+  :fixed?'<b>กลับสู่ปกติแล้ว</b>ปิด Alarm หลังช่างแก้ไข':TOUR.stopped?'<b>เครื่องหยุดอยู่</b>รอคนมาตรวจก่อนเดินเครื่อง'
+  :pre?'<b>ค่ากำลังสูงขึ้น ↗</b>เลยเส้นเตือนแล้ว ใกล้ถึง '+SIG[sk].lim:k!=='none'?'<b>กำลังจำลอง: '+e.tl+'</b>ดูกราฟ ค่ากำลังขยับหาเส้นเกณฑ์':'<b>ไม่มี Alarm</b>ทุกค่าอยู่ในเกณฑ์สาธิต';
+ const ar=$('#ackRow');ar.hidden=!act;if(act){const ab=$('#ackBtn');ab.disabled=ack;ab.textContent=ack?'✓ รับทราบแล้ว':'รับทราบ Alarm (ACK)';$('#ackInfo').textContent=ack?'ตอบสนองใน '+Math.round(TOUR.ackAt-TOUR.almAt)+' วินาที':'Alarm มาแล้ว '+mmss(TOUR.sesT-TOUR.almAt);}
+ const st=TOUR.stopped?['หยุด','warn']:act?['ALARM','bad']:pre?['เฝ้าระวัง','warn']:['กำลังเดิน','ok'],sb=$('#kvSt');sb.className=st[1];sb.textContent=st[0];
+ const lk=sk||(k==='manual'?'':TR.key);$('#kvSt').parentNode.classList.toggle('lk',k==='manual');
+ $$('#opsKv [data-k]').forEach(r=>{const q=r.dataset.k,g=SIG[q],v=g.v(),lv=sigLv(q),bv=r.querySelector('b'),bar=r.querySelector('s');bv.className=lv;bv.textContent=g.f(v);bar.className=lv;bar.style.width=(clamp((v-g.lo)/(g.hi-g.lo),0,1)*100).toFixed(1)+'%';r.classList.toggle('sel',q===TR.key);r.classList.toggle('lk',q===lk);});
+ drawTrend();
  const ba=$('#bizAlm');const bz=act||TOUR.stopped?e:EVT.none;ba.className='alm '+(act||TOUR.stopped?(TOUR.stopped?'warn':e.bcls):'');ba.innerHTML=fixed&&!act?'<b>ความเสี่ยงหมดไปแล้ว</b>แก้ได้ก่อนกลายเป็นเครื่องหยุด':TOUR.stopped?'<b>การผลิตหยุดชั่วคราว</b>เครื่องปลอดภัย แต่ทุกนาทีที่รอคือชิ้นงานที่หายไป':'<b>'+bz.biz+'</b>'+bz.bizD;
- const av=TOUR.sesT>1?TOUR.runT/TOUR.sesT*100:100,lost=TOUR.riskT/TOUR.ct;
- $('#bizKv').innerHTML='<span>ความพร้อมเดินเครื่อง (เวลาเดิน ÷ เวลาทัวร์)</span><b class="'+(av<90?'warn':'ok')+'">'+av.toFixed(0)+'%</b><span>เวลาเสี่ยง / หยุดที่ไม่ได้วางแผน</span><b class="'+(TOUR.riskT>0?'bad':'')+'">'+mmss(TOUR.riskT)+'</b><span>ชิ้นงานที่ต้องตรวจ</span><b class="'+(TOUR.check?'warn':'')+'">'+TOUR.check+' ชิ้น</b><span>ผลต่อแผนผลิต</span><b class="'+(lost>=.1?'bad':'ok')+'">'+(lost>=.1?'−'+lost.toFixed(1)+' ชิ้น':'ตามแผน')+'</b>';
+ $('#cost').classList.toggle('on',act||TOUR.stopped);$('#costR').textContent=k==='none'?'ยังไม่มีความเสี่ยง':'฿'+e.rate.toLocaleString('en-US')+' / นาที · เร่งเวลา ×'+SPD;
+ const av=TOUR.sesT>1?TOUR.runT/TOUR.sesT*100:100,lost=Math.floor(TOUR.lost);
+ $('#bizKv').innerHTML='<span>ความพร้อมเดินเครื่อง (เวลาเดิน ÷ เวลาทัวร์)</span><b class="'+(av<90?'warn':'ok')+'">'+av.toFixed(0)+'%</b><span>เวลาเสี่ยง (เวลาจำลอง)</span><b class="'+(TOUR.riskT>0?'bad':'')+'">'+mmss(TOUR.riskT*SPD)+'</b><span>ชิ้นงานที่ต้องตรวจ</span><b class="'+(TOUR.check?'warn':'')+'">'+TOUR.check+' ชิ้น</b><span>ผลต่อแผนผลิต</span><b class="'+(lost?'bad':'ok')+'">'+(lost?'−'+lost+' ชิ้น':'ตามแผน')+'</b>';
+ const ev=k!=='none';$('#cmpA').style.width=ev?'10%':'0';$('#cmpB').style.width=ev?'100%':'0';$('#cmpAV').textContent=ev?'฿'+(e.rate*2).toLocaleString('en-US'):'—';$('#cmpBV').textContent=ev?'฿'+(e.rate*20).toLocaleString('en-US'):'—';
+ const cn=$('#cmpNow');cn.hidden=!(ev&&TOUR.riskT>0);cn.style.left=(clamp(TOUR.riskT*SPD/60/20,0,1)*100).toFixed(1)+'%';
+ $('#toDec').classList.toggle('pri',act);
+ $$('[data-ev]').forEach(b=>{b.classList.toggle('alarm',act&&b.dataset.ev===k);const u=b.querySelector('u');if(u)u.style.width=b.dataset.ev!==k?'0':(act||k==='manual'?100:sk?clamp((SIG[sk].v()-SIG[sk].b)/(SIG[sk].a-SIG[sk].b),0,1)*100:0).toFixed(0)+'%';});
+ const hn=$('#evHint'),none=k==='none';$('#evBtns').classList.toggle('nudge',none&&!TOUR.userNone);
+ hn.className='evhint '+(act&&!ack?'bad':fixed?'ok':'');
+ hn.innerHTML=none?(TOUR.userNone?'แตะเหตุการณ์ด้านบนเพื่อเริ่มจำลอง':'<i></i>แตะเหตุการณ์ด้านบน · ถ้าไม่เลือก จะจำลอง “ความร้อนสูง” ให้ใน '+Math.max(1,Math.ceil(8-TOUR.idle4))+' วินาที')
+  :fixed?'แก้ไขแล้ว · ลองเหตุการณ์อื่นได้':act&&!ack?'<i></i>Alarm ดังแล้ว! กด “รับทราบ (ACK)” ในแผง SCADA':act?'รับทราบแล้ว · เลือกว่าจะทำอะไรต่อในบทถัดไป ↓':TOUR.stopped?'เครื่องหยุดอยู่':'<i></i>กำลังจำลอง… ดูค่าไต่ขึ้นหาเส้นเกณฑ์';
+ const bt=$('[data-vt=biz]');bt.classList.toggle('dot',act&&!$('#railBiz').classList.contains('on'));
  $('#evCard').classList.toggle('alarm',act);}
 /* decision */
 function chooseDec(k,auto){if(!DECS[k])return;if(TOUR.ev==='none'){setEv('hot',true);}TOUR.dec=k;TOUR.decT=0;TOUR.decShown=-1;TOUR.resolved=false;if(!auto)stopAuto();tLog(DECS[k].tl);renderDec();}
@@ -1831,13 +1985,13 @@ function renderIdeas(){const A=AREAS[TOUR.area];$('#areas').innerHTML=AREAS.map(
  $$('[data-area]').forEach(b=>b.onclick=()=>{stopAuto();TOUR.area=+b.dataset.area;TOUR.idea=null;renderIdeas();});
  $$('[data-idea]').forEach(b=>b.onclick=()=>{stopAuto();TOUR.idea=+b.dataset.idea;renderIdeas();});}
 $('#path').innerHTML=PATH.map(p=>'<li class="'+(p[2]?'here':'')+'"><b>'+p[0]+'</b><span>'+p[1]+'</span></li>').join('');
-function resetTour(){Object.assign(TOUR,{t0:performance.now(),tag:null,focus:null,ev:'none',userNone:false,dec:null,decT:0,jT:-1,jStep:0,jDone:false,pulse:[],stopped:false,alarmOn:false,resolved:false,runT:0,sesT:0,riskT:0,check:0,chkAcc:0,log:[],area:0,idea:null});
+function resetTour(){Object.assign(TOUR,{t0:performance.now(),tag:null,focus:null,ev:'none',userNone:false,dec:null,decT:0,jT:-1,jStep:0,jDone:false,pulse:[],stopped:false,alarmOn:false,resolved:false,runT:0,sesT:0,riskT:0,check:0,chkAcc:0,log:[],area:0,idea:null,evT:0,latch:false,alm:false,ack:false,idle4:0,cost:0,lost:0});TR.key='temp';
  $$('[data-tag]').forEach(b=>b.classList.remove('on'));$$('[data-ev]').forEach(b=>b.classList.remove('on'));
  Object.assign(JR,{on:false,mode:'idle',done:false,step:0,doneAt:-99});
  tLog('เครื่องเดิน · ข้อมูลกำลังไหล');renderJourney();renderDec();renderIdeas();}
 $('#startTour').onclick=()=>{stopAuto();goTo(1,true);};
 /* autoplay demo of each scene */
-const HOLDS=[5,4.5,25,9.5,9,9,11];
+const HOLDS=[5,4.5,25,9.5,15,9,11];
 function demoTick(i,t){
  if(i===0&&t<.1&&(TOUR.dec||TOUR.ev!=='none'||JR.done||JR.on))resetTour();
  if(i===2&&t>.7){const k=Math.floor((t-.7)/3)%TAGS.length;if(TOUR.tag!==TAGS[k].k)selectTag(TAGS[k].k);}
@@ -1848,16 +2002,22 @@ function demoTick(i,t){
 /* per-frame tour logic (story mode) */
 function tourStep(dt,f,status,alarm,zone,now){
  TOUR.sesT+=dt;if(status==='run'||status==='alarm')TOUR.runT+=dt;
- if(f>3.55&&f<5.8&&TOUR.ev==='none'&&!TOUR.userNone)setEv('hot',true);
- if(f<3.2&&(TOUR.ev!=='none'||TOUR.userNone)&&!auto){TOUR.ev='none';TOUR.userNone=false;TOUR.resolved=false;$$('[data-ev]').forEach(b=>b.classList.remove('on'));}
+ /* ch.04 waits for the visitor; after 8 s with no pick it simulates the heat event. ch.05 always needs one, already escalated */
+ if(f>3.7&&f<4.3&&TOUR.ev==='none'&&!TOUR.userNone&&!auto){TOUR.idle4+=dt;if(TOUR.idle4>8)setEv('hot',true);}
+ if(f>4.55&&f<5.8&&TOUR.ev==='none'&&!TOUR.userNone){setEv('hot',true);TOUR.evT=8;}
+ if(f<3.2&&(TOUR.ev!=='none'||TOUR.userNone)&&!auto){Object.assign(TOUR,{ev:'none',userNone:false,resolved:false,evT:0,latch:false,alm:false,ack:false,idle4:0});$$('[data-ev]').forEach(b=>b.classList.remove('on'));}
  if(f<4.3&&TOUR.dec){TOUR.dec=null;TOUR.resolved=false;renderDec();}
  TOUR.alarmOn=alarm>.5&&TOUR.ev!=='none';
- if(TOUR.ev!=='none'&&zone>.5&&!TOUR.resolved&&(TOUR.alarmOn||TOUR.stopped))TOUR.riskT+=dt;
+ if(TOUR.alarmOn&&!TOUR.alm){TOUR.alm=true;TOUR.almAt=TOUR.sesT;TOUR.ack=false;tLog('ALARM '+EVT[TOUR.ev].pr+' · '+EVT[TOUR.ev].lim);renderViews();}
+ else if(!TOUR.alarmOn&&TOUR.alm&&zone>.5&&!TOUR.stopped){TOUR.alm=false;tLog('ค่ากลับเข้าเกณฑ์ · Alarm ดับ');}
+ if(auto&&TOUR.alarmOn&&!TOUR.ack&&TOUR.sesT-TOUR.almAt>3)doAck(true);
+ if(TOUR.ev!=='none'&&zone>.5&&!TOUR.resolved&&(TOUR.alarmOn||TOUR.stopped)){TOUR.riskT+=dt;TOUR.cost+=dt*SPD/60*(EVT[TOUR.ev].rate||0);TOUR.lost+=dt*SPD*(TOUR.stopped?1:.5)/TOUR.ct;}
+ if(f>3.3&&f<4.8){const c='฿'+Math.round(TOUR.cost).toLocaleString('en-US'),el=$('#costV');if(el.textContent!==c)el.textContent=c;}
  if(TOUR.ev==='quality'&&TOUR.alarmOn){TOUR.chkAcc+=dt;if(TOUR.chkAcc>2.2){TOUR.chkAcc=0;TOUR.check++;}}
  TOUR.ct+=((TOUR.alarmOn?(TOUR.ev==='vib'?47.5:45.5):42)+(Math.random()-.5)*.3-TOUR.ct)*Math.min(1,dt*1.5);
  if(TOUR.dec){TOUR.decT+=dt;const d=DECS[TOUR.dec];const n=Math.min(d.s.length,Math.floor(TOUR.decT/.9)+1);if(n!==TOUR.decShown)renderDec();
   if(TOUR.dec==='notify'&&TOUR.decT>3.4&&!TOUR.resolved){TOUR.resolved=true;tLog('ซ่อมเสร็จ · เครื่องกลับมาผลิต');}}
- TOUR.domT+=dt;if(TOUR.domT>.25){TOUR.domT=0;
+ TOUR.domT+=dt;if(TOUR.domT>.25){TOUR.domT=0;trSample();
   if(f>1.3&&f<2.8){$('#rdCount').textContent=Math.floor((now-TOUR.t0)/1000*48).toLocaleString('en-US');renderTagVals();}
   if(f>3.3&&f<4.8)renderViews();}}
 
@@ -2679,9 +2839,8 @@ const PNAME={machine:'เครื่องจักรทั้งเครื�
 const TAGSHOT={status:{p:'machine',a:'tower',az:.7,el:.26,d:22},temp:{p:'head',s:'temp',az:.55,el:.15,d:8},vib:{p:'motor',s:'vib',az:-2.45,el:.32,d:8},cycle:{p:'robot',az:1.45,el:.38,d:10},
  cnt:{p:'conv',s:'cnt',az:-.5,el:.28,d:11},meas:{p:'table',s:'meas',az:.1,el:.9,d:7.5},kw:{p:'panel',s:'kw',az:.45,el:.12,d:6.5},alarm:{p:'tower',az:-2.9,el:.02,d:9}};
 /* ch.04: where the camera goes for each alarm, and which part turns real and blinks red */
-const EVSHOT={hot:{p:'head',s:'temp',az:.5,el:.18,d:9},vib:{p:'motor',s:'vib',az:-2.45,el:.3,d:9},quality:{p:'table',s:'meas',az:.15,el:.85,d:8},manual:{p:'panel',s:'kw',az:.45,el:.12,d:7.5}};
+const EVSHOT={hot:{p:'head',s:'temp',az:.5,el:.18,d:10},vib:{p:'motor',s:'vib',az:-2.45,el:.3,d:10},quality:{p:'table',s:'meas',az:.15,el:.85,d:9},manual:{p:'panel',s:'kw',az:.45,el:.12,d:8.5}};
 const PHSHOT={az:.7,el:.12,d:8};
-const evVal=k=>k==='hot'?V.temp.toFixed(1)+' °C':k==='vib'?V.vib.toFixed(1)+' mm/s':k==='quality'?'Ø'+V.meas.toFixed(3):'Operator ขอความช่วยเหลือ';
 const RV={key:'',list:[],edges:[],t:0,y0:0,y1:0,box:new T.Box3(),c:new T.Vector3(),alarm:false,tint:false};
 const EMI=new Map();
 function realTint(on,amt){const seen=new Set();RV.list.forEach(m=>{const mt=m.material;if(!mt.emissive||seen.has(mt))return;seen.add(mt);if(!EMI.has(mt))EMI.set(mt,[mt.emissive.getHex(),mt.emissiveIntensity]);
@@ -2702,13 +2861,13 @@ function partCenter(p,out){if(p==='tower'){tower.getWorldPosition(out);out.y+=1.
 function tagCenter(k,out){const s=TAGSHOT[k];return s?partCenter(s.p,out):null;}
 /* ch.02 camera orbits (azimuth / elevation / distance are eased, not the position), so topic changes swing around the machine */
 const ORB2={on:false,az:0,el:.3,d:10,tg:new T.Vector3()};
-/* side -1: card on the left (part goes right of centre); +1: card on the right */
+/* side -1: card on the left (part goes right of centre); +1: card on the right; 0: rails on both sides (part centred, below the header) */
 function tagOrbit(s,c,dt,oP,oT,side){
  if(!ORB2.on){ORB2.tg.copy(camTgt);_gf.subVectors(camPos,camTgt);ORB2.d=_gf.length();ORB2.el=Math.asin(clamp(_gf.y/ORB2.d,-1,1));ORB2.az=Math.atan2(_gf.x,_gf.z);ORB2.on=true;}
  const k=1-Math.exp(-dt*1.6);let da=s.az-ORB2.az;da=Math.atan2(Math.sin(da),Math.cos(da));ORB2.az+=da*k;ORB2.el+=(s.el-ORB2.el)*k;ORB2.d+=(s.d-ORB2.d)*k;ORB2.tg.lerp(c,Math.min(1,k*1.4));
  const az=ORB2.az+(reduce?0:Math.sin(time*.22)*.07),ce=Math.cos(ORB2.el);oP.set(ORB2.tg.x+Math.sin(az)*ce*ORB2.d,ORB2.tg.y+Math.sin(ORB2.el)*ORB2.d,ORB2.tg.z+Math.cos(az)*ce*ORB2.d);oT.copy(ORB2.tg);
  /* header card sits top-left and the part dock along the bottom: keep the part just right of centre, a little high */
- if(!narrow()){_gf.subVectors(oT,oP).normalize();_gr.crossVectors(_gf,UPV).normalize();oT.addScaledVector(_gr,side<0?ORB2.d*.1*side:ORB2.d*.17*side);oT.y-=ORB2.d*.05;}else oT.y-=ORB2.d*.15;}
+ if(!narrow()){_gf.subVectors(oT,oP).normalize();_gr.crossVectors(_gf,UPV).normalize();oT.addScaledVector(_gr,side<0?ORB2.d*.1*side:ORB2.d*.17*side);oT.y+=side?-ORB2.d*.05:ORB2.d*.1;}else oT.y-=ORB2.d*.15;}
 
 /* ---------- ch.03: the stops sit on one long, spaced-out line far from the machine; the camera slides along it ---------- */
 const STX=[0,...NODE.map(n=>n[2][0])],TRZ=9,DNODE=nodes.length-1;
@@ -2908,9 +3067,23 @@ function coStepHTML(s){const J=JINFO[s],F=JFLOW[s],L=JLAYER[s];return '<div clas
  '<ul class="co-pts">'+F.pts.map(x=>'<li>'+x+'</li>').join('')+'</ul><p class="why">'+J.why+'</p>'+
  '<div class="co-tap"><span class="co-prog">'+JSTEPS.map((_,i)=>'<i class="'+(i<s?'d':i===s?'c':'')+'"></i>').join('')+'</span><span>แตะที่ว่างเพื่อ'+(s>=JLAST?'ดู Technology Stack':'ไปต่อ · '+JSTEPS[s+1][0])+'</span><b>▸</b><span class="co-hold"><i></i></span></div>';}
 function coTagHTML(t){const P=TAGSHOT[t.k];return '<span class="k"><i>LIVE</i>ชิ้นส่วนจริง · '+(PNAME[P&&P.p]||'')+'</span><div class="co-hd"><span class="co-ic">'+TICON[t.k]+'</span><h3>'+t.n+'</h3></div><div class="pk"><em>ค่าตอนนี้</em><code data-copk>'+esc(t.v())+'</code></div><p class="q">“'+t.q+'”</p><p>'+t.d+'</p>';}
-function coEvHTML(k){const e=EVT[k],P=EVSHOT[k];return '<span class="k"><i>ALARM</i>ชิ้นส่วนจริง · '+PNAME[P.p]+'</span><div class="co-hd"><span class="co-ic">'+TICON.alarm+'</span><h3>'+e.t+'</h3></div><div class="pk"><em>ค่าตอนนี้</em><code data-copk>'+esc(evVal(k))+'</code></div><p>'+e.d+'</p><p class="why">'+e.biz+'</p>';}
 function coDecHTML(){const r=TOUR.resolved;return '<span class="k"><i>MS TEAMS</i>มือถือช่างซ่อมบำรุง</span><div class="co-hd"><span class="co-ic">'+APPS.teams[1]+'</span><h3>'+(r?'ปิดงานแล้ว':'ข้อความเด้งเข้า Teams')+'</h3></div>'+
  '<p>'+(r?'ช่างกดเสร็จงานใน Teams ระบบบันทึกเวลาซ่อมให้อัตโนมัติ':'Node-RED ส่งข้อความเข้า MS Teams ของช่าง พร้อมปุ่ม “รับงาน” ทันทีที่เกิด Alarm')+'</p><div class="co-apps">'+appChip('teams')+appChip('email')+'</div><p class="why">E-mail สำเนาส่งถึงหัวหน้างานพร้อมกัน</p>';}
+const EVL={svg:$('#evLk'),o:$('#lkO'),b:$('#lkB'),c:$('#lkC'),tag:$('#evTag'),on:false,t:0};const _eva=new T.Vector3();
+function evLinkFrame(dt,a){
+ if(a){_gd.copy(a).project(cam);if(_gd.z>1||Math.abs(_gd.x)>1.1||Math.abs(_gd.y)>1.1)a=null;}
+ if(!a){if(EVL.on){EVL.on=false;EVL.svg.classList.remove('show');EVL.tag.hidden=true;}return;}
+ if(!EVL.on){EVL.on=true;EVL.svg.classList.add('show');EVL.tag.hidden=false;EVL.t=1;}
+ const ax=(_gd.x+1)/2*innerWidth,ay=(1-_gd.y)/2*innerHeight,act=TOUR.alarmOn,nw=narrow();EVL.svg.classList.toggle('alarm',act);
+ const beam=(p,rail,row,left)=>{if(!rail.offsetParent){p.setAttribute('d','');return;}const R=rail.getBoundingClientRect(),r=(row||rail).getBoundingClientRect();let x,y,d;
+  if(nw){x=clamp(ax,R.left+24,R.right-24);y=R.top;const my=(ay+y)/2;d='M'+ax.toFixed(1)+' '+ay.toFixed(1)+'C'+ax.toFixed(1)+' '+my.toFixed(1)+' '+x.toFixed(1)+' '+my.toFixed(1)+' '+x.toFixed(1)+' '+y.toFixed(1);}
+  else{x=left?R.right:R.left;y=clamp(r.top+r.height/2,R.top+12,R.bottom-12);const mx=(ax+x)/2;d='M'+ax.toFixed(1)+' '+ay.toFixed(1)+'C'+mx.toFixed(1)+' '+ay.toFixed(1)+' '+mx.toFixed(1)+' '+y.toFixed(1)+' '+x.toFixed(1)+' '+y.toFixed(1);}
+  p.setAttribute('d',d);};
+ beam(EVL.o,$('#railOps'),$('#trend'),true);beam(EVL.b,$('#railBiz'),$('#cost'),false);
+ EVL.c.setAttribute('cx',ax.toFixed(1));EVL.c.setAttribute('cy',ay.toFixed(1));
+ EVL.tag.style.transform='translate('+ax.toFixed(1)+'px,'+(ay-14).toFixed(1)+'px) translate(-50%,-100%)';
+ EVL.t+=dt;if(EVL.t>.2){EVL.t=0;const sk=TOUR.ev!=='none'&&EVSHOT[TOUR.ev]?EVSHOT[TOUR.ev].s:TR.key,g=SIG[sk],lv=g?sigLv(sk):'';
+  EVL.tag.className='evtag '+(act?'bad':lv);EVL.tag.innerHTML=g?esc(g.f(g.v()))+'<small>'+(act?'ALARM':lv==='warn'?'ใกล้เกณฑ์':'ปกติ')+'</small>':'OPERATOR CALL<small>'+(act?'ALARM':'')+'</small>';}}
 const JTL=$('#jtl');
 function guideFrame(dt,f){const story=f>=0;
  const g2=story?ss(1.55,1.8,f)*(1-ss(2.2,2.45,f)):0,g3=story?ss(2.5,2.8,f)*(1-ss(3.2,3.5,f)):0,g3w=story?ss(2.3,2.75,f)*(1-ss(3.25,3.7,f)):0,
@@ -2944,7 +3117,7 @@ function guideFrame(dt,f){const story=f>=0;
   if(JR.mode==='hold'&&JR.t>.7&&(JR.step<JLAST||JR.finT>6.8))anc=JR.step<JLAST?stopCenter(JR.step,_anc):_anc.copy(nodes[DNODE].g.position);}
  else if(TOUR.tag&&g2>.01){const c=tagCenter(TOUR.tag,_gc);if(c){want=g2;orb=true;tagOrbit(TAGSHOT[TOUR.tag],c,dt,GD.dp,GD.dt,-1);GD.rate=14;if(g2>.5){anc=specAnchor(TAGSHOT[TOUR.tag],_anc.copy(c));ancK='tag';}}}
  /* ch.04: fly to the part that raised the alarm */
- else if(g4>.01&&TOUR.ev!=='none'&&EVSHOT[TOUR.ev]){const P=EVSHOT[TOUR.ev],c=partCenter(P.p,_gc);want=g4;orb=true;tagOrbit(P,c,dt,GD.dp,GD.dt,1);GD.rate=14;if(g4>.5){anc=specAnchor(P,_anc.copy(c));ancK='ev';}}
+ else if(g4>.01&&TOUR.ev!=='none'&&EVSHOT[TOUR.ev]){const P=EVSHOT[TOUR.ev],c=partCenter(P.p,_gc);want=g4;orb=true;tagOrbit(P,c,dt,GD.dp,GD.dt,0);GD.rate=14;}
  /* ch.05: "notify" → the technician's phone; "stop" → the whole machine */
  else if(g5>.01&&TOUR.dec==='notify'&&phone.visible){want=g5;orb=true;tagOrbit(PHSHOT,phone.position,dt,GD.dp,GD.dt,1);GD.rate=14;if(g5>.5&&TOUR.decT>1.4){anc=_anc.copy(phone.position);anc.y+=.9;ancK='dec';}}
  else if(g5>.01&&TOUR.dec==='stop'){want=g5;orb=true;tagOrbit(TAGSHOT.status,partCenter('machine',_gc),dt,GD.dp,GD.dt,1);GD.rate=14;}
@@ -2961,7 +3134,7 @@ function guideFrame(dt,f){const story=f>=0;
  let rk='',ra=false;
  if(story&&JR.on&&JR.vis&&JR.mode==='hold'&&JR.step<JLAST)rk=JR.step===0?'head':'n'+(JR.step-1);
  else if(story&&TOUR.tag&&g2>.5&&TAGSHOT[TOUR.tag])rk=TAGSHOT[TOUR.tag].p;
- else if(g4>.5&&TOUR.ev!=='none'&&EVSHOT[TOUR.ev]){rk=EVSHOT[TOUR.ev].p;ra=!TOUR.resolved;}
+ else if(g4>.5&&TOUR.ev!=='none'&&EVSHOT[TOUR.ev]){rk=EVSHOT[TOUR.ev].p;ra=TOUR.alarmOn&&!TOUR.resolved;}
  else if(g5>.5&&TOUR.dec==='stop')rk='machine';
  /* play mode: after DX the part with a problem turns real and blinks red; otherwise the clicked part turns real */
  else if(!story&&G.on&&G.phase==='play'){const iss=G.dx?['down','hot','head','tank','motor'].find(k=>G.issues[k]):null;if(iss){rk=ISS[iss].part;ra=true;}else if(G.sel)rk=G.sel;}
@@ -2971,12 +3144,14 @@ function guideFrame(dt,f){const story=f>=0;
  if(fw>.001){SENS.forEach(s=>{s.lb.material.opacity*=1-.85*fw;s.gl.material.opacity=1-.7*fw;});spMat.opacity*=1-.6*fw;dMat.opacity*=1-.8*fw;}else SENS.forEach(s=>s.gl.material.opacity=1);
  /* callout */
  if(anc){if(ancK==='j')coSet('j'+JR.step,coStepHTML(JR.step),'jr');else if(ancK==='tag'){const t=TAGS.find(x=>x.k===TOUR.tag);coSet('t'+t.k,coTagHTML(t),'tag');}
-  else if(ancK==='ev')coSet('e'+TOUR.ev,coEvHTML(TOUR.ev),'ev');else coSet('d'+(TOUR.resolved?1:0),coDecHTML(),'dec');
+  else coSet('d'+(TOUR.resolved?1:0),coDecHTML(),'dec');
   coFrame(dt,anc);CALL.valT+=dt;if(CALL.valT>.25){CALL.valT=0;const v=CALL.el.querySelector('[data-copk]');
-   if(v)v.textContent=ancK==='j'?JINFO[JR.step].pk():ancK==='ev'?evVal(TOUR.ev):ancK==='tag'?(TAGS.find(x=>x.k===TOUR.tag)||{v:()=>''}).v():v.textContent;
+   if(v)v.textContent=ancK==='j'?JINFO[JR.step].pk():ancK==='tag'?(TAGS.find(x=>x.k===TOUR.tag)||{v:()=>''}).v():v.textContent;
    const ci=CALL.el.querySelector('[data-cin]');if(ci&&ancK==='j')ci.textContent=JFLOW[JR.step].i();}
   const hb=CALL.el.querySelector('.co-hold');if(hb){hb.style.visibility=auto?'visible':'hidden';if(auto)hb.firstChild.style.width=clamp(JR.t/JHOLD[JR.step],0,1)*100+'%';}}
  else coHide();
+ /* ch.04: one sensor, two beams: the same value feeds the SCADA rail and the business rail */
+ {let a=null;if(story&&g4>.5){const sk=TOUR.ev!=='none'&&EVSHOT[TOUR.ev]?EVSHOT[TOUR.ev].s:TR.key,sn=SENS.find(x=>x.key===sk);if(sn)a=_eva.copy(sn.g.position);}evLinkFrame(dt,a);}
  /* dot timeline (screen) + floor track (3D) */
  const showJ=JR.on&&g3>.5,pos=JR.on?(JR.mode==='travel'?JR.from+easeIO(JR.u||0):JR.step):JR.done?JLAST:0;JTL.hidden=!showJ;document.body.classList.toggle('journey',showJ);
  if(showJ)JTL.style.setProperty('--p',(pos/JLAST).toFixed(4));
@@ -3031,15 +3206,23 @@ function frame(now){
   autoStep(dt);F=storyPos();f=F;
   $('#bar').style.width=(f/(secs.length-1)*100)+'%';$$('#dots button').forEach((b,i)=>b.classList.toggle('on',i===Math.round(f)));
   explode=ss(.35,1,f)*(1-ss(1.2,1.9,f));sensorsOn=ss(1.4,2,f);dataOn=(.72+.28*ss(2.3,3,f))*(1-ss(4.6,5.2,f)*.3);
-  const zone=ss(3.45,4,f)*(1-ss(5.6,6,f));let a0=TOUR.ev!=='none'?zone:0;action=0;recover=0;
-  if(TOUR.dec==='notify'){action=Math.min(1,TOUR.decT/1.2)*(1-ss(5.6,6,f));recover=ss(2.6,3.6,TOUR.decT);a0*=1-recover;}
-  else if(TOUR.dec==='stop')a0*=1-ss(1.6,2.6,TOUR.decT);
-  alarm=a0;const stopped=TOUR.dec==='stop'&&TOUR.decT>1.8&&zone>.3;TOUR.stopped=stopped;
+  const zone=ss(3.45,4,f)*(1-ss(5.6,6,f)),ek=TOUR.ev;action=0;recover=0;
+  /* the fault builds up over time once triggered (not with scroll position); values return to normal off-stage */
+  if(ek!=='none'&&zone>.3)TOUR.evT+=dt;
+  let sev=ek==='none'?0:(reduce?1:1-Math.exp(-TOUR.evT/3.2));
+  if(TOUR.dec==='notify'){action=Math.min(1,TOUR.decT/1.2)*(1-ss(5.6,6,f));recover=ss(2.6,3.6,TOUR.decT);sev*=1-recover;}
+  else if(TOUR.dec==='stop')sev*=1-ss(1.6,2.6,TOUR.decT);
+  sev*=Math.min(1,zone*3);
+  const stopped=TOUR.dec==='stop'&&TOUR.decT>1.8&&zone>.3;TOUR.stopped=stopped;
+  const esc2=TOUR.dec==='watch'?Math.min(1,TOUR.decT/6):0;
+  const tT=68+(ek==='hot'?24.4+esc2*6:ek==='vib'?3:0)*sev-(stopped?10:0),vT=2.1+(ek==='vib'?6.5+esc2*3:ek==='hot'?1.2:0)*sev-(stopped?1.8:0);
+  V.temp+=(tT-V.temp)*Math.min(1,dt*3)+(Math.random()-.5)*.1;V.vib+=(vT-V.vib)*Math.min(1,dt*3)+(Math.random()-.5)*.05;V.vib=Math.max(.2,V.vib);
+  if(ek==='quality'||Math.abs(V.meas-86.002)>.0005)V.meas+=((ek==='quality'?86.002+.019*sev:86.002)-V.meas)*Math.min(1,dt*2);
+  /* alarm = the value really is past its HI-HI limit, with a deadband so it doesn't chatter */
+  const L=TOUR.latch,over=ek==='hot'?V.temp>=(L?84:85):ek==='vib'?V.vib>=(L?6.7:7):ek==='quality'?V.meas>=(L?86.0135:86.015):ek==='manual'?sev>.05:false;
+  TOUR.latch=over&&zone>.3;alarm=TOUR.latch?zone:0;
+  V.kw=stopped?3.2+Math.sin(time*1.7)*.2:24+Math.sin(time*1.7)*1.2+alarm*6;
   status=stopped?'stop':alarm>.5?'alarm':'run';CELL.speed=(explode>.05||stopped)?0:(alarm>.5?.5:1);CELL.measure=storyMeasure;
-  const ek=TOUR.ev,esc2=TOUR.dec==='watch'?Math.min(1,TOUR.decT/6):0;
-  const tT=68+(ek==='hot'?24.4+esc2*6:ek==='vib'?3:0)*alarm-(stopped?10:0),vT=2.1+(ek==='vib'?6.5+esc2*3:ek==='hot'?1.2:0)*alarm-(stopped?1.8:0);
-  V.temp+=(tT-V.temp)*Math.min(1,dt*3)+(Math.random()-.5)*.1;V.vib+=(vT-V.vib)*Math.min(1,dt*3)+(Math.random()-.5)*.05;V.vib=Math.max(.2,V.vib);V.kw=stopped?3.2+Math.sin(time*1.7)*.2:24+Math.sin(time*1.7)*1.2+alarm*6;
-  if(ek==='quality'||Math.abs(V.meas-86)>.015)V.meas+=(((ek==='quality'&&alarm>.3)?86.021:86.002)-V.meas)*Math.min(1,dt*2);
   tourStep(rdt,f,status,alarm,zone,now);
  }
  time+=dt;
@@ -3069,7 +3252,7 @@ function frame(now){
  padRing.material.color.setHex(alarm>.5?0xff3b6b:(recover>.5||(G.on&&status==='run'))?0x3cf0a0:status==='warn'||status==='stop'?0xffb21e:0x33e1ff);
  const sw=(time%1.3)/1.3;shock.scale.setScalar(1+sw*9);shock.material.opacity=(1-sw)*alarm*.9;
  labT+=rdt;const labUp=labT>.2;if(labUp)labT=0;
- alarmLb.material.opacity=alarm;if(!labUp){}else if(G.on&&G.down)alarmLb.set('BREAKDOWN',V.temp.toFixed(1)+' °C','#ff3b6b');else if(G.on&&G.vib>=8&&G.temp<90)alarmLb.set('VIB HIGH',V.vib.toFixed(1)+' mm/s','#ff3b6b');else if(!G.on&&TOUR.ev!=='none'){const e=EVT[TOUR.ev];alarmLb.set(e.lb,TOUR.ev==='vib'?V.vib.toFixed(1)+' mm/s':TOUR.ev==='quality'?'Ø'+V.meas.toFixed(3):TOUR.ev==='manual'?'CALL FOR HELP':V.temp.toFixed(1)+' °C','#ff3b6b');}else alarmLb.set('TEMP HIGH',V.temp.toFixed(1)+' °C','#ff3b6b');alarmLb.position.y=8.4+Math.sin(time*3)*.12;
+ alarmLb.material.opacity=EVL.on?0:alarm;if(!labUp){}else if(G.on&&G.down)alarmLb.set('BREAKDOWN',V.temp.toFixed(1)+' °C','#ff3b6b');else if(G.on&&G.vib>=8&&G.temp<90)alarmLb.set('VIB HIGH',V.vib.toFixed(1)+' mm/s','#ff3b6b');else if(!G.on&&TOUR.ev!=='none'){const e=EVT[TOUR.ev];alarmLb.set(e.lb,TOUR.ev==='vib'?V.vib.toFixed(1)+' mm/s':TOUR.ev==='quality'?'Ø'+V.meas.toFixed(3):TOUR.ev==='manual'?'CALL FOR HELP':V.temp.toFixed(1)+' °C','#ff3b6b');}else alarmLb.set('TEMP HIGH',V.temp.toFixed(1)+' °C','#ff3b6b');alarmLb.position.y=8.4+Math.sin(time*3)*.12;
  SENS.forEach((s,k)=>{const wp=_sv.set(s.off[0],s.off[1],s.off[2]);s.obj.localToWorld(wp);s.g.position.copy(wp);
   const hot=s.key==='meas'?Math.abs(V.meas-86)>.012:G.on?((s.key==='temp'&&V.temp>=80)||(s.key==='vib'&&V.vib>=5.5)):(alarm>.5&&s.key===(EVT[TOUR.ev]||{}).sens);const col=hot?0xff3b6b:0x33e1ff;
   s.core.material.color.setHex(col);s.gl.material.color.setHex(col);s.rg.material.color.setHex(col);
