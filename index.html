@@ -1760,15 +1760,15 @@ const cv=$('#gl');
 if(ok){try{R=new T.WebGLRenderer({canvas:cv,antialias:true,powerPreference:'high-performance'});}catch(e){ok=false;}}
 if(!ok){document.body.classList.add('nogl');$('#nogl').hidden=false;$$('[data-play]').forEach(b=>b.hidden=true);
  const loop0=()=>{F=storyPos();$('#bar').style.width=(F/(secs.length-1)*100)+'%';$$('#dots button').forEach((b,i)=>b.classList.toggle('on',i===Math.round(F)));requestAnimationFrame(loop0);};loop0();return;}
-const PRMAX=Math.min(devicePixelRatio||1,1.5);const prBudget=()=>Math.max(.6,Math.min(PRMAX,Math.sqrt(3.7e6/Math.max(1,innerWidth*innerHeight))));let PRcap=prBudget(),PR=PRcap;R.setPixelRatio(PR);R.outputEncoding=T.sRGBEncoding;R.toneMapping=T.ACESFilmicToneMapping;R.toneMappingExposure=1.15;R.shadowMap.enabled=true;R.shadowMap.type=T.PCFSoftShadowMap;
-const S=new T.Scene();const FOG=new T.Color(0x01040d);S.fog=new T.FogExp2(FOG,.024);
+const PRMAX=2;const prBudget=()=>Math.max(.6,Math.min(PRMAX,Math.sqrt(8.3e6/Math.max(1,innerWidth*innerHeight))));let PRcap=prBudget(),PR=PRcap;R.setPixelRatio(PR);R.outputEncoding=T.sRGBEncoding;R.toneMapping=T.ACESFilmicToneMapping;R.toneMappingExposure=1.15;R.shadowMap.enabled=true;R.shadowMap.type=T.PCFSoftShadowMap;
+const TQ=2;const S=new T.Scene();const FOG=new T.Color(0x01040d);S.fog=new T.FogExp2(FOG,.024);
 const cam=new T.PerspectiveCamera(40,1,.1,300);
 let composer=null,bloom=null;
 try{if(T.EffectComposer&&T.UnrealBloomPass&&T.RenderPass&&T.ShaderPass&&T.CopyShader){const rt=new T.WebGLRenderTarget(512,512,{minFilter:T.LinearFilter,magFilter:T.LinearFilter,format:T.RGBAFormat});rt.texture.encoding=T.sRGBEncoding;composer=new T.EffectComposer(R,rt);composer.addPass(new T.RenderPass(S,cam));bloom=new T.UnrealBloomPass(new T.Vector2(512,512),.55,.42,.74);composer.addPass(bloom);composer.addPass(new T.ShaderPass(T.CopyShader));}}catch(e){composer=null;}
 const CLR=new T.Color();
 function setPR(p){PR=+p.toFixed(2);R.setPixelRatio(PR);if(composer)composer.setPixelRatio(PR);resize();}
 S.add(new T.HemisphereLight(0xa9c8ff,0x08122a,.75));
-const key=new T.DirectionalLight(0xffffff,1.05);key.position.set(-8,16,10);key.castShadow=true;key.shadow.mapSize.set(1024,1024);Object.assign(key.shadow.camera,{left:-14,right:14,top:14,bottom:-10,near:1,far:50});key.shadow.bias=-.0005;S.add(key);
+const key=new T.DirectionalLight(0xffffff,1.05);key.position.set(-8,16,10);key.castShadow=true;key.shadow.mapSize.set(4096,4096);Object.assign(key.shadow.camera,{left:-14,right:14,top:14,bottom:-10,near:1,far:50});key.shadow.bias=-.0005;S.add(key);
 const rim=new T.DirectionalLight(0x33e1ff,.55);rim.position.set(10,6,-12);S.add(rim);
 const coolL=new T.PointLight(0x33e1ff,1.2,14);coolL.position.set(0,4,3);S.add(coolL);
 const redL=new T.PointLight(0xff3b6b,0,18);redL.position.set(0,6,2);S.add(redL);
@@ -1779,16 +1779,16 @@ const GLOW=glowTex();
 const glow=(color,size)=>{const s=new T.Sprite(new T.SpriteMaterial({map:GLOW,color,blending:T.AdditiveBlending,transparent:true,depthWrite:false}));s.scale.set(size,size,1);return s;};
 const LABELS=[];
 function label(text,sub,color){
- const c=document.createElement('canvas');c.width=640;c.height=sub?200:130;const tex=new T.CanvasTexture(c);tex.encoding=T.sRGBEncoding;
+ const W=640,H=sub?200:130;const c=document.createElement('canvas');c.width=W*TQ;c.height=H*TQ;const tex=new T.CanvasTexture(c);tex.encoding=T.sRGBEncoding;
  const spr=new T.Sprite(new T.SpriteMaterial({map:tex,transparent:true,depthWrite:false,depthTest:false}));spr.renderOrder=20;
  const st={text,sub,color:color||'#33e1ff'};
- const draw=()=>{const g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);const h=c.height-12;
-  const x=6,y=6,w=c.width-12,k=22;g.beginPath();g.moveTo(x,y);g.lineTo(x+w-k,y);g.lineTo(x+w,y+k);g.lineTo(x+w,y+h);g.lineTo(x+k,y+h);g.lineTo(x,y+h-k);g.closePath();g.fillStyle='rgba(2,14,30,.78)';g.fill();g.strokeStyle=st.color;g.globalAlpha=.55;g.lineWidth=3;g.stroke();g.globalAlpha=1;
+ const draw=()=>{const g=c.getContext('2d');g.setTransform(TQ,0,0,TQ,0,0);g.clearRect(0,0,W,H);const h=H-12;
+  const x=6,y=6,w=W-12,k=22;g.beginPath();g.moveTo(x,y);g.lineTo(x+w-k,y);g.lineTo(x+w,y+k);g.lineTo(x+w,y+h);g.lineTo(x+k,y+h);g.lineTo(x,y+h-k);g.closePath();g.fillStyle='rgba(2,14,30,.78)';g.fill();g.strokeStyle=st.color;g.globalAlpha=.55;g.lineWidth=3;g.stroke();g.globalAlpha=1;
   g.fillStyle=st.color;g.fillRect(x,y,10,h-k);g.fillRect(x+w-60,y+h-5,60,5);g.fillStyle='#ffb340';g.fillRect(x+w-k-40,y,26,5);
   for(let i=0;i<h;i+=4){g.fillStyle='rgba(92,225,255,.04)';g.fillRect(x,y+i,w,1);}
-  g.textAlign='center';g.textBaseline='middle';g.fillStyle='#eaf4ff';g.shadowColor=st.color;g.shadowBlur=12;let fs=56;g.font='600 '+fs+'px "IBM Plex Sans Thai", Tahoma, sans-serif';while(g.measureText(st.text).width>c.width-60&&fs>26){fs-=2;g.font='600 '+fs+'px "IBM Plex Sans Thai", Tahoma, sans-serif';}
-  g.fillText(st.text,c.width/2,st.sub?70:c.height/2+2);
-  if(st.sub){g.fillStyle=st.color;g.font='600 40px "JetBrains Mono", Consolas, monospace';g.fillText(st.sub,c.width/2,148);}
+  g.textAlign='center';g.textBaseline='middle';g.fillStyle='#eaf4ff';g.shadowColor=st.color;g.shadowBlur=12;let fs=56;g.font='600 '+fs+'px "IBM Plex Sans Thai", Tahoma, sans-serif';while(g.measureText(st.text).width>W-60&&fs>26){fs-=2;g.font='600 '+fs+'px "IBM Plex Sans Thai", Tahoma, sans-serif';}
+  g.fillText(st.text,W/2,st.sub?70:H/2+2);
+  if(st.sub){g.fillStyle=st.color;g.font='600 40px "JetBrains Mono", Consolas, monospace';g.fillText(st.sub,W/2,148);}
   g.shadowBlur=0;tex.needsUpdate=true;};
  draw();LABELS.push(draw);spr.scale.set(2.6,2.6*c.height/c.width,1);
  spr.set=(t,s,col)=>{if(t===st.text&&s===st.sub&&(!col||col===st.color))return;st.text=t;st.sub=s;if(col)st.color=col;draw();};
@@ -2127,7 +2127,7 @@ const stG=new T.BufferGeometry();stG.setAttribute('position',new T.BufferAttribu
 
 /* ---------- Data pipeline: modelled stations + always-on data streams ---------- */
 const NODE=[['PLC','อ่านค่าจากเซนเซอร์',[13,3.6,0]],['Node-RED','ใส่กฎ แปลงข้อมูล',[26,4.6,0]],['SCADA','จอหน้างาน',[39,4.2,0]],['IoT','MQTT · เก็บข้อมูล',[52,5.6,0]],['Dashboard','ห้องประชุมผู้บริหาร',[92,3.85,0]]];
-function ctex(w,h){const c=document.createElement('canvas');c.width=w;c.height=h;const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;t.anisotropy=4;return {c,g:c.getContext('2d'),t};}
+function ctex(w,h){const c=document.createElement('canvas');c.width=w*TQ;c.height=h*TQ;const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;t.anisotropy=R.capabilities.getMaxAnisotropy();const g=c.getContext('2d');g.scale(TQ,TQ);return {c,g,t};}
 const holoAdd=(c,o)=>new T.MeshBasicMaterial({color:c,transparent:true,opacity:o,blending:T.AdditiveBlending,depthWrite:false,side:T.DoubleSide});
 const cloudMat=std(0x7fc8ff,.1,.35),screenMat=std(0x0c1626,.5,.35);
 function pedestal(g,y0){/* holo pad under a floating station + light beam to the floor */
