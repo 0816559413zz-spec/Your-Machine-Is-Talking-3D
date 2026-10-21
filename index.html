@@ -424,7 +424,7 @@ body.playing .hud-top,body.playing .hud-bl,body.playing .hud-br{display:none}
 .jtl .pkt{position:absolute;top:11px;left:calc(100%/12 + (100% - 100%/6) * var(--p,0));width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#fff;box-shadow:0 0 12px #fff,0 0 22px var(--amber);z-index:2;pointer-events:none}
 .steps li{cursor:pointer}
 .ch .card{transition:transform .8s cubic-bezier(.6,0,.2,1),opacity .6s}
-body.finale .ch[data-t="ข้อมูลเดินทาง"] .card,body.journey .ch[data-t="ข้อมูลเดินทาง"] .card{transform:translateX(-112%);opacity:0;pointer-events:none}
+body.finale .ch[data-t="ข้อมูลเดินทาง"] .card{transform:translateX(-112%);opacity:0;pointer-events:none}
 body.finale .dots,body.finale .hint{opacity:0}
 .lbx{position:fixed;left:0;right:0;height:0;z-index:10;background:#000;pointer-events:none;transition:height .9s cubic-bezier(.6,0,.2,1)}
 .lbx.t{top:0}.lbx.b{bottom:0}body.finale .lbx{height:8vh}
@@ -433,16 +433,37 @@ body.finale .dots,body.finale .hint{opacity:0}
 .fin small{font-family:var(--f-mono);font-size:13px;letter-spacing:.36em;color:var(--amber)}
 .fin b{display:block;margin-top:4px;font-family:var(--f-display);font-size:clamp(30px,3.6vw,56px);line-height:1.1;background:linear-gradient(100deg,#fff,var(--holo) 45%,var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(92,225,255,.45))}
 .fin span{display:block;margin-top:6px;font-size:17px;color:var(--text);text-shadow:0 2px 12px #000}
-.tags{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
-.tg{position:relative;display:flex;align-items:center;gap:10px;padding:8px 10px 8px 12px;text-align:left;border:1px solid rgba(92,225,255,.22);background:linear-gradient(90deg,rgba(92,225,255,.09),rgba(92,225,255,.02));overflow:hidden;transition:border-color .25s,background .25s,box-shadow .25s}
-.tg::after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;transition:background .25s}
-.tg .ic{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-style:normal;border:1px solid rgba(92,225,255,.45);color:var(--holo);background:rgba(2,12,26,.6);transition:all .25s}.tg .ic svg{width:20px;height:20px}
-.tg .tx{flex:1;min-width:0}.tg small{display:block;font-size:13px;color:var(--muted);line-height:1.3}.tg b{display:block;margin-top:2px;font-family:var(--f-mono);font-size:16px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
-.tg .go{font-style:normal;font-size:22px;color:var(--muted);transition:transform .25s,color .25s}
-.tg:hover{border-color:rgba(92,225,255,.55)}
-.tg.on{border-color:var(--amber);background:linear-gradient(90deg,rgba(255,179,64,.24),rgba(255,179,64,.04));box-shadow:0 0 22px rgba(255,179,64,.22)}.tg.on::after{background:var(--amber)}
-.tg.on .ic{background:var(--amber);border-color:var(--amber);color:#1c1000;box-shadow:0 0 14px var(--amber)}.tg.on b{color:var(--amber)}.tg.on .go{color:var(--amber);transform:translateX(5px)}
+.tdock{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:13;width:min(1180px,calc(100vw - 48px));padding:10px 12px 12px;background:linear-gradient(180deg,rgba(4,22,42,.74),rgba(2,9,20,.92));border:1px solid rgba(92,225,255,.32);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);transition:opacity .45s,transform .45s}
+.tdock.off{opacity:0;transform:translate(-50%,24px);pointer-events:none}
+.tdock>small{display:block;margin:0 0 8px 4px;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.2em;color:var(--holo)}
+.tdock-row{display:grid;grid-template-columns:repeat(8,1fr);gap:8px}
+.tg{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;padding:10px 6px 9px;text-align:center;border:1px solid rgba(92,225,255,.2);background:rgba(92,225,255,.05);transition:border-color .25s,background .25s,box-shadow .25s,transform .25s}
+.tg::after{content:"";position:absolute;left:22%;right:22%;top:-1px;height:3px;background:transparent;transition:background .25s}
+.tg .ic{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-style:normal;border:1px solid rgba(92,225,255,.45);color:var(--holo);background:rgba(2,12,26,.6);transition:all .25s}.tg .ic svg{width:21px;height:21px}
+.tg small{display:block;font-size:13px;color:var(--muted);line-height:1.25}
+.tg b{display:block;font-family:var(--f-mono);font-size:15px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tg:hover{border-color:rgba(92,225,255,.55);transform:translateY(-2px)}
+.tg.on{border-color:var(--amber);background:linear-gradient(180deg,rgba(255,179,64,.24),rgba(255,179,64,.05));box-shadow:0 0 24px rgba(255,179,64,.25);transform:translateY(-4px)}.tg.on::after{background:var(--amber);box-shadow:0 0 10px var(--amber)}
+.tg.on .ic{background:var(--amber);border-color:var(--amber);color:#1c1000;box-shadow:0 0 16px var(--amber)}.tg.on small{color:var(--text)}.tg.on b{color:var(--amber)}
 .tg.bad .ic{border-color:var(--alarm);color:var(--alarm)}.tg.bad b{color:var(--alarm)}
+.fadeb{position:fixed;inset:0;z-index:11;background:#000;opacity:0;pointer-events:none}
+.co-svg #coEnd{fill:var(--amber);filter:drop-shadow(0 0 5px var(--amber))}
+.co.jr{width:440px;padding:18px 20px 14px}
+.jr-hd{display:flex;align-items:center;gap:12px}.jr-hd .k{display:block}.jr-hd h3{margin:2px 0 0}
+.jr-n{font-family:var(--f-display);font-size:46px;line-height:1;color:transparent;-webkit-text-stroke:1.3px var(--amber);text-shadow:0 0 16px rgba(255,179,64,.45)}
+.co.jr .co-pic{margin:12px 0 4px}
+.co-flow{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-top:10px}
+.co-flow>div{min-width:0;padding:7px 10px;border:1px solid rgba(92,225,255,.3);background:rgba(2,12,26,.7)}.co-flow>div.out{border-color:var(--amber);background:rgba(255,179,64,.1)}
+.co-flow em{display:block;font-style:normal;font-size:11.5px;color:var(--muted)}.co-flow code{display:block;font-family:var(--f-mono);font-size:14px;color:var(--holo);word-break:break-all}.co-flow .out code{color:var(--amber)}
+.co-flow>i{font-style:normal;color:var(--amber);font-size:20px;animation:tapNudge 1s ease-in-out infinite}
+.co-pts{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}.co-pts li{position:relative;padding-left:20px;font-size:14.5px;line-height:1.45}
+.co-pts li::before{content:"";position:absolute;left:3px;top:.5em;width:8px;height:8px;border-radius:50%;background:var(--holo);box-shadow:0 0 8px var(--holo)}
+.co-prog{display:flex;gap:4px;flex:none}.co-prog i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.18)}.co-prog i.d{background:var(--ok)}.co-prog i.c{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+body.journey .ch[data-t="ข้อมูลเดินทาง"]{align-items:flex-start}
+body.journey .ch[data-t="ข้อมูลเดินทาง"] .card{width:min(330px,100%);margin-top:calc(5vh + 78px);padding:16px 20px;animation:none}
+body.journey .ch[data-t="ข้อมูลเดินทาง"] .card>p,body.journey .ch[data-t="ข้อมูลเดินทาง"] .card .console{display:none}
+body.journey .ch[data-t="ข้อมูลเดินทาง"] .card .num{font-size:34px}body.journey .ch[data-t="ข้อมูลเดินทาง"] .card h2{font-size:24px}
+@media (max-width:900px){.tdock{bottom:10px;width:calc(100vw - 20px);padding:8px}.tdock-row{display:flex;overflow-x:auto;scroll-snap-type:x mandatory}.tg{flex:0 0 92px;scroll-snap-align:start}.ch[data-t="สร้างข้อมูล"]{padding-bottom:160px}.co.jr{width:min(340px,calc(100vw - 32px))}.jr-n{font-size:34px}}
 .co-pic{margin:0 0 10px;padding:6px 8px;border:1px solid rgba(92,225,255,.25);background:radial-gradient(120% 100% at 30% 0,rgba(92,225,255,.16),rgba(2,12,26,.6))}
 .co-pic svg{display:block;width:100%;height:auto;max-height:104px}
 .co-pic .s{fill:none;stroke:var(--holo);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.co-pic .s.f{fill:rgba(92,225,255,.12)}
@@ -471,7 +492,9 @@ body.finale .dots,body.finale .hint{opacity:0}
 <div class="bar" id="bar"></div>
 <div class="top"><div class="brand"><span class="logo">DX</span><span>LEARNING SPACE</span></div><div class="top-r"><button class="auto" id="auto" aria-pressed="false">▶ เล่นอัตโนมัติ</button><button class="play" data-play>เข้าโหมดเล่นเอง</button></div></div>
 <nav class="dots" id="dots" aria-label="บท"></nav>
-<svg class="co-svg" id="coSvg" aria-hidden="true"><path id="coPath"/><circle id="coRing2" r="16"/><circle id="coRing" r="22"/><circle id="coDot" r="4.5"/></svg>
+<svg class="co-svg" id="coSvg" aria-hidden="true"><path id="coPath"/><circle id="coRing2" r="16"/><circle id="coRing" r="22"/><circle id="coDot" r="4.5"/><circle id="coEnd" r="3.5"/></svg>
+<div class="tdock off" id="tdock"><small>เลือกชิ้นส่วน · PART SELECT</small><div class="tdock-row" id="tags"></div></div>
+<div class="fadeb" id="fadeb"></div>
 <div class="co" id="co" role="status" aria-live="polite"></div>
 <div class="jtl" id="jtl" hidden><small>DATA JOURNEY · เส้นทางของข้อมูล 1 ค่า</small><ol id="jtlN"></ol></div>
 <div class="lbx t"></div><div class="lbx b"></div>
@@ -499,8 +522,7 @@ body.finale .dots,body.finale .hint{opacity:0}
   <section class="ch" data-t="สร้างข้อมูล">
     <div class="card mid"><span class="num">02</span><span class="en">GENERATE DATA</span><h2>เครื่องสร้างข้อมูลทุกวินาที</h2>
     <div class="live"><i></i><span>อ่านค่าไปแล้ว <b id="rdCount">0</b> ครั้ง ตั้งแต่คุณมาถึง · จำลอง</span></div>
-    <p>เลือกหัวข้อ แล้วดูว่าเครื่องกำลังพูดอะไร · ชิ้นส่วนที่เลือกจะกลายเป็นของจริง</p>
-    <div class="tags" id="tags"></div>
+    <p>เลือกชิ้นส่วนจากแถบด้านล่าง แล้วดูว่าเครื่องกำลังพูดอะไร · ชิ้นที่เลือกจะกลายเป็นของจริง</p>
     <div class="next">แต่ข้อมูลพวกนี้ไปไหนต่อ? ↓</div></div>
   </section>
   <section class="ch" data-t="ข้อมูลเดินทาง">
@@ -1615,7 +1637,7 @@ function renderTl(){const el=$('#evTl');if(el)el.innerHTML=TOUR.log.map(e=>'<li>
 /* tags */
 const TI=p=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';
 const TICON={status:TI('<path d="M7 6.5a8 8 0 1 0 10 0M12 3v9"/>'),temp:TI('<path d="M10 4a2 2 0 0 1 4 0v9.5a4.5 4.5 0 1 1-4 0z"/><path d="M12 10v6"/>'),vib:TI('<path d="M2 12h3l2.5-6 3 12 3-12 3 12 2.5-6H22"/>'),cycle:TI('<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2.5"/>'),cnt:TI('<path d="M3 8l9-4.5L21 8l-9 4.5zM3 12.5l9 4.5 9-4.5M3 16.5l9 4.5 9-4.5"/>'),meas:TI('<circle cx="12" cy="12" r="7.5"/><path d="M5 19L19 5M15 5h4v4"/>'),kw:TI('<path d="M13 2L5 13.5h6L10 22l8.5-11.5h-6z"/>'),alarm:TI('<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.8 1.8H4.2zM10 20.5a2 2 0 0 0 4 0"/>')};
-$('#tags').innerHTML=TAGS.map(t=>'<button class="tg" data-tag="'+t.k+'"><i class="ic">'+TICON[t.k]+'</i><span class="tx"><small>'+t.n+'</small><b>—</b></span><em class="go">›</em></button>').join('');
+$('#tags').innerHTML=TAGS.map(t=>'<button class="tg" data-tag="'+t.k+'"><i class="ic">'+TICON[t.k]+'</i><small>'+t.n+'</small><b>—</b></button>').join('');
 $$('[data-tag]').forEach(b=>b.onclick=()=>{stopAuto();selectTag(b.dataset.tag);});
 function selectTag(k){const t=TAGS.find(x=>x.k===k);TOUR.tag=k;TOUR.focus=t?t.f:null;$$('[data-tag]').forEach(b=>b.classList.toggle('on',b.dataset.tag===k));}
 function renderTagVals(){$$('[data-tag]').forEach((b,i)=>{const t=TAGS[i];b.querySelector('b').textContent=t.v();b.classList.toggle('bad',t.bad());});}
@@ -1628,7 +1650,14 @@ const JINFO=[
  {en:'SCADA · OPERATOR',h:'หน้างานเห็นทันที',p:'จอหน้าไลน์แสดงค่า สถานะ และกราฟแนวโน้มแบบเรียลไทม์ ให้คนคุมเครื่องเห็นตอนนี้เลย',pkL:'บนจอ SCADA',pk:()=>'TEMP '+V.temp.toFixed(1)+' °C · RUNNING',why:'ตัดสินใจได้ในวินาทีนั้น ไม่ต้องเดินไปอ่านหน้าเครื่อง'},
  {en:'IoT · MQTT · DATA LAKE',h:'เก็บและแชร์ต่อ',p:'ค่าชุดเดียวกันถูกส่งจาก Node-RED ผ่าน MQTT ไปเก็บใน Data Lake ใครมีสิทธิ์ก็ดึงไปใช้ได้',pkL:'MQTT message',pk:()=>'m01/temp → '+V.temp.toFixed(1),why:'ค่าเดียวไปได้หลายที่: วิเคราะห์ย้อนหลัง ทำ AI ทำรายงาน'},
  {en:'DASHBOARD · BOARDROOM',h:'ตัวเลขกลายเป็นการตัดสินใจ',p:'ค่าจากหัวกัดเมื่อครู่ รวมกับข้อมูลทุกเครื่อง กลายเป็น KPI บนจอห้องประชุมผู้บริหาร',pkL:'ที่ CEO เห็น (ค่าสาธิต)',pk:()=>'OEE 86.8% · ▲ 7.2 pt',why:'ผู้บริหารเห็นโรงงานจริงตอนนี้ ตัดสินใจจากข้อมูล ไม่ใช่ความรู้สึก'}];
-const JHOLD=[6,6,6.5,6.5,6.5,16];
+const JHOLD=[7,7,7.5,7.5,7.5,16];
+const JFLOW=[
+ {i:()=>'อุณหภูมิจริง ~'+V.temp.toFixed(0)+' °C',pts:['เซนเซอร์ติดอยู่ที่หัวกัด','วัดต่อเนื่องทุกเสี้ยววินาที','ส่งออกเป็นกระแส 4–20 mA']},
+ {i:()=>(4+V.temp/150*16).toFixed(1)+' mA',pts:['แปลงอนาล็อกเป็นตัวเลขดิจิทัล','เก็บไว้ใน register D100','ใช้สั่งงานเครื่องได้ด้วย']},
+ {i:()=>'D100 = '+Math.round(V.temp*10),pts:['แปลงหน่วย ×0.1 → °C','เช็กกฎ: เกิน 85 °C = เตือน','ส่งต่อ 2 ทาง: SCADA และ MQTT']},
+ {i:()=>'{"temp":'+V.temp.toFixed(1)+'}',pts:['แสดงค่าแบบเรียลไทม์','กราฟแนวโน้มย้อนหลัง','Alarm ขึ้นจอหน้างานทันที']},
+ {i:()=>'{"temp":'+V.temp.toFixed(1)+'}',pts:['ส่งผ่าน MQTT (publish / subscribe)','เก็บประวัติทุกค่าใน Data Lake','ระบบอื่นดึงไปใช้ต่อได้']},
+ {i:()=>'ข้อมูลจากทุกเครื่อง',pts:['รวมเป็น KPI: OEE ยอดผลิต Downtime','ผู้บริหารเห็นตัวเลขชุดเดียวกัน','ตัดสินใจจากข้อมูลจริง']}];
 const JPIC=[
  '<svg viewBox="0 0 260 96"><rect class="s f" x="14" y="10" width="100" height="76" rx="6"/><rect class="s" x="48" y="18" width="30" height="22" rx="3"/><path class="s" d="M63 40v18M55 58h16M26 74h76M26 80h76"/><circle class="d" cx="92" cy="30" r="5"/><path class="a" d="M101 22a13 13 0 0 1 0 16M107 16a22 22 0 0 1 0 28"/><path class="s" d="M128 50q8-26 16 0t16 0 16 0 16 0 16 0 16 0"/><text x="140" y="84">TEMP → 4–20 mA</text></svg>',
  '<svg viewBox="0 0 260 96"><rect class="s f" x="30" y="10" width="200" height="62" rx="5"/>'+[0,1,2,3,4,5,6].map(i=>'<rect class="s" x="'+(42+i*26)+'" y="18" width="20" height="46" rx="2"/><circle class="'+(i%3?'g':'d')+'" cx="'+(52+i*26)+'" cy="27" r="3"/><circle class="g" cx="'+(52+i*26)+'" cy="36" r="2.5"/>').join('')+'<path class="a" d="M60 72v14M100 72v10M140 72v14M180 72v10"/><text x="190" y="90">D100</text></svg>',
@@ -1982,11 +2011,11 @@ const SND={ctx:null,on:true,init(){if(!this.ctx){try{this.ctx=new (window.AudioC
  boom(){this.t(160,.9,'sawtooth',.08,40);},whoosh(){this.t(140,.9,'sawtooth',.025,1600);},star(i){setTimeout(()=>this.t(700+i*220,.25,'triangle',.06),i*250+200);},tick(){this.t(1500,.03,'square',.02);}};
 
 /* ---------- Hologram look ---------- */
-let HOLO=true;const HU={t:{value:0},scan:{value:-10}};
+let HOLO=true;const HU={t:{value:0},scan:{value:-10},dim:{value:1}};
 const HV='varying vec3 vN;varying vec3 vV;varying vec3 vW;void main(){vec4 wp=modelMatrix*vec4(position,1.);vW=wp.xyz;vN=normalize(normalMatrix*normal);vec4 mv=viewMatrix*wp;vV=normalize(-mv.xyz);gl_Position=projectionMatrix*mv;}';
-const HF='uniform vec3 uC;uniform float uT;uniform float uS;varying vec3 vN;varying vec3 vV;varying vec3 vW;void main(){float f=1.-abs(dot(normalize(vN),normalize(vV)));f=pow(f,1.5);float ln=.6+.4*smoothstep(.0,.2,abs(sin(vW.y*24.-uT*2.2)));float sc=smoothstep(.45,0.,abs(vW.y-uS));float a=(.02+f*.32)*ln+sc*.3;gl_FragColor=linearToOutputTexel(vec4(uC*(.3+f*.9+sc*1.5),a));}';
+const HF='uniform vec3 uC;uniform float uT;uniform float uS;uniform float uD;varying vec3 vN;varying vec3 vV;varying vec3 vW;void main(){float f=1.-abs(dot(normalize(vN),normalize(vV)));f=pow(f,1.5);float ln=.6+.4*smoothstep(.0,.2,abs(sin(vW.y*24.-uT*2.2)));float sc=smoothstep(.45,0.,abs(vW.y-uS));float a=(.02+f*.32)*ln+sc*.3;gl_FragColor=linearToOutputTexel(vec4(uC*(.3+f*.9+sc*1.5)*uD,a*uD));}';
 const holoCache={};
-function holoFor(mat,color){const key=(mat?mat.uuid:'x')+'_'+color;if(!holoCache[key])holoCache[key]=new T.ShaderMaterial({uniforms:{uC:{value:new T.Color(color)},uT:HU.t,uS:HU.scan},vertexShader:HV,fragmentShader:HF,transparent:true,depthWrite:false,blending:T.AdditiveBlending,side:T.FrontSide});return holoCache[key];}
+function holoFor(mat,color){const key=(mat?mat.uuid:'x')+'_'+color;if(!holoCache[key])holoCache[key]=new T.ShaderMaterial({uniforms:{uC:{value:new T.Color(color)},uT:HU.t,uS:HU.scan,uD:HU.dim},vertexShader:HV,fragmentShader:HF,transparent:true,depthWrite:false,blending:T.AdditiveBlending,side:T.FrontSide});return holoCache[key];}
 const castMat=std(0x7d889a,.55,.72),boreDark=new T.MeshStandardMaterial({color:0x151b28,roughness:.95}),boreShine=std(0xf2f7ff,1,.1),deckRaw=std(0x8a95a6,.5,.75),deckFin=std(0xc8d4e4,.9,.22),deckNG=std(0xc0566c,.6,.45,{emissive:0x5a0f22,emissiveIntensity:.5});
 const MATCOL=new Map([[castMat,0x4a9ad0],[deckRaw,0x4f9fd0],[deckFin,0xdff6ff],[deckNG,0xff3b6b],[boreDark,0x12324a],[boreShine,0xffffff],[robMat,0xffb340],[robDark,0xff7a1a],[bodyMat,0x3fd6ff],[darkMat,0x1d66a8],[trimMat,0x6fe8ff],[wallMat,0x2b8fd0],[glassMat,0x5ce1ff],[steelMat,0xbfefff],[gunMat,0x2a78b8],[blackMat,0x1a4f80],[tableMat,0x7fd0ff],[toolMat,0xffd27a],[motorMat,0x4fb0ff],[frameMat,0x9fe8ff],[eStopMat,0xff3b6b],[wallTrim,0x6fe8ff]]);
 const KEEPMAT=new Set([...TL,liquid.material,ruby.material]);
@@ -2097,7 +2126,7 @@ const stN=900,stP=new Float32Array(stN*3);for(let i=0;i<stN;i++){const a=Math.ra
 const stG=new T.BufferGeometry();stG.setAttribute('position',new T.BufferAttribute(stP,3));S.add(new T.Points(stG,new T.PointsMaterial({color:0x6aa8ff,size:.18,map:GLOW,transparent:true,opacity:.6,blending:T.AdditiveBlending,depthWrite:false})));
 
 /* ---------- Data pipeline: modelled stations + always-on data streams ---------- */
-const NODE=[['PLC','อ่านค่าจากเซนเซอร์',[13,3.6,0]],['Node-RED','ใส่กฎ แปลงข้อมูล',[26,4.6,0]],['SCADA','จอหน้างาน',[39,4.2,0]],['IoT','MQTT · เก็บข้อมูล',[52,5.6,0]],['Dashboard','ห้องประชุมผู้บริหาร',[66,3.85,0]]];
+const NODE=[['PLC','อ่านค่าจากเซนเซอร์',[13,3.6,0]],['Node-RED','ใส่กฎ แปลงข้อมูล',[26,4.6,0]],['SCADA','จอหน้างาน',[39,4.2,0]],['IoT','MQTT · เก็บข้อมูล',[52,5.6,0]],['Dashboard','ห้องประชุมผู้บริหาร',[92,3.85,0]]];
 function ctex(w,h){const c=document.createElement('canvas');c.width=w;c.height=h;const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;t.anisotropy=4;return {c,g:c.getContext('2d'),t};}
 const holoAdd=(c,o)=>new T.MeshBasicMaterial({color:c,transparent:true,opacity:o,blending:T.AdditiveBlending,depthWrite:false,side:T.DoubleSide});
 const cloudMat=std(0x7fc8ff,.1,.35),screenMat=std(0x0c1626,.5,.35);
@@ -2451,13 +2480,14 @@ const narrow=()=>innerWidth<900;
 R.localClippingEnabled=true;
 const FPL=new T.Plane(new T.Vector3(0,-1,0),1e5);
 {const ms=new Set();HMESH.forEach(m=>ms.add(m.userData.real));MATCOL.forEach((c,m)=>ms.add(m));ms.forEach(m=>{if(m&&m.isMaterial)m.clippingPlanes=[FPL];});}
-const PARTOBJ={tower,head,motor,robot:RB.root,conv,table,panel};
+const PARTOBJ={tower,head,motor,robot:RB.root,conv,table,panel,n0:nodes[0].g,n1:nodes[1].g,n2:nodes[2].g,n3:nodes[3].g};
 const PNAME={tower:'ไฟสถานะ',head:'หัวกัด',motor:'มอเตอร์',robot:'หุ่นยนต์ป้อนงาน',conv:'สายพาน',table:'เสื้อสูบบนโต๊ะงาน',panel:'ตู้ควบคุม'};
 /* each topic gets its own camera angle around its part: az/el in radians, d = distance */
-const TAGSHOT={status:{p:'tower',az:.95,el:.3,d:10},temp:{p:'head',s:'temp',az:.3,el:.12,d:8.5},vib:{p:'motor',s:'vib',az:-.15,el:.5,d:8},cycle:{p:'robot',az:1.25,el:.42,d:10.5},
- cnt:{p:'conv',s:'cnt',az:.05,el:.5,d:10},meas:{p:'table',s:'meas',az:-.3,el:.62,d:8},kw:{p:'panel',s:'kw',az:-.75,el:.08,d:8},alarm:{p:'tower',az:-.4,el:-.02,d:9.5}};
+/* parts at the back get a camera behind the machine, so switching topics swings the camera right around it */
+const TAGSHOT={status:{p:'tower',az:2.3,el:.32,d:9.5},temp:{p:'head',s:'temp',az:.55,el:.15,d:8},vib:{p:'motor',s:'vib',az:-2.45,el:.32,d:8},cycle:{p:'robot',az:1.45,el:.38,d:10},
+ cnt:{p:'conv',s:'cnt',az:-.5,el:.28,d:11},meas:{p:'table',s:'meas',az:.1,el:.9,d:7.5},kw:{p:'panel',s:'kw',az:-1.25,el:.12,d:7.5},alarm:{p:'tower',az:-2.9,el:.02,d:9}};
 const RV={key:'',list:[],edges:[],t:0,y0:0,y1:0,box:new T.Box3(),c:new T.Vector3()};
-const focL=new T.PointLight(0xfff4e6,0,18);S.add(focL);
+const focL=new T.PointLight(0xfff4e6,0,30);S.add(focL);const FOC={w:0};
 const sweepR=new T.Mesh(new T.RingGeometry(.94,1,72),holoAdd(0xffb340,.9));sweepR.rotation.x=-H;sweepR.visible=false;S.add(sweepR);
 function realSet(key){if(RV.key===key)return;RV.list.forEach(applyHolo);RV.edges.forEach(e=>e.visible=HOLO);RV.list=[];RV.edges=[];RV.key=key;FPL.constant=1e5;
  const o=key&&PARTOBJ[key];if(!o)return;RV.box.setFromObject(o);RV.box.getCenter(RV.c);RV.y0=RV.box.min.y-.05;RV.y1=RV.box.max.y+.05;RV.t=0;if(!HOLO)return;
@@ -2465,12 +2495,17 @@ function realSet(key){if(RV.key===key)return;RV.list.forEach(applyHolo);RV.edges
 function realStep(dt){if(!RV.list.length){focL.intensity*=Math.max(0,1-dt*5);sweepR.visible=false;return;}
  RV.t+=dt;const u=clamp(RV.t/1.1,0,1),y=lerp(RV.y0,RV.y1,easeIO(u));FPL.constant=u<1?y:1e5;if(u>=1)RV.edges.forEach(l=>l.visible=false);
  sweepR.visible=u<1;sweepR.position.set(RV.c.x,y,RV.c.z);RV.box.getSize(_rv);sweepR.scale.setScalar(Math.max(_rv.x,_rv.z)*.62+.2);
- focL.position.copy(RV.c).addScaledVector(_rw.subVectors(cam.position,RV.c).normalize(),2.6);focL.position.y+=1.6;focL.intensity+=(2.4-focL.intensity)*Math.min(1,dt*4);}
+ focL.position.lerpVectors(RV.c,cam.position,.55);focL.position.y+=1;focL.intensity+=(.65-focL.intensity)*Math.min(1,dt*4);}
 function tagCenter(k,out){const s=TAGSHOT[k];if(!s)return null;const sn=s.s&&SENS.find(x=>x.key===s.s);if(sn)return out.copy(sn.g.position);
  if(s.p==='tower'){tower.getWorldPosition(out);out.y+=1.1;return out;}return RV.key===s.p?out.copy(RV.c):_bx.setFromObject(PARTOBJ[s.p]).getCenter(out);}
-/* subject lands in the free part of the screen: the ch.02 card covers the left (the bottom on phones) */
-function tagShot(k,c,oP,oT){const s=TAGSHOT[k],ce=Math.cos(s.el);oP.set(c.x+Math.sin(s.az)*ce*s.d,c.y+Math.sin(s.el)*s.d+.6,c.z+Math.cos(s.az)*ce*s.d);oT.copy(c);
- if(!narrow()){_gf.subVectors(oT,oP).normalize();_gr.crossVectors(_gf,UPV).normalize();oT.addScaledVector(_gr,-s.d*.21);}else oT.y-=s.d*.17;}
+/* ch.02 camera orbits (azimuth / elevation / distance are eased, not the position), so topic changes swing around the machine */
+const ORB2={on:false,az:0,el:.3,d:10,tg:new T.Vector3()};
+function tagOrbit(key,c,dt,oP,oT){const s=TAGSHOT[key];
+ if(!ORB2.on){ORB2.tg.copy(camTgt);_gf.subVectors(camPos,camTgt);ORB2.d=_gf.length();ORB2.el=Math.asin(clamp(_gf.y/ORB2.d,-1,1));ORB2.az=Math.atan2(_gf.x,_gf.z);ORB2.on=true;}
+ const k=1-Math.exp(-dt*1.6);let da=s.az-ORB2.az;da=Math.atan2(Math.sin(da),Math.cos(da));ORB2.az+=da*k;ORB2.el+=(s.el-ORB2.el)*k;ORB2.d+=(s.d-ORB2.d)*k;ORB2.tg.lerp(c,Math.min(1,k*1.4));
+ const az=ORB2.az+(reduce?0:Math.sin(time*.22)*.07),ce=Math.cos(ORB2.el);oP.set(ORB2.tg.x+Math.sin(az)*ce*ORB2.d,ORB2.tg.y+Math.sin(ORB2.el)*ORB2.d,ORB2.tg.z+Math.cos(az)*ce*ORB2.d);oT.copy(ORB2.tg);
+ /* header card sits top-left and the part dock along the bottom: keep the part just right of centre, a little high */
+ if(!narrow()){_gf.subVectors(oT,oP).normalize();_gr.crossVectors(_gf,UPV).normalize();oT.addScaledVector(_gr,-ORB2.d*.1);oT.y-=ORB2.d*.05;}else oT.y-=ORB2.d*.15;}
 
 /* ---------- ch.03: the stops sit on one long, spaced-out line far from the machine; the camera slides along it ---------- */
 const STX=[0,...NODE.map(n=>n[2][0])],TRZ=9;
@@ -2487,7 +2522,7 @@ const TMK=STX.map((x,i)=>{const g=new T.Group();g.position.set(x,0,TRZ);
 function stopCenter(s,out){if(s===0)return out.copy(SENS[0].g.position);out.copy(nodes[s-1].g.position);if(s===2)out.y+=.3;return out;}
 /* wide side-on shots: the station sits left of centre, the callout takes the right */
 function stopShot(s,oP,oT){if(s===5)return finShot(JR.step===5?JR.finT:0,oP,oT);const x=STX[s],y=s===0?3.2:nodes[s-1].g.position.y;
- if(s===0){if(narrow()){oP.set(x,y+7,32);oT.set(x,y-3,0);}else{oP.set(x-2,y+6.5,27);oT.set(x+5,y-1.2,0);}return;}
+ if(s===0){if(narrow()){oP.set(x,y+6,27);oT.set(x,y-2.6,0);}else{oP.set(x-2,y+5,21);oT.set(x+4,y-1,0);}return;}
  if(narrow()){oP.set(x,y+4,21);oT.set(x,y-2,0);}else{oP.set(x-1,y+3.2,15.5);oT.set(x+3,y-.4,0);}}
 
 /* ---------- Boardroom at the end of the line: real materials, people, an animated presenter ---------- */
@@ -2608,20 +2643,20 @@ function roomStep(dt,mt){const w=MEET.w,du=nodes[4].g.userData,on=w>.02;
   vxG.attributes.position.needsUpdate=true;vxM.opacity=.85*clamp(mt-.2,0,1)*(1-ss(3.5,6,mt));}}
 
 /* ---------- Adaptive callout: picks the free side of the screen around its subject, with a leader line ---------- */
-const CALL={el:$('#co'),svg:$('#coSvg'),path:$('#coPath'),dots:['#coRing','#coRing2','#coDot'].map(q=>$(q)),key:'',side:'r',x:0,y:0,show:false,chooseT:0,fresh:true,valT:0};
+const CALL={el:$('#co'),svg:$('#coSvg'),path:$('#coPath'),dots:['#coRing','#coRing2','#coDot'].map(q=>$(q)),end:$('#coEnd'),key:'',side:'r',x:0,y:0,show:false,chooseT:0,fresh:true,valT:0,gap:110};
 const rOv=(a,b)=>{const w=Math.min(a.r,b.r)-Math.max(a.l,b.l),h=Math.min(a.b,b.b)-Math.max(a.t,b.t);return w>0&&h>0?w*h:0;};
 const CSIDES=['r','br','tr','l','bl','tl','b','t'];
-function coRect(s,ax,ay,w,h){const g=70;let l,t;
+function coRect(s,ax,ay,w,h){const g=CALL.gap;let l,t;
  if(s==='r'){l=ax+g;t=ay-h/2;}else if(s==='l'){l=ax-g-w;t=ay-h/2;}else if(s==='tr'){l=ax+g*.6;t=ay-g-h;}else if(s==='br'){l=ax+g*.6;t=ay+g;}else if(s==='tl'){l=ax-g*.6-w;t=ay-g-h;}else if(s==='bl'){l=ax-g*.6-w;t=ay+g;}else if(s==='t'){l=ax-w/2;t=ay-g-h;}else{l=ax-w/2;t=ay+g;}
  const m=16,top=72,W=innerWidth,Hh=innerHeight,dx=Math.max(m-l,0)-Math.max(l+w-(W-m),0),dy=Math.max(top-t,0)-Math.max(t+h-(Hh-m),0);
  return {l:l+dx,t:t+dy,r:l+dx+w,b:t+dy+h,sh:Math.abs(dx)+Math.abs(dy)};}
 function coAvoid(){const A=[],add=el=>{if(!el||el.hidden)return;const r=el.getBoundingClientRect();if(r.width&&r.bottom>0&&r.top<innerHeight&&+getComputedStyle(el).opacity>.1)A.push({l:r.left-14,t:r.top-14,r:r.right+14,b:r.bottom+14});};
- secs.forEach(s=>{if(!s.classList.contains('end'))add(s.querySelector('.card'));});add($('#jtl'));if($('#fin').classList.contains('show'))add($('#fin'));add($('.top-r'));return A;}
-function coChoose(ax,ay){const el=CALL.el,A=coAvoid(),Z={l:ax-80,t:ay-80,r:ax+80,b:ay+80};let best=null,cur=null;
+ secs.forEach(s=>{if(!s.classList.contains('end'))add(s.querySelector('.card'));});add($('#jtl'));add($('#tdock'));if($('#fin').classList.contains('show'))add($('#fin'));add($('.top-r'));return A;}
+function coChoose(ax,ay){const el=CALL.el,A=coAvoid(),Z={l:ax-90,t:ay-90,r:ax+90,b:ay+90};let best=null,cur=null;
  for(let i=0;i<CSIDES.length;i++){const s=CSIDES[i];el.classList.toggle('wide',s==='t'||s==='b');const R=coRect(s,ax,ay,el.offsetWidth,el.offsetHeight);
   let sc=i*30+R.sh*2+rOv(R,Z)*.5;A.forEach(a=>sc+=rOv(R,a)*.3);if(s===CALL.side)cur=sc;if(!best||sc<best.sc)best={s,sc};}
  const s=(!CALL.fresh&&cur!=null&&cur<=best.sc+2500)?CALL.side:best.s;CALL.side=s;el.classList.toggle('wide',s==='t'||s==='b');el.dataset.side=s;}
-function coSet(key,html,mini){if(CALL.key===key)return;CALL.key=key;CALL.el.innerHTML=html;CALL.el.classList.toggle('mini',!!mini);CALL.chooseT=0;CALL.fresh=true;}
+function coSet(key,html,kind){if(CALL.key===key)return;CALL.key=key;CALL.el.innerHTML=html;CALL.el.classList.toggle('mini',kind==='tag');CALL.el.classList.toggle('jr',kind==='jr');CALL.gap=kind==='jr'?(narrow()?70:210):(narrow()?70:120);CALL.chooseT=0;CALL.fresh=true;}
 function coHide(){if(!CALL.show&&!CALL.key)return;CALL.show=false;CALL.key='';CALL.el.classList.remove('show');CALL.svg.classList.remove('show');}
 function coFrame(dt,anchor){_gd.copy(anchor).project(cam);if(_gd.z>1||Math.abs(_gd.x)>1.3||Math.abs(_gd.y)>1.3){coHide();return;}
  const ax=(_gd.x+1)/2*innerWidth,ay=(1-_gd.y)/2*innerHeight;
@@ -2630,40 +2665,56 @@ function coFrame(dt,anchor){_gd.copy(anchor).project(cam);if(_gd.z>1||Math.abs(_
  if(CALL.fresh||!CALL.show){CALL.x=R.l;CALL.y=R.t;CALL.fresh=false;}else{const k=1-Math.exp(-dt*7);CALL.x+=(R.l-CALL.x)*k;CALL.y+=(R.t-CALL.y)*k;}
  CALL.el.style.left=CALL.x.toFixed(1)+'px';CALL.el.style.top=CALL.y.toFixed(1)+'px';CALL.el.classList.add('show');CALL.show=true;
  const l=CALL.x,t=CALL.y,r=l+w,b=t+h,s=CALL.side,px=clamp(ax,l+14,r-14),py=clamp(ay,t+14,b-14);let ex,ey,qx,qy;
- if(s.includes('r')){qx=l;qy=py;ex=l-26;ey=py;}else if(s.includes('l')){qx=r;qy=py;ex=r+26;ey=py;}else if(s==='t'){qx=px;qy=b;ex=px;ey=b+26;}else{qx=px;qy=t;ex=px;ey=t-26;}
+ if(s.includes('r')){qx=l;qy=py;ex=ax+Math.min(64,(l-ax)*.3);ey=qy;}else if(s.includes('l')){qx=r;qy=py;ex=ax-Math.min(64,(ax-r)*.3);ey=qy;}else if(s==='t'){qx=px;qy=b;ex=qx;ey=ay-Math.min(64,(ay-b)*.3);}else{qx=px;qy=t;ex=qx;ey=ay+Math.min(64,(t-ay)*.3);}
  const vx=ex-ax,vy=ey-ay,vl=Math.hypot(vx,vy)||1;CALL.path.setAttribute('d','M'+(ax+vx/vl*24).toFixed(1)+' '+(ay+vy/vl*24).toFixed(1)+'L'+ex.toFixed(1)+' '+ey.toFixed(1)+'L'+qx.toFixed(1)+' '+qy.toFixed(1));
- CALL.dots.forEach(c=>{c.setAttribute('cx',ax.toFixed(1));c.setAttribute('cy',ay.toFixed(1));});CALL.svg.classList.add('show');}
-function coStepHTML(s){const J=JINFO[s];return '<div class="co-pic">'+JPIC[s]+'</div><span class="k"><i>'+(s+1)+'/6</i>'+J.en+'</span><h3>'+J.h+'</h3><div class="co-body"><p>'+J.p+'</p><div><div class="pk"><em>'+J.pkL+'</em><code data-copk>'+esc(J.pk())+'</code></div><p class="why">'+J.why+'</p></div></div>'+
- '<div class="co-tap"><span>แตะที่ว่างบนจอเพื่อ'+(s>=5?'จบการเดินทาง':'ไปต่อ · '+JSTEPS[s+1][0])+'</span><b>▸</b><span class="co-hold"><i></i></span></div>';}
+ CALL.dots.forEach(c=>{c.setAttribute('cx',ax.toFixed(1));c.setAttribute('cy',ay.toFixed(1));});CALL.end.setAttribute('cx',qx.toFixed(1));CALL.end.setAttribute('cy',qy.toFixed(1));CALL.svg.classList.add('show');}
+function coStepHTML(s){const J=JINFO[s],F=JFLOW[s];return '<div class="jr-hd"><b class="jr-n">'+String(s+1).padStart(2,'0')+'</b><div><span class="k">'+J.en+'</span><h3>'+J.h+'</h3></div></div>'+
+ '<div class="co-pic">'+JPIC[s]+'</div><p>'+J.p+'</p>'+
+ '<div class="co-flow"><div><em>ข้อมูลเข้า</em><code data-cin>'+esc(F.i())+'</code></div><i>→</i><div class="out"><em>ข้อมูลออก</em><code data-copk>'+esc(J.pk())+'</code></div></div>'+
+ '<ul class="co-pts">'+F.pts.map(x=>'<li>'+x+'</li>').join('')+'</ul><p class="why">'+J.why+'</p>'+
+ '<div class="co-tap"><span class="co-prog">'+JSTEPS.map((_,i)=>'<i class="'+(i<s?'d':i===s?'c':'')+'"></i>').join('')+'</span><span>แตะที่ว่างเพื่อ'+(s>=5?'จบการเดินทาง':'ไปต่อ · '+JSTEPS[s+1][0])+'</span><b>▸</b><span class="co-hold"><i></i></span></div>';}
 function coTagHTML(t){const P=TAGSHOT[t.k];return '<span class="k"><i>LIVE</i>ชิ้นส่วนจริง · '+(PNAME[P&&P.p]||'')+'</span><div class="co-hd"><span class="co-ic">'+TICON[t.k]+'</span><h3>'+t.n+'</h3></div><div class="pk"><em>ค่าตอนนี้</em><code data-copk>'+esc(t.v())+'</code></div><p class="q">“'+t.q+'”</p><p>'+t.d+'</p>';}
 const JTL=$('#jtl');
 function guideFrame(dt,f){const story=f>=0;
  const g2=story?ss(1.55,1.8,f)*(1-ss(2.2,2.45,f)):0,g3=story?ss(2.5,2.8,f)*(1-ss(3.2,3.5,f)):0,g3w=story?ss(2.3,2.75,f)*(1-ss(3.25,3.7,f)):0;
  JR.vis=g3>.5;S.fog.density=story?lerp(.024,.008,g3w):(G.camKey==='data'?.009:.024);
+ /* ch.03 starts on the machine as soon as you arrive; taps move it on */
+ if(story&&g3>.6&&!JR.on&&!JR.done)startJourney();
+ $('#tdock').classList.toggle('off',!(story&&g2>.4));
  if(JR.on&&JR.vis){JR.t+=dt;
-  if(JR.mode==='travel'){if(!JR.path){if(JR.from===0){JR.path=new T.CurvePath();JR.path.add(new T.LineCurve3(SENS[0].g.position.clone(),SRC.clone()));JR.path.add(SEG[0].c);}else JR.path=SEG[JR.from].c;}
+  if(JR.mode==='travel'){if(!JR.path){JR.cut=false;if(JR.from===0){JR.path=new T.CurvePath();JR.path.add(new T.LineCurve3(SENS[0].g.position.clone(),SRC.clone()));JR.path.add(SEG[0].c);}else JR.path=SEG[JR.from].c;}
    JR.u=clamp(JR.t/JR.dur,0,1);if(JR.u>=1){JR.step=JR.from+1;JR.mode='hold';JR.t=0;JR.finT=0;TOUR.pulse[JR.step-1]=time;renderJourney();}}
   else if(JR.mode==='hold'){if(JR.step===5)JR.finT+=dt;if(auto&&JR.t>JHOLD[JR.step])journeyNext();}}
  /* packets */
  JP.visible=JP2.visible=false;
  if(JR.on&&g3>.3){const pk=(JR.mode==='travel'?JR.from:JR.step)>=3?JP2:JP;
-  if(JR.mode==='travel'){if(JR.path){JR.path.getPointAt(Math.min(.999,easeIO(JR.u)),pk.position);pk.visible=true;pk.scale.setScalar(1.3);}}
+  if(JR.mode==='travel'){if(JR.path&&!(JR.from===4&&JR.u>.45)){JR.path.getPointAt(Math.min(.999,easeIO(JR.u)),pk.position);pk.visible=true;pk.scale.setScalar(1.3);}}
   else if(JR.step<5){stopCenter(JR.step,pk.position);pk.visible=true;pk.scale.setScalar(.5+Math.sin(time*6)*.08);}}
  /* camera */
- let want=0,anc=null;
- if(JR.on&&g3>.01){want=g3;
-  if(JR.mode==='travel'&&JR.path){const e=easeIO(JR.u),pk=JR.from>=3?JP2:JP;stopShot(JR.from,_sA,_tA);stopShot(JR.from+1,_sB,_tB);GD.dp.lerpVectors(_sA,_sB,e);GD.dp.y+=Math.sin(PI*e)*1.2;GD.dt.lerpVectors(_tA,_tB,e).lerp(pk.position,Math.sin(PI*e)*.35);GD.rate=6;}
+ let want=0,anc=null,ancJ=false;
+ if(JR.on&&g3>.01){want=g3;ancJ=true;
+  /* IoT → Dashboard: pan off to the right into black, cut to the dashboard panel, fade back in */
+  if(JR.mode==='travel'&&JR.path&&JR.from===4){const u=JR.u;
+   if(u<.5){stopShot(4,_sA,_tA);const pn=ss(0,.5,u)*14;GD.dp.copy(_sA);GD.dp.x+=pn;GD.dt.copy(_tA);GD.dt.x+=pn+ss(0,.5,u)*5;GD.rate=6;}
+   else{finShot(0,GD.dp,GD.dt);GD.rate=12;if(!JR.cut){JR.cut=true;GD.p.copy(GD.dp);GD.t.copy(GD.dt);camPos.copy(GD.dp);camTgt.copy(GD.dt);}}}
+  else if(JR.mode==='travel'&&JR.path){const e=easeIO(JR.u),pk=JR.from>=3?JP2:JP;stopShot(JR.from,_sA,_tA);stopShot(JR.from+1,_sB,_tB);GD.dp.lerpVectors(_sA,_sB,e);GD.dp.y+=Math.sin(PI*e)*1.2;GD.dt.lerpVectors(_tA,_tB,e).lerp(pk.position,Math.sin(PI*e)*.35);GD.rate=6;}
   else{stopShot(JR.step,GD.dp,GD.dt);GD.rate=JR.step===5?6:2.6;}
   if(JR.mode==='hold'&&JR.t>.7&&(JR.step<5||JR.finT>6.8))anc=JR.step<5?stopCenter(JR.step,_anc):_anc.copy(nodes[4].g.position);}
- else if(TOUR.tag&&g2>.01){const c=tagCenter(TOUR.tag,_gc);if(c){want=g2;tagShot(TOUR.tag,c,GD.dp,GD.dt);GD.rate=2.2;if(g2>.5)anc=_anc.copy(c);}}
+ else if(TOUR.tag&&g2>.01){const c=tagCenter(TOUR.tag,_gc);if(c){want=g2;tagOrbit(TOUR.tag,c,dt,GD.dp,GD.dt);GD.rate=14;if(g2>.5)anc=_anc.copy(c);}}
+ if(!(TOUR.tag&&g2>.01)||JR.on&&g3>.01)ORB2.on=false;
+ {const fo=JR.on&&JR.mode==='travel'&&JR.from===4&&g3>.3?(JR.u<.5?ss(.12,.48,JR.u):1-ss(.55,1,JR.u)):0,fe=$('#fadeb');if(fe._o!==fo){fe._o=fo;fe.style.opacity=fo.toFixed(3);}}
  GD.w+=(want-GD.w)*(1-Math.exp(-dt*2.6));
  if(want>0){if(!GD.init){GD.p.copy(camPos);GD.t.copy(camTgt);GD.init=true;}const k=1-Math.exp(-dt*GD.rate);GD.p.lerp(GD.dp,k);GD.t.lerp(GD.dt,k);}else if(GD.w<.01)GD.init=false;
  if(story&&GD.w>.001){const e=sm(clamp(GD.w,0,1));tp.lerp(GD.p,e);tt.lerp(GD.t,e);}
- /* real-model reveal of the focused part */
- realSet(story&&!JR.on&&TOUR.tag&&g2>.5&&TAGSHOT[TOUR.tag]?TAGSHOT[TOUR.tag].p:'');realStep(dt);
+ /* real-model reveal: the focused ch.02 part, or the station the journey is stopped at */
+ let rk='';if(story&&JR.on&&JR.vis&&JR.mode==='hold'&&JR.step<5)rk=JR.step===0?'head':'n'+(JR.step-1);else if(story&&TOUR.tag&&g2>.5&&TAGSHOT[TOUR.tag])rk=TAGSHOT[TOUR.tag].p;
+ realSet(rk);realStep(dt);
+ /* focus: dim every other hologram, its edges, glows and the bloom so the real part reads clearly */
+ FOC.w+=((RV.list.length?1:0)-FOC.w)*(1-Math.exp(-dt*3));const fw=FOC.w;HU.dim.value=lerp(1,.22,fw);EDGEM.opacity=.42*lerp(1,.3,fw);if(bloom)bloom.strength=lerp(.55,.2,fw);coolL.intensity=1.2*(1-.85*fw);R.toneMappingExposure*=lerp(1,.78,fw);
+ if(fw>.001){SENS.forEach(s=>{s.lb.material.opacity*=1-.85*fw;s.gl.material.opacity=1-.7*fw;});spMat.opacity*=1-.6*fw;dMat.opacity*=1-.8*fw;}else SENS.forEach(s=>s.gl.material.opacity=1);
  /* callout */
- if(anc&&JR.on)coSet('j'+JR.step,coStepHTML(JR.step),false);else if(anc){const t=TAGS.find(x=>x.k===TOUR.tag);coSet('t'+t.k,coTagHTML(t),true);}
- if(anc){coFrame(dt,anc);CALL.valT+=dt;if(CALL.valT>.25){CALL.valT=0;const v=CALL.el.querySelector('[data-copk]');if(v)v.textContent=JR.on?JINFO[JR.step].pk():(TAGS.find(x=>x.k===TOUR.tag)||{v:()=>''}).v();}
+ if(anc&&ancJ)coSet('j'+JR.step,coStepHTML(JR.step),'jr');else if(anc){const t=TAGS.find(x=>x.k===TOUR.tag);coSet('t'+t.k,coTagHTML(t),'tag');}
+ if(anc){coFrame(dt,anc);CALL.valT+=dt;if(CALL.valT>.25){CALL.valT=0;const v=CALL.el.querySelector('[data-copk]');if(v)v.textContent=ancJ?JINFO[JR.step].pk():(TAGS.find(x=>x.k===TOUR.tag)||{v:()=>''}).v();const ci=CALL.el.querySelector('[data-cin]');if(ci&&ancJ)ci.textContent=JFLOW[JR.step].i();}
   const hb=CALL.el.querySelector('.co-hold');if(hb){hb.style.visibility=auto?'visible':'hidden';if(auto)hb.firstChild.style.width=clamp(JR.t/JHOLD[JR.step],0,1)*100+'%';}}
  else coHide();
  /* dot timeline (screen) + floor track (3D) */
