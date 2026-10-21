@@ -2480,12 +2480,12 @@ const narrow=()=>innerWidth<900;
 R.localClippingEnabled=true;
 const FPL=new T.Plane(new T.Vector3(0,-1,0),1e5);
 {const ms=new Set();HMESH.forEach(m=>ms.add(m.userData.real));MATCOL.forEach((c,m)=>ms.add(m));ms.forEach(m=>{if(m&&m.isMaterial)m.clippingPlanes=[FPL];});}
-const PARTOBJ={tower,head,motor,robot:RB.root,conv,table,panel,n0:nodes[0].g,n1:nodes[1].g,n2:nodes[2].g,n3:nodes[3].g};
-const PNAME={tower:'ไฟสถานะ',head:'หัวกัด',motor:'มอเตอร์',robot:'หุ่นยนต์ป้อนงาน',conv:'สายพาน',table:'เสื้อสูบบนโต๊ะงาน',panel:'ตู้ควบคุม'};
+const PARTOBJ={machine:M,tower,head,motor,robot:RB.root,conv,table,panel,n0:nodes[0].g,n1:nodes[1].g,n2:nodes[2].g,n3:nodes[3].g};
+const PNAME={machine:'เครื่องจักรทั้งเครื่อง',tower:'ไฟสถานะ',head:'หัวกัด',motor:'มอเตอร์',robot:'หุ่นยนต์ป้อนงาน',conv:'สายพาน',table:'เสื้อสูบบนโต๊ะงาน',panel:'ตู้ควบคุม'};
 /* each topic gets its own camera angle around its part: az/el in radians, d = distance */
 /* parts at the back get a camera behind the machine, so switching topics swings the camera right around it */
-const TAGSHOT={status:{p:'tower',az:2.3,el:.32,d:9.5},temp:{p:'head',s:'temp',az:.55,el:.15,d:8},vib:{p:'motor',s:'vib',az:-2.45,el:.32,d:8},cycle:{p:'robot',az:1.45,el:.38,d:10},
- cnt:{p:'conv',s:'cnt',az:-.5,el:.28,d:11},meas:{p:'table',s:'meas',az:.1,el:.9,d:7.5},kw:{p:'panel',s:'kw',az:-1.25,el:.12,d:7.5},alarm:{p:'tower',az:-2.9,el:.02,d:9}};
+const TAGSHOT={status:{p:'machine',a:'tower',az:.7,el:.26,d:22},temp:{p:'head',s:'temp',az:.55,el:.15,d:8},vib:{p:'motor',s:'vib',az:-2.45,el:.32,d:8},cycle:{p:'robot',az:1.45,el:.38,d:10},
+ cnt:{p:'conv',s:'cnt',az:-.5,el:.28,d:11},meas:{p:'table',s:'meas',az:.1,el:.9,d:7.5},kw:{p:'panel',s:'kw',az:.45,el:.12,d:6.5},alarm:{p:'tower',az:-2.9,el:.02,d:9}};
 const RV={key:'',list:[],edges:[],t:0,y0:0,y1:0,box:new T.Box3(),c:new T.Vector3()};
 const focL=new T.PointLight(0xfff4e6,0,30);S.add(focL);const FOC={w:0};
 const sweepR=new T.Mesh(new T.RingGeometry(.94,1,72),holoAdd(0xffb340,.9));sweepR.rotation.x=-H;sweepR.visible=false;S.add(sweepR);
@@ -2496,7 +2496,9 @@ function realStep(dt){if(!RV.list.length){focL.intensity*=Math.max(0,1-dt*5);swe
  RV.t+=dt;const u=clamp(RV.t/1.1,0,1),y=lerp(RV.y0,RV.y1,easeIO(u));FPL.constant=u<1?y:1e5;if(u>=1)RV.edges.forEach(l=>l.visible=false);
  sweepR.visible=u<1;sweepR.position.set(RV.c.x,y,RV.c.z);RV.box.getSize(_rv);sweepR.scale.setScalar(Math.max(_rv.x,_rv.z)*.62+.2);
  focL.position.lerpVectors(RV.c,cam.position,.55);focL.position.y+=1;focL.intensity+=(.65-focL.intensity)*Math.min(1,dt*4);}
-function tagCenter(k,out){const s=TAGSHOT[k];if(!s)return null;const sn=s.s&&SENS.find(x=>x.key===s.s);if(sn)return out.copy(sn.g.position);
+/* the camera frames the whole part; the leader line points at its sensor (or the status light) */
+function tagAnchor(k,out){const s=TAGSHOT[k],sn=s.s&&SENS.find(x=>x.key===s.s);if(sn)return out.copy(sn.g.position);if(s.a!=='tower')return out;tower.getWorldPosition(out);out.y+=1.1;return out;}
+function tagCenter(k,out){const s=TAGSHOT[k];if(!s)return null;
  if(s.p==='tower'){tower.getWorldPosition(out);out.y+=1.1;return out;}return RV.key===s.p?out.copy(RV.c):_bx.setFromObject(PARTOBJ[s.p]).getCenter(out);}
 /* ch.02 camera orbits (azimuth / elevation / distance are eased, not the position), so topic changes swing around the machine */
 const ORB2={on:false,az:0,el:.3,d:10,tg:new T.Vector3()};
@@ -2651,7 +2653,10 @@ function coRect(s,ax,ay,w,h){const g=CALL.gap;let l,t;
  const m=16,top=72,W=innerWidth,Hh=innerHeight,dx=Math.max(m-l,0)-Math.max(l+w-(W-m),0),dy=Math.max(top-t,0)-Math.max(t+h-(Hh-m),0);
  return {l:l+dx,t:t+dy,r:l+dx+w,b:t+dy+h,sh:Math.abs(dx)+Math.abs(dy)};}
 function coAvoid(){const A=[],add=el=>{if(!el||el.hidden)return;const r=el.getBoundingClientRect();if(r.width&&r.bottom>0&&r.top<innerHeight&&+getComputedStyle(el).opacity>.1)A.push({l:r.left-14,t:r.top-14,r:r.right+14,b:r.bottom+14});};
- secs.forEach(s=>{if(!s.classList.contains('end'))add(s.querySelector('.card'));});add($('#jtl'));add($('#tdock'));if($('#fin').classList.contains('show'))add($('#fin'));add($('.top-r'));return A;}
+ secs.forEach(s=>{if(!s.classList.contains('end'))add(s.querySelector('.card'));});add($('#jtl'));add($('#tdock'));if($('#fin').classList.contains('show'))add($('#fin'));add($('.top-r'));
+ /* keep the callout off the focused part itself */
+ if(RV.key){let l=1e9,t=1e9,r=-1e9,b=-1e9;for(let i=0;i<8;i++){_rv.set(i&1?RV.box.max.x:RV.box.min.x,i&2?RV.box.max.y:RV.box.min.y,i&4?RV.box.max.z:RV.box.min.z).project(cam);const x=(_rv.x+1)/2*innerWidth,y=(1-_rv.y)/2*innerHeight;l=Math.min(l,x);r=Math.max(r,x);t=Math.min(t,y);b=Math.max(b,y);}A.push({l,t,r,b});}
+ return A;}
 function coChoose(ax,ay){const el=CALL.el,A=coAvoid(),Z={l:ax-90,t:ay-90,r:ax+90,b:ay+90};let best=null,cur=null;
  for(let i=0;i<CSIDES.length;i++){const s=CSIDES[i];el.classList.toggle('wide',s==='t'||s==='b');const R=coRect(s,ax,ay,el.offsetWidth,el.offsetHeight);
   let sc=i*30+R.sh*2+rOv(R,Z)*.5;A.forEach(a=>sc+=rOv(R,a)*.3);if(s===CALL.side)cur=sc;if(!best||sc<best.sc)best={s,sc};}
@@ -2700,7 +2705,7 @@ function guideFrame(dt,f){const story=f>=0;
   else if(JR.mode==='travel'&&JR.path){const e=easeIO(JR.u),pk=JR.from>=3?JP2:JP;stopShot(JR.from,_sA,_tA);stopShot(JR.from+1,_sB,_tB);GD.dp.lerpVectors(_sA,_sB,e);GD.dp.y+=Math.sin(PI*e)*1.2;GD.dt.lerpVectors(_tA,_tB,e).lerp(pk.position,Math.sin(PI*e)*.35);GD.rate=6;}
   else{stopShot(JR.step,GD.dp,GD.dt);GD.rate=JR.step===5?6:2.6;}
   if(JR.mode==='hold'&&JR.t>.7&&(JR.step<5||JR.finT>6.8))anc=JR.step<5?stopCenter(JR.step,_anc):_anc.copy(nodes[4].g.position);}
- else if(TOUR.tag&&g2>.01){const c=tagCenter(TOUR.tag,_gc);if(c){want=g2;tagOrbit(TOUR.tag,c,dt,GD.dp,GD.dt);GD.rate=14;if(g2>.5)anc=_anc.copy(c);}}
+ else if(TOUR.tag&&g2>.01){const c=tagCenter(TOUR.tag,_gc);if(c){want=g2;tagOrbit(TOUR.tag,c,dt,GD.dp,GD.dt);GD.rate=14;if(g2>.5)anc=tagAnchor(TOUR.tag,_anc.copy(c));}}
  if(!(TOUR.tag&&g2>.01)||JR.on&&g3>.01)ORB2.on=false;
  {const fo=JR.on&&JR.mode==='travel'&&JR.from===4&&g3>.3?(JR.u<.5?ss(.12,.48,JR.u):1-ss(.55,1,JR.u)):0,fe=$('#fadeb');if(fe._o!==fo){fe._o=fo;fe.style.opacity=fo.toFixed(3);}}
  GD.w+=(want-GD.w)*(1-Math.exp(-dt*2.6));
