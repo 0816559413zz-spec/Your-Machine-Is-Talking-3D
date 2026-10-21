@@ -257,10 +257,17 @@ body.playing.hov #gl{cursor:pointer}
 .g-ban.go{animation:ban 2.6s ease forwards}
 .g-ban b{display:block;font-family:var(--f-display);font-size:3.2em;letter-spacing:.06em;text-shadow:0 0 .6em rgba(51,225,255,.8),0 .1em .4em rgba(0,0,0,.8)}
 .g-ban span{font-size:1.4em;color:var(--cta);text-shadow:0 .1em .4em rgba(0,0,0,.8)}
-.g-phone{position:absolute;right:21em;bottom:1em;width:17em;padding:.8em 1em;border-radius:1.4em;background:rgba(235,242,255,.96);color:#0b1a38;box-shadow:0 1.2em 3em rgba(0,0,0,.5);animation:phoneIn .5s cubic-bezier(.2,1.3,.4,1)}
-.g-phone small{display:flex;gap:.4em;align-items:center;font-size:.78em;color:#56698c}
-.g-phone small i{width:1.4em;height:1.4em;border-radius:.4em;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-style:normal;font-weight:700;font-size:.7em;display:grid;place-items:center}
-.g-phone b{display:block;margin:.25em 0 .1em;font-size:1.05em}.g-phone p{margin:0;font-size:.88em;line-height:1.4}
+/* technician's phone: MS Teams-style notification (after DX only) */
+.g-phone{position:absolute;right:21em;bottom:1em;width:15.5em;padding:.5em .6em .8em;border-radius:1.9em;background:linear-gradient(180deg,#24275a,#0b0c1a);border:.28em solid #0b0c14;box-shadow:0 1.2em 3em rgba(0,0,0,.6),0 0 2.2em rgba(123,131,235,.45);color:#fff;animation:phoneIn .5s cubic-bezier(.2,1.3,.4,1)}
+.g-phone .tp-notch{width:4.5em;height:.9em;border-radius:.5em;background:#000;margin:0 auto .3em}
+.g-phone .tp-time{text-align:center;font-family:var(--f-display);font-size:1.8em;font-weight:300;line-height:1.1;margin-bottom:.25em}
+.g-phone .tp-card{background:rgba(245,246,255,.97);color:#1b1d3a;border-radius:1em;padding:.6em .7em .7em;animation:tpIn .55s cubic-bezier(.2,1.4,.4,1) .15s both}
+.g-phone .tp-app{display:flex;align-items:center;gap:.45em;font-size:.75em;color:#55597a}.g-phone .tp-app i{width:1.9em;height:1.9em;display:grid;place-items:center}.g-phone .tp-app i svg{width:100%;height:100%}.g-phone .tp-app em{margin-left:auto;font-style:normal}
+.g-phone b{display:block;margin:.4em 0 .1em;font-size:.95em}
+.g-phone p{margin:0;font-size:.85em;line-height:1.35;color:#33354f}.g-phone p.tp-t{color:#c4314b;font-weight:700;font-size:.92em}
+.g-phone .tp-btn{display:grid;grid-template-columns:1fr 1fr;gap:.4em;margin-top:.55em}.g-phone .tp-btn span{text-align:center;padding:.35em 0;border-radius:.5em;font-size:.82em;font-weight:700;background:#e7e8fb;color:#5b5fc7}.g-phone .tp-btn span:first-child{background:#5b5fc7;color:#fff}
+.g-phone .tp-mail{display:flex;align-items:center;justify-content:center;gap:.4em;margin-top:.55em;font-size:.72em;color:#b9bce8}.g-phone .tp-mail svg{width:1.4em;height:1.4em}
+@keyframes tpIn{from{opacity:0;transform:translateY(-1.5em) scale(.95)}}
 .g-ov{position:absolute;inset:0;display:grid;place-items:center;background:rgba(2,6,16,.66);backdrop-filter:blur(5px);padding:1em;z-index:5;overflow:auto}
 .g-card{width:min(46em,100%);padding:1.8em 2em;text-align:left}
 .g-card>small{font-family:var(--f-mono);letter-spacing:.2em;color:var(--cta);font-size:.85em}
@@ -298,7 +305,27 @@ body.playing.hov #gl{cursor:pointer}
 .biz b{color:var(--cyan)}
 .tip{font-size:.95em;line-height:1.55;color:var(--muted);margin:0 0 .4em}
 .endgrid{display:grid;grid-template-columns:1.3fr 1fr;gap:1.4em}
-.g-coach{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:6;width:min(26em,90vw)}
+.g-coach{position:absolute;left:50%;top:50%;z-index:6;width:min(26em,90vw);transition:left .45s cubic-bezier(.2,1,.3,1),top .45s cubic-bezier(.2,1,.3,1)}
+.g-lead{position:absolute;inset:0;width:100%;height:100%;z-index:7;pointer-events:none!important;opacity:0;transition:opacity .3s}.g-lead.show{opacity:1}
+.g-lead path{fill:none;stroke:var(--cta);stroke-width:2.5;filter:drop-shadow(0 0 6px var(--cta))}.g-lead circle{fill:var(--cta);filter:drop-shadow(0 0 6px var(--cta))}
+/* end of round: the boardroom shows this shift's numbers */
+.g-board{position:absolute;left:2.4em;top:5em;z-index:8;max-width:34em}
+.g-board small{font-family:var(--f-mono);letter-spacing:.3em;color:var(--amber);font-size:.85em}
+.g-board b{display:block;margin:.2em 0;font-family:var(--f-display);font-size:2.6em;line-height:1.15;background:linear-gradient(100deg,#fff,var(--holo) 45%,var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 .8em rgba(92,225,255,.45))}
+.g-board span{display:block;font-size:1.1em;color:var(--text);text-shadow:0 2px 12px #000;margin-bottom:1em}
+.g-board .g-act{padding:0 1.6em}
+body.g-board #game>*:not(#gBoard):not(.flash){opacity:0!important;pointer-events:none!important;animation:none!important}
+body.playing .fadeb.gfade{z-index:60;transition:opacity .6s}
+/* before / after DX comparison on the score card */
+.cmp{margin-top:.9em;padding:.9em 1em;border-radius:1em;background:rgba(0,0,0,.25);border:1px solid var(--line)}
+.cmp h4{margin:0 0 .6em;font-size:1em;color:var(--cta)}.cmp p{margin:0;color:var(--muted);font-size:.92em}
+.cr{display:grid;grid-template-columns:8em 1fr 1fr;gap:.6em;align-items:center;margin:.3em 0;font-size:.88em}
+.cb{position:relative;height:1.5em;border-radius:.4em;background:rgba(255,255,255,.06);overflow:hidden}
+.cb i{position:absolute;left:0;top:0;bottom:0;border-radius:.4em;animation:cbIn 1s cubic-bezier(.2,1,.3,1)}
+.cb i.no{background:linear-gradient(90deg,#7a1830,var(--alarm))}.cb i.dx{background:linear-gradient(90deg,#0d5a73,var(--cyan))}
+.cb em{position:relative;z-index:1;padding-left:.5em;font-style:normal;font-family:var(--f-mono);font-weight:600;line-height:1.5em}
+.cl{display:flex;gap:1.2em;margin-top:.5em;font-size:.82em;color:var(--muted)}.cl i{display:inline-block;width:.8em;height:.8em;border-radius:.2em;margin-right:.35em;vertical-align:-.05em}.cl i.no{background:var(--alarm)}.cl i.dx{background:var(--cyan)}
+@keyframes cbIn{from{width:0}}
 .g-coach>div{padding:1.3em 1.4em;border-color:var(--cta);box-shadow:0 0 3em rgba(255,201,40,.35)}
 .g-coach small{font-family:var(--f-mono);color:var(--cta);font-size:.8em;letter-spacing:.14em}
 .g-coach b{display:block;font-size:1.35em;margin:.2em 0}
@@ -620,6 +647,8 @@ body.journey .ch[data-t="ข้อมูลเดินทาง"] .card .num{fo
   <div class="g-feed" id="gFeedL"></div>
   <div class="g-ban" id="gBan"><b id="gBanT"></b><span id="gBanS"></span></div>
   <div class="g-phone" id="gPhone" hidden></div>
+  <svg class="g-lead" id="gLead" aria-hidden="true"><path id="gLeadP"/><circle id="gLeadC" r="6"/></svg>
+  <div class="g-board" id="gBoard" hidden><small>FROM YOUR SHIFT TO THE BOARDROOM</small><b>นี่คือสิ่งที่ CEO เห็นจากกะของคุณ</b><span id="gBoardS"></span><button class="g-act" id="gBoardGo">ดูผลคะแนน ▸</button></div>
   <div class="g-coach" id="gCoach" hidden><div class="gp"><small id="coachN">สอนเล่น 1/3</small><b id="coachT"></b><p id="coachP"></p><div class="row"><button id="coachSkip">ข้าม</button><button class="pri" id="coachNext">ถัดไป</button></div></div></div>
   <div class="g-ov" id="gIntro"><div class="g-card gp">
     <small>โหมดเล่นเอง</small><h2>คุณคือคนคุมเซลล์ผลิตเสื้อสูบ</h2>
@@ -2417,13 +2446,19 @@ const ORB={az:.62,el:.3,dist:18,tgt:new T.Vector3(.8,2.6,1.2),dAz:.62,dEl:.3,dDi
 const CAMS={all:[.62,.3,18,V3(.8,2.6,1.2)],head:[.5,.18,7,null],block:[-.42,.7,6.2,V3(0,2,-.3)],robot:[1.25,.3,10,V3(2.6,2.4,3.1)],conv:[.15,.32,10.5,V3(.4,1.3,4.3)],data:[0,.24,66,V3(40,3.5,0)]};
 function camTo(k){const c=CAMS[k];if(!c)return;G.camKey=k;ORB.dAz=c[0]+Math.round((ORB.az-c[0])/(2*Math.PI))*2*Math.PI;ORB.dEl=c[1];ORB.dDist=c[2];ORB.dTgt.copy(c[3]||new T.Box3().setFromObject(head).getCenter(new T.Vector3()));$$('[data-cam]').forEach(b=>b.classList.toggle('on',b.dataset.cam===k||(b.dataset.cam==='spin'&&G.spin)));}
 function focusPart(k){const o=ROOT[k];if(!o)return;const box=new T.Box3().setFromObject(o);const c=box.getCenter(new T.Vector3()),sz=box.getSize(new T.Vector3()).length();ORB.dTgt.copy(c);ORB.dDist=clamp(sz*2.2,6,14);G.camKey='';$$('[data-cam]').forEach(b=>b.classList.toggle('on',b.dataset.cam==='spin'&&G.spin));}
+/* when a problem starts, swing the camera round to that part (the motor and coolant tank sit at the back) */
+const GSHOT={head:[.5,.22,9],motor:[-2.45,.3,9],tank:[2.2,.24,11.5],panel:[.45,.15,8]};
+function gameFocus(p){const s=GSHOT[p],o=ROOT[p];if(!s||!o){focusPart(p);return;}new T.Box3().setFromObject(o).getCenter(ORB.dTgt);ORB.dDist=s[2];ORB.dEl=s[1];ORB.dAz=s[0]+Math.round((ORB.az-s[0])/(2*PI))*2*PI;G.camKey='';}
 let aiT=null,aiVoice=false;
 function aiSay(msg,cls,speak){const p=$('#aiLine'),box=$('#gAI');if(!p)return;clearInterval(aiT);p.className=cls||'';p.textContent='';box.classList.add('talk');let i=0;const chars=[...msg];
  aiT=setInterval(()=>{i+=2;p.textContent=chars.slice(0,i).join('');if(i>=chars.length){clearInterval(aiT);setTimeout(()=>box.classList.remove('talk'),500);}},22);
  if(speak&&aiVoice&&window.speechSynthesis){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(msg.replace(/[!·]/g,' '));u.lang='th-TH';u.rate=1.05;const v=speechSynthesis.getVoices().find(v=>/^th/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u);}catch(e){}}}
 $('#aiVoice').onclick=()=>{aiVoice=!aiVoice;$('#aiVoice').classList.toggle('on',aiVoice);$('#aiVoice').textContent='เสียง AI: '+(aiVoice?'เปิด':'ปิด');SND.click();if(aiVoice)aiSay('เปิดเสียงผู้ช่วยแล้ว','good',true);};
 function feed(msg,cls){aiSay(msg,cls,cls==='bad');const el=document.createElement('div');el.className=cls||'';el.textContent=msg;const L=$('#gFeedL');L.prepend(el);while(L.children.length>3)L.lastChild.remove();setTimeout(()=>{el.style.transition='opacity .6s';el.style.opacity='0';setTimeout(()=>el.remove(),700);},3600);}
-let phoneT=null;function phoneMsg(t,b){if(!G.dx)return;const p=$('#gPhone');p.innerHTML='<small><i>DX</i>DX Alert · ส่งเข้ามือถือช่างแล้ว</small><b>'+t+'</b><p>'+b+'</p>';p.hidden=false;p.style.animation='none';void p.offsetWidth;p.style.animation='';clearTimeout(phoneT);phoneT=setTimeout(()=>p.hidden=true,5200);}
+let phoneT=null;function phoneMsg(t,b){if(!G.dx)return;const p=$('#gPhone');
+ p.innerHTML='<div class="tp-notch"></div><div class="tp-time">'+$('#hudClock').textContent.slice(0,5)+'</div><div class="tp-card"><div class="tp-app"><i>'+APPS.teams[1]+'</i><span>Microsoft Teams</span><em>เมื่อสักครู่</em></div>'+
+  '<b>DX Bot · M-01 Maintenance</b><p class="tp-t">ALARM · '+t+'</p><p>'+b+'</p><div class="tp-btn"><span>รับงาน</span><span>ดูข้อมูล</span></div></div><small class="tp-mail">'+APPS.email[1]+'E-mail สำเนาถึงหัวหน้างานแล้ว</small>';
+ p.hidden=false;p.style.animation='none';void p.offsetWidth;p.style.animation='';clearTimeout(phoneT);phoneT=setTimeout(()=>p.hidden=true,6500);}
 function banner(t,s){aiSay(t+(s?' · '+s:''),'warn',true);$('#gBanT').textContent=t;$('#gBanS').textContent=s||'';const b=$('#gBan');b.classList.remove('go');void b.offsetWidth;b.classList.add('go');}
 function syncRun(){const b=$('#gRun');b.classList.toggle('go',!G.run);b.textContent=G.run?'■ หยุดเครื่อง':'▶ เดินเครื่อง';}
 function setMode(m){G.mode=m;$$('[data-mode]').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));}
@@ -2434,8 +2469,10 @@ function lbGet(){try{const a=JSON.parse(localStorage.getItem('dxEngineLB')||'[]'
 function lbAdd(e){const a=lbGet();a.push(e);a.sort((x,y)=>y.s-x.s);const top=a.slice(0,10);try{localStorage.setItem('dxEngineLB',JSON.stringify(top));}catch(err){}return top;}
 function lbHtml(list,me,n){const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));return '<h4>ตารางคะแนนบูธ</h4>'+(list.length?'<ol>'+list.slice(0,n).map((e,i)=>'<li class="'+(me&&e.id===me?'me':'')+'"><span>'+(i+1)+'</span><span>'+esc(e.n)+'</span><em class="'+(e.dx?'':'n')+'">'+(e.dx?'มี DX':'ไม่มี DX')+'</em><b>'+e.s+'</b></li>').join('')+'</ol>':'<p class="empty">ยังไม่มีคะแนน เป็นคนแรกเลย!</p>');}
 function resetG(mission){
- Object.assign(G,{phase:'play',mission,time:60,run:true,door:false,temp:55,vib:2.5,wear:5,coolLvl:100,bearing:0,bearingRate:.05,good:0,ng:0,score:0,alarmT:0,down:false,downs:0,fixes:0,busy:null,elapsed:0,runT:0,planT:0,issues:{},stage:0,mult:1,slow:1,nextRand:22});
+ Object.assign(G,{phase:'play',mission,time:60,run:true,door:false,temp:55,vib:2.5,wear:5,coolLvl:100,bearing:0,bearingRate:.05,good:0,ng:0,score:0,alarmT:0,down:false,downs:0,fixes:0,busy:null,elapsed:0,runT:0,planT:0,issues:{},stage:0,mult:1,slow:1,nextRand:22,hist:[0]});
  setMode('normal');syncRun();Object.values(MARK).forEach(m=>m.visible=false);CELL.meas=[];renderCards(true);select(null);camTo('all');
+ /* coming back from the boardroom: cut straight to the machine */
+ ORB.az=ORB.dAz;ORB.el=ORB.dEl;ORB.dist=ORB.dDist;ORB.tgt.copy(ORB.dTgt);boardOff();
  $('#gStage').textContent=mission?'ช่วงที่ 1 · เดินเครื่องให้ลื่น':'เล่นอิสระ · ไม่จับเวลา';$('#gTime').textContent=mission?'60':'∞';
  if(mission)banner('ช่วงที่ 1','เดินเครื่องให้ลื่น ผลิตเสื้อสูบให้ได้ 6 ชิ้น');}
 function enterPlay(){SND.init();stopAuto();G.on=true;document.body.classList.add('playing');$('#game').hidden=false;
@@ -2447,7 +2484,7 @@ let bootTm=[];function bootEnd(){bootTm.forEach(clearTimeout);bootTm=[];$('#gBoo
 function boot(){bootTm.forEach(clearTimeout);bootTm=[];const b=$('#gBoot'),t=$('#bootTxt');t.innerHTML='';b.hidden=false;bootScan=-.5;
  BOOT.forEach((l,i)=>bootTm.push(setTimeout(()=>{t.innerHTML+=(i?'\n':'')+'&gt; '+l;SND.tick();},180+i*300)));bootTm.push(setTimeout(bootEnd,180+BOOT.length*300+450));}
 $('#gBoot').addEventListener('click',bootEnd);
-function exitPlay(){bootTm.forEach(clearTimeout);$('#gBoot').hidden=true;G.on=false;G.phase='off';G.alarmVis=0;document.body.classList.remove('playing','hov','alarm');$('#game').hidden=true;hovBox.visible=RET.visible=false;Object.values(MARK).forEach(m=>m.visible=false);clearCoach();goTo(secs.length-1,false);}
+function exitPlay(){bootTm.forEach(clearTimeout);boardOff();$('#gBoot').hidden=true;G.on=false;G.phase='off';G.alarmVis=0;document.body.classList.remove('playing','hov','alarm');$('#game').hidden=true;hovBox.visible=RET.visible=false;Object.values(MARK).forEach(m=>m.visible=false);clearCoach();goTo(secs.length-1,false);}
 $$('[data-play]').forEach(b=>b.addEventListener('click',enterPlay));
 $('#gExit').onclick=()=>{SND.click();exitPlay();};$('#gBack').onclick=()=>{SND.click();exitPlay();};
 $$('#dxPick button').forEach(b=>b.onclick=()=>{SND.click();setDx(+b.dataset.pick);});
@@ -2461,22 +2498,30 @@ $$('[data-tg]').forEach(b=>b.onclick=()=>{SND.click();const k=b.dataset.tg;G[k]=
 /* coach */
 const COACH=[['#gHealth','สุขภาพเครื่อง','วงกลมนี้บอกว่าเครื่องสบายดีไหม เขียว = ดี เหลือง = ระวัง แดง = ใกล้เสีย'],['#gModes','เลือกความเร็วการผลิต','เร่งผลิตได้ชิ้นงานเร็ว แต่เครื่องร้อนและสึกเร็ว ประหยัดช้าแต่ปลอดภัย'],['#gCards','การ์ดแจ้งปัญหา','เมื่อมีปัญหา การ์ดจะเด้งขึ้นตรงนี้ กด "ซ่อมเลย" ก่อนเครื่องเสีย']];
 let coachI=-1;
-function clearCoach(){$$('.coach-hl').forEach(e=>e.classList.remove('coach-hl'));$('#gCoach').hidden=true;coachI=-1;const d=$('[data-demo]');if(d)d.remove();}
+function clearCoach(){$$('.coach-hl').forEach(e=>e.classList.remove('coach-hl'));$('#gCoach').hidden=true;$('#gLead').classList.remove('show');coachI=-1;const d=$('[data-demo]');if(d)d.remove();}
 function startCoach(){G.phase='tut';coachI=-1;nextCoach();}
 function nextCoach(){$$('.coach-hl').forEach(e=>e.classList.remove('coach-hl'));const dd=$('[data-demo]');if(dd)dd.remove();coachI++;if(coachI>=COACH.length){clearCoach();G.phase='play';renderCards(true);banner('เริ่ม!','ผลิตเสื้อสูบดีให้ได้ 6 ชิ้น');return;}
  const c=COACH[coachI];if(c[0]==='#gCards')$('#gCards').innerHTML='<div class="gc warn" data-demo><div class="ico">!</div><div><b>ตัวอย่างการ์ด</b><span>ปัญหาจริงจะเด้งขึ้นตรงนี้</span></div><button disabled>ซ่อมเลย</button></div>';
  $(c[0]).classList.add('coach-hl');
- $('#coachN').textContent='สอนเล่น '+(coachI+1)+'/'+COACH.length;$('#coachT').textContent=c[1];$('#coachP').textContent=c[2];$('#coachNext').textContent=coachI===COACH.length-1?'เริ่มเล่น':'ถัดไป';$('#gCoach').hidden=false;SND.tick();}
+ $('#coachN').textContent='สอนเล่น '+(coachI+1)+'/'+COACH.length;$('#coachT').textContent=c[1];$('#coachP').textContent=c[2];$('#coachNext').textContent=coachI===COACH.length-1?'เริ่มเล่น':'ถัดไป';$('#gCoach').hidden=false;SND.tick();placeCoach(c[0]);}
+/* the coach box sits next to the panel it explains (not over the machine) and points at it */
+function placeCoach(sel){const box=$('#gCoach'),t=$(sel);if(!t)return;const r=t.getBoundingClientRect(),W=innerWidth,Hh=innerHeight,w=box.offsetWidth,h=box.offsetHeight,g=Math.max(70,W*.05);let l,tp,side;
+ if(r.left<W*.3){l=r.right+g;tp=clamp(r.top+r.height/2-h/2,Hh*.24,Hh-h-20);side='r';}else if(r.top>Hh*.55){l=clamp(r.left+r.width/2-w/2,16,W-w-16);tp=r.top-h-g;side='t';}else{l=r.left-w-g;tp=clamp(r.top+r.height/2-h/2,80,Hh-h-20);side='l';}
+ box.style.left=l+'px';box.style.top=tp+'px';let x1,y1,x2,y2;
+ if(side==='r'){x1=l;y1=tp+h/2;x2=r.right+8;y2=clamp(y1,r.top+12,r.bottom-12);}else if(side==='l'){x1=l+w;y1=tp+h/2;x2=r.left-8;y2=clamp(y1,r.top+12,r.bottom-12);}else{x1=l+w/2;y1=tp+h;x2=clamp(x1,r.left+12,r.right-12);y2=r.top-8;}
+ const d=side==='t'?'M'+x1+' '+y1+'L'+x1+' '+((y1+y2)/2)+'L'+x2+' '+((y1+y2)/2)+'L'+x2+' '+y2:'M'+x1+' '+y1+'L'+((x1+x2)/2)+' '+y1+'L'+((x1+x2)/2)+' '+y2+'L'+x2+' '+y2;
+ $('#gLeadP').setAttribute('d',d);$('#gLeadC').setAttribute('cx',x2);$('#gLeadC').setAttribute('cy',y2);$('#gLead').classList.add('show');}
+addEventListener('resize',()=>{if(coachI>=0&&coachI<COACH.length&&!$('#gCoach').hidden)placeCoach(COACH[coachI][0]);});
 $('#coachNext').onclick=()=>nextCoach();
 $('#coachSkip').onclick=()=>{coachI=COACH.length-1;nextCoach();};
 /* issues & cards */
-function issueOn(k){if(G.issues[k])return;G.issues[k]={t:G.elapsed};if(G.dx&&k!=='down'){feed('! '+ISS[k].t,'bad');SND.alarm();phoneMsg(ISS[k].t,ISS[k].d);}renderCards(true);}
+function issueOn(k){if(G.issues[k])return;G.issues[k]={t:G.elapsed};if(G.dx&&k!=='down'){feed('! '+ISS[k].t,'bad');SND.alarm();phoneMsg(ISS[k].t,ISS[k].d);if(!G.sel&&!G.busy)gameFocus(ISS[k].part);}renderCards(true);}
 function issueOff(k,early){if(!G.issues[k])return;delete G.issues[k];if(MARK[k])MARK[k].visible=false;if(early&&k!=='hot'&&k!=='down'){G.score+=50;G.fixes++;feed('แก้ไขทันเวลา +50 คะแนน','good');SND.ok();bump('#gScore');}renderCards(true);}
 let cardKey='';
 function renderCards(force){if(G.phase==='tut')return;const keys=['down','hot','head','tank','motor'].filter(k=>G.issues[k]&&(G.dx||ISS[k].always));const ck=keys.join()+'|'+(G.busy?G.busy.k:'');if(!force&&ck===cardKey)return;cardKey=ck;
  $('#gCards').innerHTML=keys.map(k=>{const I=ISS[k];const busy=G.busy&&G.busy.k===k;return '<div class="gc'+(I.warn?' warn':'')+'"><div class="ico">!</div><div><b>'+I.t+'</b><span>'+I.d+'</span></div><button data-fix="'+k+'"'+(G.busy?' disabled':'')+'>'+(busy?'กำลังซ่อม…':I.btn)+'</button>'+(busy?'<div class="busy"><i id="busyBar"></i></div>':'')+'</div>';}).join('');
  $$('[data-fix]').forEach(b=>b.onclick=()=>doFix(b.dataset.fix));}
-function doFix(k){const I=ISS[k];if(!I||G.busy)return;SND.click();focusPart(I.part);if(!I.dur){I.fix();issueOff(k,false);return;}G.busy={k,t:I.dur,e:0,stop:I.stop};feed('กำลัง'+I.btn+'…','warn');renderCards(true);}
+function doFix(k){const I=ISS[k];if(!I||G.busy)return;SND.click();gameFocus(I.part);if(!I.dur){I.fix();issueOff(k,false);return;}G.busy={k,t:I.dur,e:0,stop:I.stop};feed('กำลัง'+I.btn+'…','warn');renderCards(true);}
 function bump(sel){const e=$(sel);e.classList.remove('pop');void e.offsetWidth;e.classList.add('pop');}
 /* info panel */
 let selT=0;function select(k){G.sel=k;selT=time;const P=k&&PINFO[k];if(!P){RET.visible=false;$('#gInfo').hidden=true;return;}$('#gInfo').hidden=false;focusPart(k);SND.click();renderInfo(true);}
@@ -2526,7 +2571,7 @@ function gameStep(dt){
  const pausedByBusy=G.busy&&G.busy.stop;
  const active=G.run&&!G.down&&!G.door&&!pausedByBusy;
  const coolN=G.coolLvl>0?(G.dx?(G.temp>70?1:.55):.5):0;
- G.planT+=dt;if(active)G.runT+=dt;
+ G.planT+=dt;if(active)G.runT+=dt;if(G.mission&&G.elapsed>=G.hist.length*5)G.hist.push(G.good);
  const tT=active?48+Mo.rpm*50-coolN*24+(Mo.feed-1)*15+G.wear*.18:30;
  const vT=active?1.2+(Mo.feed-.5)*2.6+Mo.rpm*1+G.bearing*.08+G.wear*.012:.3;
  G.temp+=(tT-G.temp)*Math.min(1,dt*(active?.4:.6))+(Math.random()-.5)*.08;
@@ -2550,18 +2595,33 @@ function gameStep(dt){
 function endGame(){G.phase='end';SND.ok();const oee=G.planT?(G.runT/G.planT)*(G.good/Math.max(1,G.good+G.ng)):0;
  const stars=Math.max(1,(G.good>=TARGET?1:0)+(G.downs===0?1:0)+(G.score>=900?1:0));
  const id=Date.now();const top=lbAdd({id,n:G.name,s:G.score,dx:G.dx});const rank=top.findIndex(e=>e.id===id);
- if(G.dx)G.lastDx=G.score;else G.lastNo=G.score;
- const cmp=G.lastDx!=null&&G.lastNo!=null?'<br><b>เทียบ 2 รอบของคุณ:</b> ไม่มี DX '+G.lastNo+' คะแนน · มี DX '+G.lastDx+' คะแนน':'';
+ G.res=G.res||{};G.res[G.dx?1:0]={score:G.score,good:G.good,ng:G.ng,downs:G.downs,oee:Math.round(oee*100)};const cmp='';
+ CEOD={name:G.name,dx:G.dx,oee:oee*100,good:G.good,ng:G.ng,downs:G.downs,downT:Math.max(0,G.planT-G.runT),score:G.score,rank,series:G.hist.concat([G.good]),uptime:G.planT?G.runT/G.planT*100:0,
+  note:(G.dx?'หลังมี DX · ':'ก่อนมี DX · ')+(G.downs?'เครื่องเสีย '+G.downs+' ครั้งในกะนี้':'ไม่มีเครื่องเสียตลอดกะ')+' · ทุกตัวเลขมาจากเครื่องที่คุณเพิ่งคุม'};
  const tip=!G.dx?'รอบนี้ไม่มีเซนเซอร์และระบบเตือน '+(G.downs?'เครื่องเสีย '+G.downs+' ครั้งโดยไม่มีใครรู้ล่วงหน้า':'คุณรอดมาได้เพราะเดาเก่ง')+' ลองเล่นแบบ "หลังมี DX" แล้วเทียบดู':G.downs?'เครื่องเสีย '+G.downs+' ครั้ง ลองกด "ซ่อมเลย" ทันทีที่การ์ดเด้ง':G.good<TARGET?'ช่วงที่ 3 ลองกด "เร่งผลิต" พร้อมเปลี่ยนดอกกัดให้ใหม่ จะได้ชิ้นงานมากขึ้น':'สุดยอด! คุณคุมเครื่องได้เหมือนมืออาชีพ ลองเล่นแบบ "ก่อนมี DX" ดูว่าต่างกันแค่ไหน';
  const extra=Math.round(Math.max(0,oee-.75)*1000);
  $('#gEndC').innerHTML='<small>จบภารกิจ · '+(G.dx?'หลังมี DX':'ก่อนมี DX')+'</small><div class="endgrid"><div><div class="stars">'+[0,1,2].map(i=>'<span class="'+(i<stars?'on':'')+'">★</span>').join('')+'</div><h2>'+(stars===3?'ยอดเยี่ยม!':stars===2?'ทำได้ดี!':'ลองอีกครั้ง!')+(rank>=0&&rank<3?' · อันดับ '+(rank+1)+' ของบูธ':'')+'</h2>'+
  '<div class="res"><div><small>คะแนน</small><b>'+G.score+'</b></div><div><small>เสื้อสูบดี</small><b style="color:var(--ok)">'+G.good+'</b></div><div><small>เครื่องเสีย</small><b style="color:var(--alarm)">'+G.downs+'</b></div><div><small>OEE</small><b>'+(oee*100).toFixed(0)+'%</b></div></div>'+
- '<div class="biz">รอบนี้คุณทำ OEE ได้ <b>'+(oee*100).toFixed(0)+'%</b> '+(extra>0?'ถ้าไลน์ที่ผลิต 1,000 ชิ้นต่อวันทำได้แบบนี้ เทียบกับ OEE 75% จะได้ชิ้นงานเพิ่ม <b>'+extra.toLocaleString('en-US')+' ชิ้นต่อวัน</b>':'ทุก 1% ของ OEE ในไลน์ที่ผลิต 1,000 ชิ้นต่อวัน เท่ากับชิ้นงานเพิ่ม <b>10 ชิ้นต่อวัน</b>')+' (ตัวเลขสมมติเพื่อให้เห็นภาพ)'+cmp+'</div><p class="tip">'+tip+'</p></div>'+
+ '<div class="biz">รอบนี้คุณทำ OEE ได้ <b>'+(oee*100).toFixed(0)+'%</b> '+(extra>0?'ถ้าไลน์ที่ผลิต 1,000 ชิ้นต่อวันทำได้แบบนี้ เทียบกับ OEE 75% จะได้ชิ้นงานเพิ่ม <b>'+extra.toLocaleString('en-US')+' ชิ้นต่อวัน</b>':'ทุก 1% ของ OEE ในไลน์ที่ผลิต 1,000 ชิ้นต่อวัน เท่ากับชิ้นงานเพิ่ม <b>10 ชิ้นต่อวัน</b>')+' (ตัวเลขสมมติเพื่อให้เห็นภาพ)'+cmp+'</div><p class="tip">'+tip+'</p>'+cmpHtml()+'</div>'+
  '<div class="lb">'+lbHtml(top,id,10)+'</div></div><div class="g-btns"><button class="pri" id="gAgain">เล่นอีกครั้ง</button><button id="gSwap">ลองแบบ '+(G.dx?'ก่อนมี DX':'หลังมี DX')+'</button><button id="gOut">ออก</button></div>';
- $('#gEnd').hidden=false;for(let i=0;i<stars;i++)SND.star(i);
+ showBoard(stars);
  $('#gAgain').onclick=()=>{$('#gEnd').hidden=true;resetG(true);SND.ok();};
  $('#gSwap').onclick=()=>{$('#gEnd').hidden=true;setDx(!G.dx);resetG(true);SND.ok();banner(G.dx?'หลังมี DX':'ก่อนมี DX',G.dx?'มีเซนเซอร์และระบบเตือนล่วงหน้า':'ไม่มีอะไรเตือนเลย ระวังให้ดี');};
  $('#gOut').onclick=exitPlay;}
+/* before / after DX: the latest round of each mode side by side */
+function cmpHtml(){const a=G.res&&G.res[0],b=G.res&&G.res[1];
+ if(!a||!b)return '<div class="cmp"><h4>เทียบก่อน / หลังมี DX</h4><p>เล่นอีกแบบ ('+(a?'หลังมี DX':'ก่อนมี DX')+') แล้วกราฟเทียบจะขึ้นตรงนี้</p></div>';
+ const R=[['คะแนน','score'],['เสื้อสูบดี','good'],['ชิ้นเสีย','ng'],['เครื่องเสีย (ครั้ง)','downs'],['OEE %','oee']];
+ return '<div class="cmp"><h4>เทียบก่อน / หลังมี DX · รอบล่าสุดของคุณ</h4>'+R.map(([l,k])=>{const va=a[k],vb=b[k],mx=Math.max(1,va,vb);return '<div class="cr"><span>'+l+'</span><div class="cb"><i class="no" style="width:'+(va/mx*100).toFixed(0)+'%"></i><em>'+va+'</em></div><div class="cb"><i class="dx" style="width:'+(vb/mx*100).toFixed(0)+'%"></i><em>'+vb+'</em></div></div>';}).join('')+
+  '<div class="cl"><span><i class="no"></i>ก่อนมี DX</span><span><i class="dx"></i>หลังมี DX</span></div></div>';}
+/* end of round: fade to black, open on this shift's executive dashboard in the boardroom, then the score card */
+const BOARD={cut:false,t:0,seen:false,tm:null,stars:0};
+function showBoard(stars){Object.assign(BOARD,{cut:false,t:0,seen:true,stars});G.phase='board';const fe=$('#fadeb');fe.classList.add('gfade');fe.style.opacity=1;document.body.classList.add('g-board');
+ $('#gBoardS').textContent=(G.dx?'หลังมี DX':'ก่อนมี DX')+' · OEE '+CEOD.oee.toFixed(0)+'% · เสื้อสูบดี '+G.good+' ชิ้น · คะแนน '+G.score;
+ clearTimeout(BOARD.tm);BOARD.tm=setTimeout(()=>{if(G.phase!=='board')return;BOARD.cut=true;fe.style.opacity=0;BOARD.tm=setTimeout(showEnd,16000);},700);}
+function showEnd(){clearTimeout(BOARD.tm);if(G.phase!=='board')return;G.phase='end';$('#gBoard').hidden=true;document.body.classList.remove('g-board');$('#gEnd').hidden=false;for(let i=0;i<BOARD.stars;i++)SND.star(i);}
+function boardOff(){clearTimeout(BOARD.tm);BOARD.seen=false;BOARD.cut=false;$('#gBoard').hidden=true;document.body.classList.remove('g-board');const fe=$('#fadeb');fe.classList.remove('gfade');fe.style.opacity=0;fe._o=0;CEOD=null;}
+$('#gBoardGo').onclick=()=>{SND.click();showEnd();};
 let hudT=0;const spc=$('#gSpc');
 function drawSpc(){const r=spc.getBoundingClientRect();if(!r.width)return;const w=Math.round(r.width*2),h=Math.round(r.height*2);if(spc.width!==w||spc.height!==h){spc.width=w;spc.height=h;}const g=spc.getContext('2d');g.clearRect(0,0,w,h);
  const y=v=>h/2-v/.03*(h/2-8);g.fillStyle='rgba(60,240,160,.12)';g.fillRect(0,y(.015),w,y(-.015)-y(.015));g.strokeStyle='rgba(255,59,107,.8)';g.setLineDash([6,6]);g.lineWidth=2;[.015,-.015].forEach(v=>{g.beginPath();g.moveTo(0,y(v));g.lineTo(w,y(v));g.stroke();});g.setLineDash([]);
@@ -2590,7 +2650,7 @@ const narrow=()=>innerWidth<900;
 R.localClippingEnabled=true;
 const FPL=new T.Plane(new T.Vector3(0,-1,0),1e5);
 {const ms=new Set();HMESH.forEach(m=>ms.add(m.userData.real));MATCOL.forEach((c,m)=>ms.add(m));ms.forEach(m=>{if(m&&m.isMaterial)m.clippingPlanes=[FPL];});}
-const PARTOBJ={machine:M,tower,head,motor,robot:RB.root,conv,table,panel};nodes.slice(0,-1).forEach((n,i)=>PARTOBJ['n'+i]=n.g);
+const PARTOBJ={machine:M,tower,head,motor,robot:RB.root,conv,table,panel};nodes.slice(0,-1).forEach((n,i)=>PARTOBJ['n'+i]=n.g);Object.assign(PARTOBJ,{tank,door,column,base,wall:wallL});
 const PNAME={machine:'เครื่องจักรทั้งเครื่อง',tower:'ไฟสถานะ',head:'หัวกัด',motor:'มอเตอร์',robot:'หุ่นยนต์ป้อนงาน',conv:'สายพาน',table:'เสื้อสูบบนโต๊ะงาน',panel:'ตู้ควบคุม'};
 /* each topic gets its own camera angle around its part: az/el in radians, d = distance */
 /* parts at the back get a camera behind the machine, so switching topics swings the camera right around it */
@@ -2714,33 +2774,34 @@ function finShot(mt,oP,oT){const e=ss(1.1,6.6,mt);
  oP.set(lerp(0,2.4,e),lerp(RSY,4.1,e)+Math.sin(PI*e)*1.4,lerp(4.6,11.2,e));oT.set(lerp(0,-.4,e),lerp(RSY,2.05,e),lerp(0,3.4,e));
  if(mt>6.6&&!reduce){const a=Math.sin((mt-6.6)*.16)*.3,dx=oP.x,dz=oP.z-4.6;oP.x=dx*Math.cos(a)+dz*Math.sin(a);oP.z=4.6-dx*Math.sin(a)+dz*Math.cos(a);}
  RFR.localToWorld(oP);RFR.localToWorld(oT);}
-const CEO=ctex(1280,752);
-function drawCEO(mt){const c=CEO.g,W=1280,Hh=752,F1='"IBM Plex Sans Thai", Tahoma, sans-serif',FM='"JetBrains Mono", monospace';
+const CEO=ctex(1280,752);let CEOD=null;
+function drawCEO(mt){const P=CEOD,c=CEO.g,W=1280,Hh=752,F1='"IBM Plex Sans Thai", Tahoma, sans-serif',FM='"JetBrains Mono", monospace';
  const bg=c.createLinearGradient(0,0,0,Hh);bg.addColorStop(0,'#05163a');bg.addColorStop(1,'#020814');c.fillStyle=bg;c.fillRect(0,0,W,Hh);
  c.strokeStyle='rgba(92,225,255,.05)';c.lineWidth=1;c.beginPath();for(let x=0;x<W;x+=40){c.moveTo(x,0);c.lineTo(x,Hh);}for(let y=0;y<Hh;y+=40){c.moveTo(0,y);c.lineTo(W,y);}c.stroke();
  c.fillStyle='rgba(92,225,255,.1)';c.fillRect(0,0,W,78);c.fillStyle='#5ce1ff';c.fillRect(0,76,W*clamp(mt/1.2,0,1),3);
- c.textAlign='left';c.fillStyle='#eaf4ff';c.font='700 34px "Chakra Petch", Tahoma, sans-serif';c.fillText('EXECUTIVE DASHBOARD',32,50);c.fillStyle='#9db3d6';c.font='20px '+F1;c.fillText('Power BI · Superset · Web App · Cell M-01',420,48);
+ c.textAlign='left';c.fillStyle='#eaf4ff';c.font='700 34px "Chakra Petch", Tahoma, sans-serif';c.fillText('EXECUTIVE DASHBOARD',32,50);c.fillStyle='#9db3d6';c.font='20px '+F1;c.fillText(P?'กะของ '+P.name+' · '+(P.dx?'หลังมี DX':'ก่อนมี DX'):'Power BI · Superset · Web App · Cell M-01',420,48);
  const bl=Math.floor(mt*2.4)%2;c.fillStyle=bl?'#ff3b6b':'#6a1428';c.beginPath();c.arc(W-232,40,9,0,7);c.fill();c.textAlign='right';c.fillStyle='#eaf4ff';c.font='600 22px '+FM;c.fillText('LIVE '+$('#hudClock').textContent,W-28,48);
  const cu=(v,t0)=>v*sm(clamp((mt-t0)/1.6,0,1));
- const K=[['OEE',cu(86.8,.6).toFixed(1)+'%','▲ +7.2 pt จากเดือนก่อน','#3cf0a0'],['ชิ้นงานวันนี้',Math.floor(cu(V.cnt,.8)).toLocaleString('en-US'),'▲ 102% ของแผน','#eaf4ff'],['เวลาเครื่องหยุด','−'+Math.round(cu(38,1))+'%','ซ่อมก่อนพัง ไม่ใช่ซ่อมตอนพัง','#ffb340'],['มูลค่าที่ประหยัด / ปี','฿'+cu(2.4,1.2).toFixed(1)+'M','จากข้อมูลเครื่องจักร','#5ce1ff']];
+ const K=P?[['OEE กะนี้',cu(P.oee,.6).toFixed(1)+'%',P.oee>=85?'▲ ถึงเป้า 85%':'เป้าหมาย 85%',P.oee>=85?'#3cf0a0':P.oee>=70?'#ffb340':'#ff3b6b'],['เสื้อสูบดี',Math.round(cu(P.good,.8))+' ชิ้น','ชิ้นเสีย '+P.ng+' ชิ้น','#eaf4ff'],
+  ['เครื่องหยุด',Math.round(cu(P.downT,1))+' วิ',P.downs?'เครื่องเสีย '+P.downs+' ครั้ง':'ไม่มีเครื่องเสีย',P.downs?'#ff3b6b':'#3cf0a0'],['คะแนน',Math.round(cu(P.score,1.2)).toLocaleString('en-US'),P.rank>=0?'อันดับ '+(P.rank+1)+' ของบูธ':'ลองอีกครั้งได้','#5ce1ff']]:[['OEE',cu(86.8,.6).toFixed(1)+'%','▲ +7.2 pt จากเดือนก่อน','#3cf0a0'],['ชิ้นงานวันนี้',Math.floor(cu(V.cnt,.8)).toLocaleString('en-US'),'▲ 102% ของแผน','#eaf4ff'],['เวลาเครื่องหยุด','−'+Math.round(cu(38,1))+'%','ซ่อมก่อนพัง ไม่ใช่ซ่อมตอนพัง','#ffb340'],['มูลค่าที่ประหยัด / ปี','฿'+cu(2.4,1.2).toFixed(1)+'M','จากข้อมูลเครื่องจักร','#5ce1ff']];
  K.forEach((k,i)=>{const x=32+i*306,y=104,w=290,h=170,a=clamp((mt-.3-i*.15)/.4,0,1);c.globalAlpha=a;
   c.fillStyle='rgba(92,225,255,.07)';c.fillRect(x,y,w,h);c.strokeStyle='rgba(92,225,255,.35)';c.lineWidth=2;c.strokeRect(x,y,w,h);c.fillStyle=k[3];c.fillRect(x,y,6,h);
   c.textAlign='left';c.fillStyle='#9db3d6';c.font='22px '+F1;c.fillText(k[0],x+22,y+38);
   c.fillStyle=k[3];c.shadowColor=k[3];c.shadowBlur=18;c.font='700 54px '+FM;c.fillText(k[1],x+20,y+106);c.shadowBlur=0;
   c.fillStyle='#3cf0a0';c.font='18px '+F1;c.fillText(k[2],x+22,y+146);c.globalAlpha=1;});
- const cx=32,cy=298,cw=800,ch=334;c.strokeStyle='rgba(92,225,255,.3)';c.lineWidth=2;c.strokeRect(cx,cy,cw,ch);c.textAlign='left';c.fillStyle='#9db3d6';c.font='20px '+F1;c.fillText('แนวโน้ม OEE 12 สัปดาห์ หลังเริ่ม DX',cx+18,cy+32);
- const D=[71,72.5,71.8,74,76.2,77,79.4,80.1,82.6,83.9,85.2,86.8],yv=v=>cy+ch-24-(v-65)/25*(ch-70),xv=i=>cx+40+i*(cw-80)/11;
- c.setLineDash([8,8]);c.strokeStyle='rgba(255,179,64,.7)';c.beginPath();c.moveTo(cx+20,yv(85));c.lineTo(cx+cw-20,yv(85));c.stroke();c.setLineDash([]);c.fillStyle='#ffb340';c.font='16px '+F1;c.textAlign='right';c.fillText('เป้าหมาย 85%',cx+cw-24,yv(85)-8);
- const pr=clamp((mt-1)/2.4,0,1)*11,n=Math.floor(pr),fr=pr-n,pts=[];for(let i=0;i<=n;i++)pts.push([xv(i),yv(D[i])]);if(n<11)pts.push([lerp(xv(n),xv(n+1),fr),yv(lerp(D[n],D[n+1],fr))]);
+ const cx=32,cy=298,cw=800,ch=334;c.strokeStyle='rgba(92,225,255,.3)';c.lineWidth=2;c.strokeRect(cx,cy,cw,ch);c.textAlign='left';c.fillStyle='#9db3d6';c.font='20px '+F1;c.fillText(P?'เสื้อสูบดีสะสมระหว่างกะ (60 วินาที)':'แนวโน้ม OEE 12 สัปดาห์ หลังเริ่ม DX',cx+18,cy+32);
+ const D=P&&P.series.length>1?P.series:[71,72.5,71.8,74,76.2,77,79.4,80.1,82.6,83.9,85.2,86.8],lo=P?0:65,hi=P?Math.max(TARGET,...D)+1:90,TG=P?TARGET:85,NN=D.length-1,yv=v=>cy+ch-24-(v-lo)/(hi-lo)*(ch-70),xv=i=>cx+40+i*(cw-80)/NN;
+ c.setLineDash([8,8]);c.strokeStyle='rgba(255,179,64,.7)';c.beginPath();c.moveTo(cx+20,yv(TG));c.lineTo(cx+cw-20,yv(TG));c.stroke();c.setLineDash([]);c.fillStyle='#ffb340';c.font='16px '+F1;c.textAlign='right';c.fillText(P?'เป้าหมาย '+TARGET+' ชิ้น':'เป้าหมาย 85%',cx+cw-24,yv(TG)-8);
+ const pr=clamp((mt-1)/2.4,0,1)*NN,n=Math.floor(pr),fr=pr-n,pts=[];for(let i=0;i<=n;i++)pts.push([xv(i),yv(D[i])]);if(n<NN)pts.push([lerp(xv(n),xv(n+1),fr),yv(lerp(D[n],D[n+1],fr))]);
  const ag=c.createLinearGradient(0,cy,0,cy+ch);ag.addColorStop(0,'rgba(60,240,160,.35)');ag.addColorStop(1,'rgba(60,240,160,0)');c.fillStyle=ag;c.beginPath();c.moveTo(pts[0][0],cy+ch-24);pts.forEach(p=>c.lineTo(p[0],p[1]));c.lineTo(pts[pts.length-1][0],cy+ch-24);c.fill();
  c.strokeStyle='#3cf0a0';c.lineWidth=4;c.shadowColor='#3cf0a0';c.shadowBlur=14;c.beginPath();pts.forEach((p,i)=>i?c.lineTo(p[0],p[1]):c.moveTo(p[0],p[1]));c.stroke();c.shadowBlur=0;
  const hp=pts[pts.length-1];c.fillStyle='#fff';c.beginPath();c.arc(hp[0],hp[1],6+Math.sin(mt*6)*2,0,7);c.fill();
- const rx=860,ry=298,rw=388,rh=334;c.strokeStyle='rgba(92,225,255,.3)';c.strokeRect(rx,ry,rw,rh);c.textAlign='left';c.fillStyle='#9db3d6';c.font='20px '+F1;c.fillText('สุขภาพเครื่อง M-01',rx+18,ry+32);
- const hv=cu(94,1.4);c.lineWidth=18;c.strokeStyle='rgba(255,255,255,.08)';c.beginPath();c.arc(rx+112,ry+186,82,0,PI*2);c.stroke();c.strokeStyle='#3cf0a0';c.shadowColor='#3cf0a0';c.shadowBlur=16;c.beginPath();c.arc(rx+112,ry+186,82,-H,-H+PI*2*hv/100);c.stroke();c.shadowBlur=0;c.lineWidth=1;
+ const rx=860,ry=298,rw=388,rh=334;c.strokeStyle='rgba(92,225,255,.3)';c.strokeRect(rx,ry,rw,rh);c.textAlign='left';c.fillStyle='#9db3d6';c.font='20px '+F1;c.fillText(P?'ความพร้อมเดินเครื่อง (%)':'สุขภาพเครื่อง M-01',rx+18,ry+32);
+ const hv=P?cu(P.uptime,1.4):cu(94,1.4);c.lineWidth=18;c.strokeStyle='rgba(255,255,255,.08)';c.beginPath();c.arc(rx+112,ry+186,82,0,PI*2);c.stroke();c.strokeStyle='#3cf0a0';c.shadowColor='#3cf0a0';c.shadowBlur=16;c.beginPath();c.arc(rx+112,ry+186,82,-H,-H+PI*2*hv/100);c.stroke();c.shadowBlur=0;c.lineWidth=1;
  c.textAlign='center';c.fillStyle='#eaf4ff';c.font='700 46px '+FM;c.fillText(Math.round(hv),rx+112,ry+202);
  c.textAlign='left';[['TEMP',V.temp.toFixed(1)+' °C'],['VIB',V.vib.toFixed(1)+' mm/s'],['BORE','Ø'+V.meas.toFixed(3)],['POWER',V.kw.toFixed(1)+' kW']].forEach((r,i)=>{c.fillStyle='#9db3d6';c.font='16px '+FM;c.fillText(r[0],rx+226,ry+110+i*52);c.fillStyle=i===0&&mt<5&&bl?'#ffb340':'#eaf4ff';c.font='600 22px '+FM;c.fillText(r[1],rx+226,ry+134+i*52);});
  const ty=650;c.fillStyle='rgba(255,179,64,.13)';c.fillRect(32,ty,W-64,62);c.fillStyle='#ffb340';c.fillRect(32,ty,6,62);c.textAlign='left';c.font='600 22px '+F1;c.fillStyle=mt<5&&bl?'#ffffff':'#ffb340';
- c.fillText('● ข้อมูลใหม่  TEMP '+V.temp.toFixed(1)+' °C จากหัวกัด M-01   เครื่องจักร → PLC → Node-RED → IoT → Dashboard',56,ty+39);
+ c.fillText(P?'● '+P.note:'● ข้อมูลใหม่  TEMP '+V.temp.toFixed(1)+' °C จากหัวกัด M-01   เครื่องจักร → PLC → Node-RED → SQL → Dashboard',56,ty+39);
  c.textAlign='right';c.fillStyle='#6f84a8';c.font='15px '+F1;c.fillText('ตัวเลขบนจอนี้เป็นค่าสาธิตจากเดโม ไม่ใช่ข้อมูลจริง',W-36,Hh-14);
  CEO.t.needsUpdate=true;}
 let ceoT=0;
@@ -2805,7 +2866,8 @@ const JTL=$('#jtl');
 function guideFrame(dt,f){const story=f>=0;
  const g2=story?ss(1.55,1.8,f)*(1-ss(2.2,2.45,f)):0,g3=story?ss(2.5,2.8,f)*(1-ss(3.2,3.5,f)):0,g3w=story?ss(2.3,2.75,f)*(1-ss(3.25,3.7,f)):0,
   g4=story?ss(3.55,3.8,f)*(1-ss(4.2,4.45,f)):0,g5=story?ss(4.55,4.8,f)*(1-ss(5.2,5.45,f)):0;
- JR.vis=g3>.5;S.fog.density=story?lerp(.024,.008,g3w):(G.camKey==='data'?.009:.024);
+ const brd=!story&&G.on&&(G.phase==='board'||G.phase==='end')&&BOARD.seen;
+ JR.vis=g3>.5;S.fog.density=story?lerp(.024,.008,g3w):(G.camKey==='data'||brd?.009:.024);
  /* ch.03 starts on the machine as soon as you arrive; taps move it on */
  if(story&&g3>.6&&!JR.on&&!JR.done)startJourney();
  $('#tdock').classList.toggle('off',!(story&&g2>.4));
@@ -2836,6 +2898,8 @@ function guideFrame(dt,f){const story=f>=0;
  /* ch.05: "notify" → the technician's phone; "stop" → the whole machine */
  else if(g5>.01&&TOUR.dec==='notify'&&phone.visible){want=g5;orb=true;tagOrbit(PHSHOT,phone.position,dt,GD.dp,GD.dt,1);GD.rate=14;if(g5>.5&&TOUR.decT>1.4){anc=_anc.copy(phone.position);anc.y+=.9;ancK='dec';}}
  else if(g5>.01&&TOUR.dec==='stop'){want=g5;orb=true;tagOrbit(TAGSHOT.status,partCenter('machine',_gc),dt,GD.dp,GD.dt,1);GD.rate=14;}
+ /* play mode, end of round: the camera follows the boardroom reveal (zoom out from the dashboard) */
+ if(!story&&G.on&&G.phase==='board'&&BOARD.cut){BOARD.t+=dt;if(BOARD.t>3.6&&$('#gBoard').hidden)$('#gBoard').hidden=false;finShot(BOARD.t,_sA,_tA);ORB.tgt.copy(_tA);ORB.dTgt.copy(_tA);_gf.subVectors(_sA,_tA);const d=_gf.length();ORB.dist=ORB.dDist=d;ORB.el=ORB.dEl=Math.asin(clamp(_gf.y/d,-1,1));ORB.az=ORB.dAz=Math.atan2(_gf.x,_gf.z);}
  if(!orb)ORB2.on=false;
  {const fo=toDash&&g3>.3?(JR.u<.5?ss(.12,.48,JR.u):1-ss(.55,1,JR.u)):0,fe=$('#fadeb');if(fe._o!==fo){fe._o=fo;fe.style.opacity=fo.toFixed(3);}}
  GD.w+=(want-GD.w)*(1-Math.exp(-dt*2.6));
@@ -2847,6 +2911,8 @@ function guideFrame(dt,f){const story=f>=0;
  else if(story&&TOUR.tag&&g2>.5&&TAGSHOT[TOUR.tag])rk=TAGSHOT[TOUR.tag].p;
  else if(g4>.5&&TOUR.ev!=='none'&&EVSHOT[TOUR.ev]){rk=EVSHOT[TOUR.ev].p;ra=!TOUR.resolved;}
  else if(g5>.5&&TOUR.dec==='stop')rk='machine';
+ /* play mode: after DX the part with a problem turns real and blinks red; otherwise the clicked part turns real */
+ else if(!story&&G.on&&G.phase==='play'){const iss=G.dx?['down','hot','head','tank','motor'].find(k=>G.issues[k]):null;if(iss){rk=ISS[iss].part;ra=true;}else if(G.sel)rk=G.sel;}
  realSet(rk,ra);realStep(dt);
  /* focus: dim every other hologram, its edges, glows and the bloom so the real part reads clearly */
  FOC.w+=((RV.list.length?1:0)-FOC.w)*(1-Math.exp(-dt*3));const fw=FOC.w;HU.dim.value=lerp(1,.22,fw);EDGEM.opacity=.42*lerp(1,.3,fw);if(bloom)bloom.strength=lerp(.55,.2,fw);coolL.intensity=1.2*(1-.85*fw);R.toneMappingExposure*=lerp(1,.78,fw);
@@ -2868,7 +2934,7 @@ function guideFrame(dt,f){const story=f>=0;
    m.ring.scale.setScalar(i===cur?1.3+Math.sin(time*5)*.12:1);m.lb.material.opacity=g3w;m.lb.set(m.txt,'',css);});}
  /* boardroom + finale */
  const atFin=JR.on&&JR.step===JLAST&&(JR.mode==='hold'||JR.mode==='stack');
- MEET.w+=(g3w-MEET.w)*(1-Math.exp(-dt*2.5));roomStep(dt,atFin?JR.finT:99);
+ MEET.w+=((story?g3w:brd?1:0)-MEET.w)*(1-Math.exp(-dt*2.5));roomStep(dt,atFin?JR.finT:brd?BOARD.t:99);
  const fin=story&&atFin&&g3>.5;document.body.classList.toggle('finale',fin);$('#fin').classList.toggle('show',fin&&JR.mode==='hold'&&JR.finT>4.4&&JR.finT<13);}
 /* ---------- Breakdown: nuclear-style blast (play mode, purely visual) ---------- */
 const NK={t:-1,g:new T.Group()};NK.g.visible=false;S.add(NK.g);
