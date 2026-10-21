@@ -500,6 +500,9 @@ body.journey .ch[data-t="ข้อมูลเดินทาง"] .card .num{fo
 .co-hd{display:flex;align-items:center;gap:10px;margin-top:8px}.co-hd h3{margin:0}
 .co-ic{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--amber);color:#1c1000;box-shadow:0 0 14px rgba(255,179,64,.6)}.co-ic svg{width:22px;height:22px}
 @keyframes tapNudge{50%{transform:translateX(4px)}}
+/* low-FX: set automatically when the frame rate drops; glass panels stop blurring the 3D behind them */
+body.lowfx .card,body.lowfx .gp,body.lowfx .co,body.lowfx .tdock,body.lowfx .stack,body.lowfx .auto,body.lowfx .g-ov,body.lowfx .rail{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+body.lowfx .card{background:linear-gradient(180deg,rgba(6,24,44,.9),rgba(2,10,22,.94))}body.lowfx .gp{background:linear-gradient(180deg,rgba(4,22,42,.9),rgba(2,9,20,.94))}
 /* ch.06: cards on the left, the 3D Technology Stack tower on the right */
 .ch[data-t="ไอเดีย DX"]{align-items:flex-start;text-align:left;padding-left:max(24px,4vw)}
 .ch[data-t="ไอเดีย DX"]>h2,.ch[data-t="ไอเดีย DX"]>p{max-width:760px}
@@ -2043,7 +2046,7 @@ const cv=$('#gl');
 if(ok){try{R=new T.WebGLRenderer({canvas:cv,antialias:true,powerPreference:'high-performance'});}catch(e){ok=false;}}
 if(!ok){document.body.classList.add('nogl');$('#nogl').hidden=false;$$('[data-play]').forEach(b=>b.hidden=true);
  const loop0=()=>{F=storyPos();$('#bar').style.width=(F/(secs.length-1)*100)+'%';$$('#dots button').forEach((b,i)=>b.classList.toggle('on',i===Math.round(F)));requestAnimationFrame(loop0);};loop0();return;}
-const PRMAX=2;const prBudget=()=>Math.max(.6,Math.min(PRMAX,Math.sqrt(8.3e6/Math.max(1,innerWidth*innerHeight))));let PRcap=prBudget(),PR=PRcap;R.setPixelRatio(PR);R.outputEncoding=T.sRGBEncoding;R.toneMapping=T.ACESFilmicToneMapping;R.toneMappingExposure=1.15;R.shadowMap.enabled=true;R.shadowMap.type=T.PCFSoftShadowMap;
+const PRMAX=2;const prBudget=()=>Math.max(.6,Math.min(PRMAX,Math.sqrt(8.3e6/Math.max(1,innerWidth*innerHeight))));let PRcap=prBudget(),PR=Math.min(PRcap,1.25);R.setPixelRatio(PR);R.outputEncoding=T.sRGBEncoding;R.toneMapping=T.ACESFilmicToneMapping;R.toneMappingExposure=1.15;R.shadowMap.enabled=true;R.shadowMap.type=T.PCFSoftShadowMap;
 const TQ=2;const S=new T.Scene();const FOG=new T.Color(0x01040d);S.fog=new T.FogExp2(FOG,.024);
 const cam=new T.PerspectiveCamera(40,1,.1,300);
 let composer=null,bloom=null;
@@ -2534,13 +2537,13 @@ const packets=[];SEG.forEach((s,i)=>{if(s.inner)return;for(let k=0;k<2;k++){cons
 const _sp=new T.Vector3();let pipeT=0;
 function pipeStep(dt,dataOn,alarm,status){const on=dataOn>.02;
  spMat.opacity=dataOn*.95;segMat.forEach(m=>m.opacity=dataOn*.32);
- if(on){const flow=status==='stop'?.25:1;SEG.forEach((s,i)=>{const sp=(s.inner?1.4:5)/s.len;for(let j=0;j<SPN;j++){const k=i*SPN+j;spU[k]=(spU[k]+dt*spV[k]*sp*flow*2.2)%1;s.c.getPointAt(Math.min(.999,spU[k]),_sp);spPos[k*3]=_sp.x+spO[k*2];spPos[k*3+1]=_sp.y+spO[k*2+1];spPos[k*3+2]=_sp.z+spO[k*2];}
+ if(on){const flow=status==='stop'?.25:1;SEG.forEach((s,i)=>{const sp=(s.inner?1.4:5)/s.len;for(let j=0;j<SPN;j++){const k=i*SPN+j;spU[k]=(spU[k]+dt*spV[k]*sp*flow*2.2)%1;s.c.getPoint(spU[k],_sp);spPos[k*3]=_sp.x+spO[k*2];spPos[k*3+1]=_sp.y+spO[k*2+1];spPos[k*3+2]=_sp.z+spO[k*2];}
    if(s.lb){const pu=s.lu;s.lu=(s.lu+dt*.9/s.len*flow*2.2)%1;if(s.lu<pu)s.lb.set(s.txt(),s.sub);s.c.getPointAt(Math.min(.999,s.lu),s.lb.position);s.lb.position.y+=.42;s.lb.material.opacity=Math.sin(PI*s.lu)*dataOn*.95;}});
   spGeo.attributes.position.needsUpdate=true;}
  else SEG.forEach(s=>{if(s.lb)s.lb.material.opacity=0;});
  packets.forEach(p=>{const s=SEG[p.userData.s];p.visible=on;if(!on)return;const u=(time*1.8/s.len+p.userData.o)%1;s.c.getPointAt(Math.min(.999,u),p.position);p.children[0].material.color.setHex(alarm>.5&&p.userData.s<3?0xff3b6b:s.col);});
  nodes.forEach((n,k)=>{const g=n.g;if(g.userData.spin)g.userData.spin.rotation.z+=dt*.8;if(g.userData.hub)g.userData.hub.rotation.z+=dt*.6;if(g.userData.arcs)g.userData.arcs.forEach((a,i)=>a.material.opacity=dataOn*(.25+.75*Math.max(0,Math.sin(time*4-i*.9))));});
- pipeT+=dt;if(on&&pipeT>.3){pipeT=0;nodes.forEach(n=>{if(n.g.userData.draw)n.g.userData.draw(status,alarm);});}}
+ pipeT+=dt;if(on&&pipeT>.3){pipeT=0;nodes.forEach((n,k)=>{if(n.g.userData.draw&&n.g.position.distanceToSquared(cam.position)<2500&&!(k===nodes.length-1&&MEET.w>.25))n.g.userData.draw(status,alarm);});}}
 
 /* ---------- Story: action chain → phone ---------- */
 const phone=new T.Group();phone.add(mesh(new T.BoxGeometry(1.5,3,.16),std(0x0b0f18,.6,.3)));
@@ -2945,7 +2948,9 @@ const locYaw=(g,x,z)=>{const dx=x-g.position.x,dz=z-g.position.z,r=g.rotation.y;
 PPL.forEach(p=>{p.yS=clamp(locYaw(p.g,0,0),-1.3,1.3);p.yP=clamp(locYaw(p.g,PRES.position.x,PRES.position.z),-1.3,1.3);});
 const SAY=['“OEE เดือนนี้ 86.8% เกินเป้าแล้วครับ”','“เวลาเครื่องหยุดลดลง 38%”','“ตัวเลขนี้มาจากหัวกัดแบบเรียลไทม์”','“ปีนี้ประหยัดได้ประมาณ ฿2.4M”'];
 const say=label(SAY[0],'ผู้นำเสนอ · ค่าสาธิต','#ffb340');say.scale.multiplyScalar(.6);say.position.set(-3.3,2.55,1.2);ROOM.add(say);let sayI=0;
-const RL=[[0,3.4,3.2,0xfff1dc,.9],[0,3.4,7.2,0xfff1dc,.9],[0,3.2,1.6,0x9fd8ff,.6],[-2,3,3,0xffe6c8,.5]].map(([x,y,z,c,i])=>{const l=new T.PointLight(c,0,14);l.position.copy(RFR.localToWorld(new T.Vector3(x,y,z)));l.userData.i=i;S.add(l);return l;});
+/* room lights sit in their own group: hidden with the room, so the rest of the scene doesn't pay for them */
+const RLG=new T.Group();RLG.visible=false;S.add(RLG);
+const RL=[[0,3.4,3.2,0xfff1dc,.9],[0,3.4,7.2,0xfff1dc,.9],[0,3.2,1.6,0x9fd8ff,.6],[-2,3,3,0xffe6c8,.5]].map(([x,y,z,c,i])=>{const l=new T.PointLight(c,0,14);l.position.copy(RFR.localToWorld(new T.Vector3(x,y,z)));l.userData.i=i;RLG.add(l);return l;});
 const burst=glow(0xffffff,1);burst.position.set(0,RSY,.4);ROOM.add(burst);
 const shockR=new T.Mesh(new T.RingGeometry(1,1.08,96),holoAdd(0xffb340,0));shockR.position.set(0,RSY,.3);ROOM.add(shockR);
 const VXN=240,vxP=new Float32Array(VXN*3),vxG=new T.BufferGeometry();vxG.setAttribute('position',new T.BufferAttribute(vxP,3));
@@ -2987,10 +2992,10 @@ function drawCEO(mt){const P=CEOD,c=CEO.g,W=1280,Hh=752,F1='"IBM Plex Sans Thai"
  CEO.t.needsUpdate=true;}
 let ceoT=0;
 function roomStep(dt,mt){const w=MEET.w,du=nodes[DNODE].g.userData,on=w>.02;
- if(on!==ROOM.visible){ROOM.visible=on;nodes[DNODE].g.traverse(m=>{if(m.isMesh&&m.userData.hreg){if(on)m.material=m.userData.real;else applyHolo(m);}else if(m.userData.isEdge)m.visible=!on&&HOLO;});}
+ if(on!==ROOM.visible){ROOM.visible=on;RLG.visible=on;nodes[DNODE].g.traverse(m=>{if(m.isMesh&&m.userData.hreg){if(on)m.material=m.userData.real;else applyHolo(m);}else if(m.userData.isEdge)m.visible=!on&&HOLO;});}
  const useC=w>.25;if(useC!==(du.sp.material.map===CEO.t))du.sp.material.map=useC?CEO.t:du.tex;
  RL.forEach(l=>l.intensity=l.userData.i*w);if(!on)return;
- ceoT+=dt;if(ceoT>.05){ceoT=0;drawCEO(mt);}
+ ceoT+=dt;if(ceoT>(mt<6?.06:.5)){ceoT=0;drawCEO(mt);}
  PPL.forEach((p,i)=>{const h=p.g.userData.head,lk=ss(.25,.75,.5+.5*Math.sin(time*.23+p.ph));h.rotation.y=lerp(p.yS,p.yP,lk)+Math.sin(time*.5+p.ph)*.06;h.rotation.x=-.12+Math.sin(time*1.1+p.ph)*.035+(Math.sin(time*.37+p.ph)>.85?Math.sin(time*7)*.06:0);});
  /* presenter loop (9 s): point at the screen → turn to the room and keep talking */
  const u=reduce?6:time%9,pw=ss(.3,1.1,u)*(1-ss(4.2,5,u)),gw=ss(4.6,5.4,u)*(1-ss(8.3,9,u)),hs=ss(0,.8,u)*(1-ss(2.6,3.4,u));
@@ -3157,11 +3162,11 @@ function guideFrame(dt,f){const story=f>=0;
  if(showJ)JTL.style.setProperty('--p',(pos/JLAST).toFixed(4));
  TRK.visible=g3w>.01;
  if(TRK.visible){const i0=Math.floor(pos),px=lerp(STX[i0],STX[Math.min(JLAST,i0+1)],pos-i0),cur=JR.on&&JR.mode==='hold'?JR.step:-1;trkFill.scale.x=Math.max(.001,px);trkM.opacity=.5*g3w;trkFM.opacity=.95*g3w;
-  TMK.forEach((m,i)=>{const done=(JR.done||JR.on)&&i<=pos+.001&&i!==cur,css=i===cur?'#ffb340':done?'#3cf0a0':'#5ce1ff';m.ring.material.color.set(css);m.dot.material.color.set(css);m.ring.material.opacity=m.dot.material.opacity=.9*g3w;
+  TMK.forEach((m,i)=>{const done=(JR.done||JR.on)&&i<=pos+.001&&i!==cur,css=i===cur?'#ffb340':done?'#3cf0a0':'#5ce1ff';if(m.css!==css){m.css=css;m.ring.material.color.set(css);m.dot.material.color.set(css);}m.ring.material.opacity=m.dot.material.opacity=.9*g3w;
    m.ring.scale.setScalar(i===cur?1.3+Math.sin(time*5)*.12:1);m.lb.material.opacity=g3w;m.lb.set(m.txt,'',css);});}
  /* boardroom + finale */
  const atFin=JR.on&&JR.step===JLAST&&(JR.mode==='hold'||JR.mode==='stack');
- MEET.w+=((story?g3w:brd?1:0)-MEET.w)*(1-Math.exp(-dt*2.5));roomStep(dt,atFin?JR.finT:brd?BOARD.t:99);
+ MEET.w+=((story?((JR.on&&JR.step===JLAST)||toDash?g3w:0):brd?1:0)-MEET.w)*(1-Math.exp(-dt*2.5));roomStep(dt,atFin?JR.finT:brd?BOARD.t:99);
  const fin=story&&atFin&&g3>.5;document.body.classList.toggle('finale',fin);$('#fin').classList.toggle('show',fin&&JR.mode==='hold'&&JR.finT>4.4&&JR.finT<13);}
 /* ---------- Breakdown: nuclear-style blast (play mode, purely visual) ---------- */
 const NK={t:-1,g:new T.Group()};NK.g.visible=false;S.add(NK.g);
@@ -3290,8 +3295,8 @@ function frame(now){
  beams.forEach((b,i)=>b.material.opacity=.12+.1*Math.sin(time*2+i));
  coordT+=rdt;if(coordT>.25){coordT=0;$('#hudCoord').textContent='CAM X '+cam.position.x.toFixed(2)+' · Y '+cam.position.y.toFixed(2)+' · Z '+cam.position.z.toFixed(2);}
  fpsN++;if(!fpsT0)fpsT0=now;if(now-fpsT0>2000){const fps=fpsN*1000/(now-fpsT0);fpsT0=now;fpsN=0;
-  if(now<5000||document.hidden){}else if(fps<42&&PR>.6){setPR(Math.max(.6,PR-.15));goodN=0;}else if(fps<26&&bloom&&bloom.enabled){bloom.enabled=false;bloomOff=true;}
-  else if(fps>57){if(++goodN>=3){if(PR<PRcap)setPR(Math.min(PRcap,PR+.1));else if(bloomOff&&HOLO&&bloom){bloomOff=false;bloom.enabled=true;}goodN=0;}}else goodN=0;
+  if(now<5000||document.hidden){}else if(fps<42&&!document.body.classList.contains('lowfx')){document.body.classList.add('lowfx');goodN=0;}else if(fps<42&&PR>.6){setPR(Math.max(.6,PR-.15));goodN=0;}else if(fps<26&&bloom&&bloom.enabled){bloom.enabled=false;bloomOff=true;}
+  else if(fps>57){if(++goodN>=3){if(PR<PRcap)setPR(Math.min(PRcap,PR+.15));else if(bloomOff&&HOLO&&bloom){bloomOff=false;bloom.enabled=true;}goodN=0;}}else goodN=0;
   $('#hudFps').textContent='RENDER · '+(HOLO?'HOLO':'REAL')+' · '+Math.round(fps)+' FPS · '+Math.round(PR*100)+'%';}
  R.setClearColor(CLR.copy(S.fog.color).convertLinearToSRGB());if(composer&&bloom&&bloom.enabled)composer.render(rdt);else R.render(S,cam);requestAnimationFrame(frame);
 }
