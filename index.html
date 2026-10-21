@@ -413,15 +413,15 @@ body.playing .hud-top,body.playing .hud-bl,body.playing .hud-br{display:none}
 .jtl{position:fixed;left:50%;bottom:40px;transform:translateX(-50%);width:min(1120px,calc(100vw - 120px));z-index:12;transition:opacity .4s}
 .jtl::before{content:"";position:absolute;inset:-40px -80px -40px;z-index:-1;pointer-events:none;background:radial-gradient(60% 90% at 50% 70%,rgba(2,6,16,.85),rgba(2,6,16,0))}
 .jtl>small{display:none}
-.jtl ol{position:relative;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr)}
-.jtl ol::before,.jtl ol::after{content:"";position:absolute;left:calc(100%/12);top:16px;height:3px;background:rgba(92,225,255,.3);box-shadow:0 0 8px rgba(0,0,0,.6)}
-.jtl ol::before{right:calc(100%/12)}
-.jtl ol::after{width:calc((100% - 100%/6) * var(--p,0));background:linear-gradient(90deg,var(--holo),var(--amber));box-shadow:0 0 10px var(--amber)}
+.jtl ol{--n:7;position:relative;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(var(--n),1fr)}
+.jtl ol::before,.jtl ol::after{content:"";position:absolute;left:calc(50% / var(--n));top:16px;height:3px;background:rgba(92,225,255,.3);box-shadow:0 0 8px rgba(0,0,0,.6)}
+.jtl ol::before{right:calc(50% / var(--n))}
+.jtl ol::after{width:calc((100% - 100% / var(--n)) * var(--p,0));background:linear-gradient(90deg,var(--holo),var(--amber));box-shadow:0 0 10px var(--amber)}
 .jtl li{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:15px;color:var(--muted);text-align:center;text-shadow:0 2px 8px #000,0 0 3px #000}
 .jtl li i{width:34px;height:34px;font-size:14px!important;border-radius:50%;display:grid;place-items:center;font-style:normal;font-family:var(--f-mono);font-size:12px;border:1px solid var(--line2);background:var(--void);transition:all .3s}
 .jtl li.done i{border-color:var(--ok);color:var(--ok);background:rgba(60,240,160,.14)}
 .jtl li.on{color:var(--text);font-weight:600}.jtl li.on i{background:var(--amber);border-color:var(--amber);color:#1c1000;box-shadow:0 0 16px var(--amber);transform:scale(1.2)}
-.jtl .pkt{position:absolute;top:11px;left:calc(100%/12 + (100% - 100%/6) * var(--p,0));width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#fff;box-shadow:0 0 12px #fff,0 0 22px var(--amber);z-index:2;pointer-events:none}
+.jtl .pkt{position:absolute;top:11px;left:calc(50% / var(--n) + (100% - 100% / var(--n)) * var(--p,0));width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#fff;box-shadow:0 0 12px #fff,0 0 22px var(--amber);z-index:2;pointer-events:none}
 .steps li{cursor:pointer}
 .ch .card{transition:transform .8s cubic-bezier(.6,0,.2,1),opacity .6s}
 body.finale .ch[data-t="ข้อมูลเดินทาง"] .card{transform:translateX(-112%);opacity:0;pointer-events:none}
@@ -473,6 +473,37 @@ body.journey .ch[data-t="ข้อมูลเดินทาง"] .card .num{fo
 .co-hd{display:flex;align-items:center;gap:10px;margin-top:8px}.co-hd h3{margin:0}
 .co-ic{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--amber);color:#1c1000;box-shadow:0 0 14px rgba(255,179,64,.6)}.co-ic svg{width:22px;height:22px}
 @keyframes tapNudge{50%{transform:translateX(4px)}}
+/* app chips (callouts + Technology Stack page) */
+.app{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;border-radius:10px;background:rgba(2,10,24,.6);border:1px solid rgba(255,255,255,.14);font-size:15px;font-weight:600;white-space:nowrap;color:var(--text)}
+.app i{width:30px;height:30px;flex:none;display:grid;place-items:center;border-radius:8px;background:#f4f7fb}.app i svg{width:22px;height:22px}
+.co-apps{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.co-apps .app{padding:3px 9px 3px 4px;font-size:12.5px;gap:6px}.co-apps .app i{width:22px;height:22px;border-radius:6px}.co-apps .app i svg{width:16px;height:16px}
+.co .k i.lyr{background:var(--holo);color:#02121f}
+/* alarm + MS Teams callouts (ch.04 / ch.05) */
+.co.alarm{border-color:rgba(255,59,107,.75);background:linear-gradient(160deg,rgba(70,8,24,.94),rgba(20,4,12,.96));box-shadow:0 0 30px rgba(255,59,107,.35)}
+.co.alarm::before{background:var(--alarm);box-shadow:0 0 12px var(--alarm)}.co.alarm .k{color:#ff9db3}.co.alarm .k i{background:var(--alarm);color:#fff;animation:blinkT .8s steps(2) infinite}
+.co.alarm .co-ic{background:var(--alarm);color:#fff;box-shadow:0 0 16px var(--alarm)}.co.alarm .pk code{color:#ff8fa8}.co.alarm .why{border-left-color:var(--alarm)}
+.co-svg.alarm path{stroke:var(--alarm);filter:drop-shadow(0 0 4px var(--alarm))}.co-svg.alarm #coRing,.co-svg.alarm #coRing2{stroke:var(--alarm)}.co-svg.alarm #coEnd{fill:var(--alarm)}
+.co.teams{border-color:rgba(123,131,235,.7)}.co.teams::before{background:#7b83eb;box-shadow:0 0 12px #7b83eb}.co.teams .k{color:#b9bcf5}.co.teams .k i{background:#5b5fc7;color:#fff}.co.teams .co-ic{background:#f4f7fb;box-shadow:none}.co.teams .co-ic svg{width:28px;height:28px}
+/* Technology Stack page */
+.stack{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:24px;background:radial-gradient(120% 90% at 50% 40%,rgba(4,16,36,.86),rgba(1,4,12,.95));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transition:opacity .5s;cursor:pointer}
+.stack.show{opacity:1}
+.stk-in{width:min(1120px,100%);max-height:100%;overflow:auto;cursor:default}
+.stk-hd small{font-family:var(--f-mono);letter-spacing:.3em;color:var(--amber);font-size:13px}
+.stk-hd h2{margin:6px 0 4px;font-family:var(--f-display);font-size:clamp(28px,3.4vw,50px);line-height:1.1}
+.stk-hd h2 b{background:linear-gradient(100deg,var(--holo),#a6ffe4 45%,var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stk-hd p{margin:0 0 18px;color:var(--muted);font-size:17px}
+.stk-l{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.stk-l li{display:grid;grid-template-columns:320px 1fr;gap:12px;opacity:0;transform:translateY(26px)}
+.stack.show .stk-l li{animation:stkIn .6s cubic-bezier(.2,1,.3,1) forwards;animation-delay:calc(var(--i) * .13s + .15s)}
+.stk-b{display:flex;align-items:center;gap:14px;padding:12px 18px;border-radius:14px;background:linear-gradient(135deg,var(--c),var(--c2));box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.stk-b b{font-family:var(--f-display);font-size:40px;line-height:1;color:#fff}
+.stk-b strong{display:block;font-size:20px;color:#fff}.stk-b em{display:block;font-style:normal;font-size:14px;color:rgba(255,255,255,.88);line-height:1.4}
+.stk-apps{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-left:4px solid var(--c)}
+.stk-ft{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px}
+.stk-ft span{padding:6px 14px;border-radius:99px;border:1px solid rgba(60,240,160,.45);font-size:14px;color:var(--ok)}.stk-ft span::before{content:"✓ "}
+.stk-ft button{margin-left:auto}
+@keyframes stkIn{to{opacity:1;transform:none}}
+@media (max-width:900px){.stk-l li{grid-template-columns:1fr}.stk-b b{font-size:30px}.jtl li{font-size:9px!important}}
 @keyframes coPing{from{transform:scale(.6);opacity:1}to{transform:scale(2.2);opacity:0}}
 @media (max-width:900px){.jtl{width:calc(100vw - 24px);bottom:16px}.jtl li{font-size:10px}.jtl li span{display:block!important}.tags{grid-template-columns:1fr 1fr}.co{width:min(300px,calc(100vw - 32px))}.co h3{font-size:19px}.co p{font-size:14px}.jtl{bottom:12px}.jtl li span{display:none}}
 /* ---------- Breakdown: nuclear blast overlay (play mode) ---------- */
@@ -495,6 +526,7 @@ body.journey .ch[data-t="ข้อมูลเดินทาง"] .card .num{fo
 <svg class="co-svg" id="coSvg" aria-hidden="true"><path id="coPath"/><circle id="coRing2" r="16"/><circle id="coRing" r="22"/><circle id="coDot" r="4.5"/><circle id="coEnd" r="3.5"/></svg>
 <div class="tdock off" id="tdock"><small>เลือกชิ้นส่วน · PART SELECT</small><div class="tdock-row" id="tags"></div></div>
 <div class="fadeb" id="fadeb"></div>
+<div class="stack" id="stack" hidden><div class="stk-in"><div class="stk-hd"><small>FROM DATA TO ACTION</small><h2>SCADA &amp; IoT <b>Technology Stack</b></h2><p>เทคโนโลยีจริงที่ใช้ในแต่ละ Layer · ข้อมูลไหลจากล่างขึ้นบน</p></div><ol class="stk-l" id="stkL"></ol><div class="stk-ft"><span>Faster Response</span><span>Higher Uptime</span><span>Smarter Decisions</span><button class="btn pri" id="stkGo">ไปต่อ ▸</button></div></div></div>
 <div class="co" id="co" role="status" aria-live="polite"></div>
 <div class="jtl" id="jtl" hidden><small>DATA JOURNEY · เส้นทางของข้อมูล 1 ค่า</small><ol id="jtlN"></ol></div>
 <div class="lbx t"></div><div class="lbx b"></div>
@@ -528,7 +560,7 @@ body.journey .ch[data-t="ข้อมูลเดินทาง"] .card .num{fo
   <section class="ch" data-t="ข้อมูลเดินทาง">
     <div class="card mid"><span class="num">03</span><span class="en">WATCH THE DATA TRAVEL</span><h2>ตามข้อมูลไปดู</h2>
     <p>ค่าหนึ่งค่าออกจากเครื่อง กดส่งแล้วดูว่ามันเดินทางผ่านจุดไหนบ้าง</p>
-    <div class="console"><button class="btn pri" id="sendData">▶ ส่งข้อมูลจากเครื่อง</button><span class="live" id="jLive" hidden><i></i><span>เชื่อมต่อข้อมูลสดแล้ว</span></span></div>
+    <div class="console"><button class="btn pri" id="sendData">▶ ส่งข้อมูลจากเครื่อง</button><button class="btn" id="openStack">ดู Technology Stack</button><span class="live" id="jLive" hidden><i></i><span>เชื่อมต่อข้อมูลสดแล้ว</span></span></div>
     </div>
   </section>
   <section class="ch r" data-t="สองมุมมอง">
@@ -1607,7 +1639,7 @@ const EVT={
  vib:{t:'แรงสั่นมอเตอร์สูง',d:'แรงสั่นเกินเกณฑ์สาธิต 7 mm/s',lb:'VIB HIGH',sens:'vib',ph:'VIB 8.6 mm/s · ต้องการช่าง',biz:'สัญญาณสึกหรอ · ควรวางแผนซ่อมก่อนพัง',bizD:'ซ่อมตามแผนเร็วกว่าและถูกกว่าซ่อมตอนเครื่องพัง',cls:'bad',bcls:'warn',tl:'แรงสั่นมอเตอร์สูง'},
  quality:{t:'ขนาดรูหลุดช่วง',d:'Ø เกินช่วงสาธิต ±0.015 mm',lb:'BORE OUT OF RANGE',sens:'meas',ph:'Ø หลุดช่วง · ตรวจชิ้นงาน',biz:'ความเสี่ยงด้านคุณภาพ',bizD:'ชิ้นงานที่ผลิตตอนนี้ต้องตรวจ กันไม่ให้ของเสียไหลไปถึงลูกค้า',cls:'warn',bcls:'warn',tl:'ค่ากระบวนการหลุดช่วง'},
  manual:{t:'Operator กด Alarm',d:'คนหน้างานขอความช่วยเหลือ',lb:'OPERATOR CALL',sens:null,ph:'M-01 · Operator ขอความช่วยเหลือ',biz:'มีคนรอความช่วยเหลืออยู่',bizD:'เวลาตอบสนองเริ่มนับตั้งแต่วินาทีนี้ ยิ่งเร็วยิ่งเสียน้อย',cls:'warn',bcls:'warn',tl:'Operator กด Alarm'}};
-const JSTEPS=[['เครื่องจักร','ค่าหนึ่งค่าออกจากเครื่อง… เช่น อุณหภูมิหัวกัด'],['PLC','เปลี่ยนสัญญาณไฟฟ้าจากเซนเซอร์ให้เป็นข้อมูล'],['Node-RED','แปลข้อมูลให้ทุกระบบเข้าใจภาษาเดียวกัน'],['SCADA','แสดงทันทีที่หน้างาน ให้คนคุมเครื่องเห็นตอนนี้เลย'],['IoT','เก็บและแชร์ต่อ ค่าเดียวไปได้หลายที่'],['Dashboard','เปลี่ยนตัวเลขให้เป็นความหมาย สำหรับหัวหน้าและผู้บริหาร']];
+const JSTEPS=[['เครื่องจักร','Sensor'],['PLC','PLC · Controller'],['ส่งข้อมูล','Node-RED · Kepware · Data Logger'],['ฐานข้อมูล','SQL Server · PostgreSQL'],['SCADA','Genesis64'],['แจ้งเตือน','MS Teams · E-mail'],['Dashboard','Power BI · Superset · Web App']];
 const DECS={
  notify:{s:[['กฎ: Alarm ยังค้าง → เรียกคนช่วย','Node-RED ตรวจเงื่อนไขให้อัตโนมัติ'],['ส่งแจ้งเตือนเข้ามือถือช่าง','พร้อมค่าที่ผิดปกติและตำแหน่งเครื่อง'],['ช่างรับงาน','ระบบบันทึกเวลารับงานให้เอง'],['ตรวจ ซ่อม เครื่องกลับมาปกติ','ปิดงานพร้อมประวัติการซ่อม']],o:['ตอบสนองเร็ว','เริ่มซ่อมเร็วขึ้น เครื่องกลับมาเร็วขึ้น แก้ได้ก่อนจะกลายเป็นเครื่องหยุด'],cls:'',tl:'แจ้งช่างซ่อมบำรุง'},
  stop:{s:[['กฎ: ปกป้องเครื่องไว้ก่อน','ความปลอดภัยของเครื่องมาเป็นอันดับแรก'],['ส่งคำสั่งหยุดไปที่ PLC','สั่งจากระบบได้ทันที'],['PLC หยุดเครื่อง','เครื่องล็อกไว้จนกว่าจะมีคนมาตรวจ'],['หยุดอย่างปลอดภัย','ไม่เสียหาย แต่การผลิตหยุดชั่วคราว']],o:['ปลอดภัย แต่หยุด','เครื่องได้รับการปกป้อง แต่ต้องรอคนมาตรวจก่อนผลิตต่อ ทุกนาทีที่รอคือชิ้นงานที่หายไป'],cls:'warn',tl:'สั่งหยุดเครื่อง'},
@@ -1644,36 +1676,76 @@ function renderTagVals(){$$('[data-tag]').forEach((b,i)=>{const t=TAGS[i];b.quer
 /* data journey: one value, stop by stop — camera, callout and packet are driven by guideFrame() */
 const JR={on:false,step:0,mode:'idle',t:0,dur:2,from:0,path:null,done:false,doneAt:-99,finT:0,vis:false};
 const JINFO=[
- {en:'MACHINE · SENSOR',h:'ค่าเกิดขึ้นที่หัวกัด',p:'เซนเซอร์อุณหภูมิที่หัวกัดวัดค่าตลอดเวลา แล้วส่งออกมาเป็นสัญญาณไฟฟ้า',pkL:'สัญญาณจากเซนเซอร์',pk:()=>'TEMP '+V.temp.toFixed(1)+' °C → '+(4+V.temp/150*16).toFixed(1)+' mA',why:'ไม่มีเซนเซอร์ = ไม่มีใครรู้ว่าเครื่องร้อน จนกว่ามันจะพัง'},
- {en:'PLC · CONTROLLER',h:'PLC อ่านสัญญาณ',p:'แปลงกระแส 4–20 mA ให้เป็นตัวเลข แล้วเก็บไว้ในหน่วยความจำของ PLC',pkL:'ค่าในหน่วยความจำ',pk:()=>'D100 = '+Math.round(V.temp*10),why:'จุดแรกที่สัญญาณไฟฟ้ากลายเป็น “ข้อมูล”'},
- {en:'NODE-RED · RULES',h:'แปลภาษา + ใส่กฎ',p:'แปลงค่าให้ทุกระบบเข้าใจภาษาเดียวกัน และเช็กกฎ เช่น เกิน 85 °C ให้เตือนทันที',pkL:'ข้อมูลที่แปลงแล้ว (JSON)',pk:()=>'{"m":"M-01","temp":'+V.temp.toFixed(1)+'}',why:'ต่อระบบใหม่ได้เลย ไม่ต้องรื้อของเดิม'},
- {en:'SCADA · OPERATOR',h:'หน้างานเห็นทันที',p:'จอหน้าไลน์แสดงค่า สถานะ และกราฟแนวโน้มแบบเรียลไทม์ ให้คนคุมเครื่องเห็นตอนนี้เลย',pkL:'บนจอ SCADA',pk:()=>'TEMP '+V.temp.toFixed(1)+' °C · RUNNING',why:'ตัดสินใจได้ในวินาทีนั้น ไม่ต้องเดินไปอ่านหน้าเครื่อง'},
- {en:'IoT · MQTT · DATA LAKE',h:'เก็บและแชร์ต่อ',p:'ค่าชุดเดียวกันถูกส่งจาก Node-RED ผ่าน MQTT ไปเก็บใน Data Lake ใครมีสิทธิ์ก็ดึงไปใช้ได้',pkL:'MQTT message',pk:()=>'m01/temp → '+V.temp.toFixed(1),why:'ค่าเดียวไปได้หลายที่: วิเคราะห์ย้อนหลัง ทำ AI ทำรายงาน'},
- {en:'DASHBOARD · BOARDROOM',h:'ตัวเลขกลายเป็นการตัดสินใจ',p:'ค่าจากหัวกัดเมื่อครู่ รวมกับข้อมูลทุกเครื่อง กลายเป็น KPI บนจอห้องประชุมผู้บริหาร',pkL:'ที่ CEO เห็น (ค่าสาธิต)',pk:()=>'OEE 86.8% · ▲ 7.2 pt',why:'ผู้บริหารเห็นโรงงานจริงตอนนี้ ตัดสินใจจากข้อมูล ไม่ใช่ความรู้สึก'}];
-const JHOLD=[7,7,7.5,7.5,7.5,16];
+ {en:'SENSOR',h:'ค่าเกิดขึ้นที่หัวกัด',p:'เซนเซอร์อุณหภูมิที่หัวกัดวัดค่าตลอดเวลา แล้วส่งออกมาเป็นสัญญาณไฟฟ้า',pkL:'สัญญาณจากเซนเซอร์',pk:()=>'TEMP '+V.temp.toFixed(1)+' °C → '+(4+V.temp/150*16).toFixed(1)+' mA',why:'ไม่มีเซนเซอร์ = ไม่มีใครรู้ว่าเครื่องร้อน จนกว่ามันจะพัง'},
+ {en:'PLC · CONTROLLER',h:'PLC อ่านสัญญาณ',p:'แปลงกระแส 4–20 mA ให้เป็นตัวเลขในหน่วยความจำ ข้อมูลบางส่วนมาจากไฟล์ Text, CSV หรือ Excel ก็ได้เหมือนกัน',pkL:'ค่าในหน่วยความจำ',pk:()=>'D100 = '+Math.round(V.temp*10),why:'จุดแรกที่สัญญาณไฟฟ้ากลายเป็น “ข้อมูล”'},
+ {en:'NODE-RED · KEPWARE · DATA LOGGER',h:'ส่งข้อมูลออกจากหน้างาน',p:'Kepware ดึงค่าจาก PLC หลายยี่ห้อ · Data Logger เก็บค่าจากอุปกรณ์ที่ไม่มี PLC · Node-RED แปลงข้อมูลและใส่กฎ',pkL:'ข้อมูลที่แปลงแล้ว (JSON)',pk:()=>'{"m":"M-01","temp":'+V.temp.toFixed(1)+'}',why:'ต่อเครื่องได้ทุกยี่ห้อ ข้อมูลเป็นภาษาเดียวกัน'},
+ {en:'SQL SERVER · POSTGRESQL',h:'เก็บลงฐานข้อมูล',p:'ทุกค่าถูกบันทึกพร้อมเวลา เป็นแหล่งข้อมูลกลางที่ทุกจอดึงไปใช้ ย้อนดูและวิเคราะห์ได้',pkL:'แถวที่บันทึก',pk:()=>'INSERT m01 · temp='+V.temp.toFixed(1),why:'ข้อมูลไม่หาย ย้อนดูได้ทุกวินาที'},
+ {en:'SCADA · GENESIS64',h:'หน้างานเห็นทันที',p:'จอ Genesis64 หน้าไลน์แสดงค่า สถานะ และกราฟแนวโน้มแบบเรียลไทม์ ให้คนคุมเครื่องเห็นตอนนี้เลย',pkL:'บนจอ Genesis64',pk:()=>'TEMP '+V.temp.toFixed(1)+' °C · RUNNING',why:'ตัดสินใจได้ในวินาทีนั้น ไม่ต้องเดินไปอ่านหน้าเครื่อง'},
+ {en:'MS TEAMS · E-MAIL',h:'แจ้งเตือนคนที่ใช่ทันที',p:'เมื่อค่าเกินเกณฑ์ ระบบส่งข้อความเข้า MS Teams ของช่าง และส่ง E-mail ถึงหัวหน้างานอัตโนมัติ',pkL:'ข้อความที่ส่ง',pk:()=>'Teams → ช่าง: M-01 TEMP '+V.temp.toFixed(1)+' °C',why:'คนที่ต้องลงมือรู้ภายในไม่กี่วินาที ไม่ต้องรอใครเดินมาเห็น'},
+ {en:'POWER BI · SUPERSET · WEB APP',h:'ตัวเลขกลายเป็นการตัดสินใจ',p:'ข้อมูลจากฐานข้อมูลถูกสรุปเป็น KPI บน Power BI, Superset และ Web App บนจอห้องประชุมผู้บริหาร',pkL:'ที่ CEO เห็น (ค่าสาธิต)',pk:()=>'OEE 86.8% · ▲ 7.2 pt',why:'ผู้บริหารเห็นโรงงานจริงตอนนี้ ตัดสินใจจากข้อมูล ไม่ใช่ความรู้สึก'}];
+const JLAST=JSTEPS.length-1;
+const JHOLD=[7,7,8,8,7.5,8,16],STACKHOLD=14;
 const JFLOW=[
  {i:()=>'อุณหภูมิจริง ~'+V.temp.toFixed(0)+' °C',pts:['เซนเซอร์ติดอยู่ที่หัวกัด','วัดต่อเนื่องทุกเสี้ยววินาที','ส่งออกเป็นกระแส 4–20 mA']},
- {i:()=>(4+V.temp/150*16).toFixed(1)+' mA',pts:['แปลงอนาล็อกเป็นตัวเลขดิจิทัล','เก็บไว้ใน register D100','ใช้สั่งงานเครื่องได้ด้วย']},
- {i:()=>'D100 = '+Math.round(V.temp*10),pts:['แปลงหน่วย ×0.1 → °C','เช็กกฎ: เกิน 85 °C = เตือน','ส่งต่อ 2 ทาง: SCADA และ MQTT']},
- {i:()=>'{"temp":'+V.temp.toFixed(1)+'}',pts:['แสดงค่าแบบเรียลไทม์','กราฟแนวโน้มย้อนหลัง','Alarm ขึ้นจอหน้างานทันที']},
- {i:()=>'{"temp":'+V.temp.toFixed(1)+'}',pts:['ส่งผ่าน MQTT (publish / subscribe)','เก็บประวัติทุกค่าใน Data Lake','ระบบอื่นดึงไปใช้ต่อได้']},
- {i:()=>'ข้อมูลจากทุกเครื่อง',pts:['รวมเป็น KPI: OEE ยอดผลิต Downtime','ผู้บริหารเห็นตัวเลขชุดเดียวกัน','ตัดสินใจจากข้อมูลจริง']}];
+ {i:()=>(4+V.temp/150*16).toFixed(1)+' mA',pts:['แปลงอนาล็อกเป็นตัวเลขดิจิทัล','เก็บไว้ใน register D100','Textfile / CSV / Excel ก็เป็นต้นทางได้']},
+ {i:()=>'D100 = '+Math.round(V.temp*10),pts:['Kepware: ดึงค่าจาก PLC ผ่าน OPC','Data Logger: เก็บค่าจากอุปกรณ์ทั่วไป','Node-RED: แปลงหน่วย ใส่กฎ ส่งต่อ']},
+ {i:()=>'{"temp":'+V.temp.toFixed(1)+'}',pts:['SQL Server: ข้อมูลการผลิตหลัก','PostgreSQL: ค่าเซนเซอร์ตามเวลา','ทุกจอดึงจากที่เดียวกัน']},
+ {i:()=>'SELECT temp FROM m01',pts:['Genesis64 แสดงค่าแบบเรียลไทม์','กราฟแนวโน้มย้อนหลัง','Alarm ขึ้นจอหน้างานทันที']},
+ {i:()=>'กฎ: temp > 85 °C',pts:['MS Teams: แจ้งช่างพร้อมปุ่มรับงาน','E-mail: สำเนาถึงหัวหน้างาน','บันทึกเวลารับงานอัตโนมัติ']},
+ {i:()=>'SQL Server + PostgreSQL',pts:['Power BI: KPI สำหรับผู้บริหาร','Superset: วิเคราะห์เชิงลึก','Web App: ดูได้ทุกที่ทุกอุปกรณ์']}];
+const JLAYER=[['01','DATA SOURCE'],['01','DATA SOURCE'],['02','DATA TRANSMISSION'],['03','DATA COLLECTION'],['04','DATA VISUALIZE'],['05','NOTIFICATION'],['04','DATA VISUALIZE']];
+const JAPPS=[['sensor','controller'],['plc','controller','txt','csv','excel'],['nodered','kepware','logger'],['sqlserver','postgres'],['genesis'],['teams','email'],['powerbi','superset','webapp']];
+/* app icons: simple drawn tiles in each tool's colours (not the vendors' logos) */
+const AI=p=>'<svg viewBox="0 0 24 24">'+p+'</svg>';
+const DBI=(a,b)=>AI('<ellipse cx="12" cy="6" rx="7" ry="3" fill="'+a+'"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6c0 1.7-3.1 3-7 3S5 7.7 5 6z" fill="'+b+'"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3" stroke="#fff" stroke-opacity=".55" fill="none"/>');
+const APPS={
+ plc:['PLC',AI('<rect x="3" y="5" width="18" height="14" rx="2" fill="#5b6b82"/><rect x="5" y="7" width="3" height="10" fill="#c3d0e0"/><rect x="9.5" y="7" width="3" height="10" fill="#c3d0e0"/><rect x="14" y="7" width="3" height="10" fill="#c3d0e0"/><circle cx="19" cy="8" r="1" fill="#2fbf71"/>')],
+ txt:['Textfile',AI('<path d="M6 3h8l4 4v14H6z" fill="#cfd8e3"/><path d="M14 3v4h4z" fill="#9aa8ba"/><path d="M8.5 11h7M8.5 14h7M8.5 17h5" stroke="#4a5a70" stroke-width="1.4"/>')],
+ csv:['CSV',AI('<path d="M6 3h8l4 4v14H6z" fill="#1e9e5a"/><path d="M14 3v4h4z" fill="#6fd39b"/><text x="12" y="17" font-size="5.6" text-anchor="middle" fill="#fff" font-family="Arial" font-weight="700">CSV</text>')],
+ excel:['Excel',AI('<rect x="3" y="3" width="18" height="18" rx="3" fill="#1f8a4c"/><path d="M9 3v18M3 9h18M3 15h18" stroke="#c9f2d9" stroke-width="1.2"/>')],
+ sensor:['Sensor',AI('<path d="M12 3v7" stroke="#7d8da3" stroke-width="2"/><circle cx="12" cy="14" r="4" fill="#1ea7d6"/><path d="M5.5 9a8 8 0 0 0 0 10M18.5 9a8 8 0 0 1 0 10" stroke="#1ea7d6" stroke-width="1.6" fill="none"/>')],
+ controller:['Controller',AI('<rect x="4" y="3" width="16" height="18" rx="2" fill="#4a5568"/><rect x="7" y="6" width="10" height="5" fill="#2fbf71"/><circle cx="9" cy="16" r="1.8" fill="#e5484d"/><circle cx="15" cy="16" r="1.8" fill="#f5a524"/>')],
+ nodered:['Node-RED',AI('<rect x="2" y="9" width="7" height="6" rx="1.5" fill="#8f0000"/><rect x="15" y="4" width="7" height="6" rx="1.5" fill="#c12127"/><rect x="15" y="14" width="7" height="6" rx="1.5" fill="#c12127"/><path d="M9 12c3 0 3-5 6-5M9 12c3 0 3 5 6 5" stroke="#e35252" stroke-width="1.5" fill="none"/>')],
+ kepware:['Kepware',AI('<rect x="4" y="3" width="16" height="7.5" rx="1.5" fill="#2e7d32"/><rect x="4" y="12.5" width="16" height="7.5" rx="1.5" fill="#43a047"/><circle cx="7.5" cy="6.7" r="1.2" fill="#d6f5d4"/><circle cx="7.5" cy="16.2" r="1.2" fill="#d6f5d4"/><path d="M11 6.7h6M11 16.2h6" stroke="#d6f5d4" stroke-width="1.3"/>')],
+ logger:['Data Logger',AI('<rect x="3" y="4" width="18" height="16" rx="2" fill="#37474f"/><rect x="5.5" y="6.5" width="13" height="8" fill="#0d2b3a"/><path d="M6.5 12.5l3-3 2.5 2 3-4 2 2" stroke="#2fbf71" stroke-width="1.3" fill="none"/><circle cx="8" cy="17.5" r="1" fill="#f5a524"/>')],
+ sqlserver:['SQL Server',DBI('#e05a47','#b8352a')],
+ postgres:['PostgreSQL',DBI('#4f86c6','#336791')],
+ genesis:['Genesis64',AI('<rect x="2" y="4" width="20" height="13" rx="2" fill="#1f5fae"/><path d="M9 21h6M12 17v4" stroke="#7d8da3" stroke-width="1.6"/><text x="12" y="13.6" font-size="7.5" text-anchor="middle" fill="#fff" font-weight="700" font-family="Arial">64</text>')],
+ powerbi:['Power BI',AI('<rect x="4" y="12" width="4" height="9" rx="1" fill="#f2c811"/><rect x="10" y="7" width="4" height="14" rx="1" fill="#e8a90c"/><rect x="16" y="3" width="4" height="18" rx="1" fill="#d58a06"/>')],
+ superset:['Superset',AI('<path d="M3 19l5-7 4 4 4-8 5 6v5z" fill="#20a7c9"/><path d="M3 19l5-7 4 4 4-8 5 6" stroke="#0b6f88" stroke-width="1.4" fill="none"/>')],
+ webapp:['Web App',AI('<rect x="2" y="4" width="20" height="16" rx="2" fill="#2b3a55"/><rect x="2" y="4" width="20" height="4" rx="2" fill="#4c6a9a"/><circle cx="12" cy="14" r="4" stroke="#5ce1ff" stroke-width="1.4" fill="none"/><path d="M8 14h8M12 10c-1.5 2-1.5 6 0 8M12 10c1.5 2 1.5 6 0 8" stroke="#5ce1ff" stroke-width="1" fill="none"/>')],
+ teams:['MS Teams',AI('<rect x="2" y="3" width="20" height="18" rx="4" fill="#5b5fc7"/><path d="M7 8h10v6h-5l-3 3v-3H7z" fill="#fff"/>')],
+ email:['E-mail',AI('<rect x="2.5" y="5" width="19" height="14" rx="2" fill="#1e88e5"/><path d="M3 6l9 7 9-7" stroke="#e3f2fd" stroke-width="1.6" fill="none"/>')]};
+const appChip=k=>'<span class="app"><i>'+APPS[k][1]+'</i>'+APPS[k][0]+'</span>';
+const STACK=[
+ {n:'05',t:'Notification',th:'แจ้งเตือนคนที่ใช่ แบบเรียลไทม์',c:['#9a7bff','#6a4fd6'],apps:['teams','email']},
+ {n:'04',t:'Data Visualize',th:'เปลี่ยนข้อมูลให้เป็น insight',c:['#3f8cff','#2a63d6'],apps:['genesis','powerbi','superset','webapp']},
+ {n:'03',t:'Data Collection',th:'จัดเก็บและจัดการข้อมูลให้เชื่อถือได้',c:['#33c27a','#1f9a5c'],apps:['sqlserver','postgres']},
+ {n:'02',t:'Data Transmission',th:'เชื่อมต่อและส่งข้อมูลอย่างปลอดภัย',c:['#ff9f3a','#e8761a'],apps:['nodered','kepware','logger']},
+ {n:'01',t:'Data Source',th:'เก็บข้อมูลจากหลายแหล่ง',c:['#ff6b81','#e0445e'],apps:['plc','txt','csv','excel','sensor','controller']}];
 const JPIC=[
  '<svg viewBox="0 0 260 96"><rect class="s f" x="14" y="10" width="100" height="76" rx="6"/><rect class="s" x="48" y="18" width="30" height="22" rx="3"/><path class="s" d="M63 40v18M55 58h16M26 74h76M26 80h76"/><circle class="d" cx="92" cy="30" r="5"/><path class="a" d="M101 22a13 13 0 0 1 0 16M107 16a22 22 0 0 1 0 28"/><path class="s" d="M128 50q8-26 16 0t16 0 16 0 16 0 16 0 16 0"/><text x="140" y="84">TEMP → 4–20 mA</text></svg>',
  '<svg viewBox="0 0 260 96"><rect class="s f" x="30" y="10" width="200" height="62" rx="5"/>'+[0,1,2,3,4,5,6].map(i=>'<rect class="s" x="'+(42+i*26)+'" y="18" width="20" height="46" rx="2"/><circle class="'+(i%3?'g':'d')+'" cx="'+(52+i*26)+'" cy="27" r="3"/><circle class="g" cx="'+(52+i*26)+'" cy="36" r="2.5"/>').join('')+'<path class="a" d="M60 72v14M100 72v10M140 72v14M180 72v10"/><text x="190" y="90">D100</text></svg>',
- '<svg viewBox="0 0 260 96"><rect class="s f" x="10" y="40" width="64" height="22" rx="6"/><rect class="a" x="98" y="40" width="64" height="22" rx="6"/><rect class="s f" x="186" y="14" width="64" height="22" rx="6"/><rect class="s f" x="186" y="66" width="64" height="22" rx="6"/><path class="s" d="M74 51H98M162 51C176 51 172 25 186 25M162 51C176 51 172 77 186 77"/><circle class="d" cx="74" cy="51" r="3"/><circle class="d" cx="162" cy="51" r="3"/><text x="32" y="55">IN</text><text x="104" y="55">IF &gt;85°C</text><text x="198" y="29">SCADA</text><text x="202" y="81">MQTT</text></svg>',
+ '<svg viewBox="0 0 260 96"><rect class="s f" x="8" y="8" width="70" height="32" rx="5"/><text x="18" y="28">KEPWARE</text><rect class="s f" x="8" y="56" width="70" height="32" rx="5"/><text x="14" y="76">DATA LOGGER</text><rect class="a" x="110" y="34" width="70" height="28" rx="7"/><text x="117" y="52">NODE-RED</text><path class="s" d="M78 24C96 24 92 48 110 48M78 72C96 72 92 48 110 48M180 48H214"/><circle class="d" cx="110" cy="48" r="3"/><path class="a" d="M214 36l14 12-14 12"/><text x="200" y="82">JSON</text></svg>',
+ '<svg viewBox="0 0 260 96">'+[50,150].map(x=>'<ellipse class="s f" cx="'+(x+28)+'" cy="12" rx="28" ry="8"/><path class="s" d="M'+x+' 12v52a28 8 0 0 0 56 0V12M'+x+' 29a28 8 0 0 0 56 0M'+x+' 46a28 8 0 0 0 56 0"/>').join('')+'<text x="40" y="92">SQL SERVER</text><text x="140" y="92">POSTGRESQL</text></svg>',
  '<svg viewBox="0 0 260 96"><rect class="s f" x="50" y="6" width="160" height="70" rx="4"/><path class="s" d="M130 76v10M104 90h52"/><rect class="g" x="58" y="14" width="40" height="22" rx="2" opacity=".55"/><text x="106" y="24">TEMP 68.0</text><text x="106" y="35">RUNNING</text><path class="s" d="M58 46h144" stroke-dasharray="4 4" opacity=".5"/><path class="a" d="M58 66l14-8 12 4 14-12 12 6 14-10 14 4 14-8 12 2 14-4"/></svg>',
- '<svg viewBox="0 0 260 96"><circle class="s f" cx="82" cy="38" r="16"/><circle class="s f" cx="106" cy="28" r="22"/><circle class="s f" cx="132" cy="40" r="15"/><path class="s" d="M66 54h82"/><path class="a" d="M106 54v10"/><ellipse class="s" cx="106" cy="68" rx="22" ry="6"/><path class="s" d="M84 68v16a22 6 0 0 0 44 0V68M84 76a22 6 0 0 0 44 0"/><path class="a" d="M164 32a14 14 0 0 1 0 20M172 24a26 26 0 0 1 0 36"/><text x="188" y="40">MQTT</text><text x="188" y="56">DATA LAKE</text></svg>',
+ '<svg viewBox="0 0 260 96"><rect class="s f" x="36" y="4" width="48" height="88" rx="8"/><rect class="a" x="43" y="18" width="34" height="22" rx="3"/><path class="s" d="M46 50h28M46 58h20M46 66h24"/><path class="a" d="M94 30a14 14 0 0 1 0 22M102 23a24 24 0 0 1 0 36"/><rect class="s f" x="136" y="22" width="84" height="54" rx="5"/><path class="s" d="M138 26l40 28 40-28"/><circle class="d" cx="220" cy="22" r="7"/><text x="148" y="92">E-MAIL</text><text x="40" y="104">TEAMS</text></svg>',
  '<svg viewBox="0 0 260 96"><rect class="s f" x="40" y="4" width="180" height="58" rx="4"/><rect class="d" x="52" y="40" width="10" height="16"/><rect class="d" x="68" y="32" width="10" height="24"/><rect class="d" x="84" y="24" width="10" height="32"/><rect class="d" x="100" y="16" width="10" height="40"/><text x="118" y="20">OEE 86.8%</text><circle class="s" cx="184" cy="34" r="15"/><path class="a" stroke-width="4" d="M184 19a15 15 0 1 1-14 20"/>'+[70,110,150,190].map(x=>'<circle class="s" cx="'+x+'" cy="76" r="6"/><path class="s" d="M'+(x-11)+' 96q11-16 22 0"/>').join('')+'</svg>'];
 $('#jtlN').innerHTML=JSTEPS.map((s,i)=>'<li data-js="'+i+'"><i>'+(i+1)+'</i><span>'+s[0]+'</span></li>').join('')+'<span class="pkt"></span>';
 function renderJourney(){const cur=JR.mode==='travel'?JR.from+1:JR.step;
  ['#jtlN li'].forEach(q=>$$(q).forEach((li,i)=>{li.classList.toggle('on',JR.on&&i===cur);li.classList.toggle('done',JR.done||(JR.on&&i<cur));}));
  $('#jLive').hidden=!JR.done;const b=$('#sendData');b.disabled=JR.mode==='travel';
- b.textContent=!JR.on?(JR.done?'↻ ส่งอีกค่า':'▶ ส่งข้อมูลจากเครื่อง'):JR.mode==='travel'?'กำลังเดินทาง…':JR.step>=5?'✓ จบการเดินทาง':'ถัดไป: '+JSTEPS[JR.step+1][0]+' ▶';}
+ b.textContent=!JR.on?(JR.done?'↻ ส่งอีกค่า':'▶ ส่งข้อมูลจากเครื่อง'):JR.mode==='travel'?'กำลังเดินทาง…':JR.mode==='stack'?'Technology Stack':JR.step>=JLAST?'✓ จบการเดินทาง':'ถัดไป: '+JSTEPS[JR.step+1][0]+' ▶';}
 function startJourney(){Object.assign(JR,{on:true,step:0,mode:'hold',t:0,path:null,done:false,finT:0});TOUR.pulse=[];renderJourney();}
-function journeyNext(){if(!JR.on){startJourney();return;}if(JR.mode!=='hold')return;if(JR.step>=5){finishJourney();return;}Object.assign(JR,{from:JR.step,mode:'travel',t:0,dur:JR.step===0?2.6:2.1,path:null});renderJourney();}
+function journeyNext(){if(!JR.on){startJourney();return;}if(JR.mode!=='hold')return;if(JR.step>=JLAST){openStack(true);return;}Object.assign(JR,{from:JR.step,mode:'travel',t:0,dur:JR.step===0?2.6:2.1,path:null});renderJourney();}
 function jumpJourney(k){if(k<0)return;Object.assign(JR,{on:true,done:false,step:k,mode:'hold',t:0,finT:0,path:null});renderJourney();}
 function finishJourney(){Object.assign(JR,{on:false,mode:'idle',done:true,doneAt:performance.now()/1000});renderJourney();}
+/* Technology Stack page: closes the journey (or opens on its own from the ch.03 card) */
+$('#stkL').innerHTML=STACK.map((L,i)=>'<li style="--c:'+L.c[0]+';--c2:'+L.c[1]+';--i:'+(STACK.length-1-i)+'"><div class="stk-b"><b>'+L.n+'</b><span><strong>'+L.t+'</strong><em>'+L.th+'</em></span></div><div class="stk-apps">'+L.apps.map(appChip).join('')+'</div></li>').join('');
+function openStack(fromJ){const el=$('#stack');el.hidden=false;void el.offsetWidth;el.classList.add('show');if(fromJ){JR.mode='stack';JR.t=0;renderJourney();}}
+function closeStack(){const el=$('#stack');el.classList.remove('show');setTimeout(()=>{if(!el.classList.contains('show'))el.hidden=true;},550);if(JR.mode==='stack')finishJourney();}
+$('#stack').onclick=()=>closeStack();$('#stack .stk-in').onclick=e=>{if(!e.target.closest('#stkGo'))e.stopPropagation();};
+$('#openStack').onclick=e=>{e.stopPropagation();stopAuto();openStack(false);};
 $('#sendData').onclick=()=>{if(!JR.on){stopAuto();startJourney();}else journeyNext();};
 $('#jtlN').onclick=e=>{const li=e.target.closest('li[data-js]');if(li){stopAuto();jumpJourney(+li.dataset.js);}};
 /* during the journey a tap on any empty spot moves on to the next stop */
@@ -1797,8 +1869,8 @@ function label(text,sub,color){
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>LABELS.forEach(d=>d()));
 
 /* floor */
-const floor=mesh(new T.CircleGeometry(110,96),std(0x0a1838,.15,.9),false);floor.rotation.x=-Math.PI/2;S.add(floor);
-const grid=new T.GridHelper(220,220,0x2f66c2,0x15305e);grid.material.transparent=true;grid.material.opacity=.4;grid.position.y=.01;S.add(grid);
+const floor=mesh(new T.CircleGeometry(150,128),std(0x0a1838,.15,.9),false);floor.rotation.x=-Math.PI/2;S.add(floor);
+const grid=new T.GridHelper(300,300,0x2f66c2,0x15305e);grid.material.transparent=true;grid.material.opacity=.4;grid.position.y=.01;S.add(grid);
 const pad=mesh(new T.CylinderGeometry(7.6,7.8,.12,64),std(0x0f2149,.5,.4),false);pad.position.y=.06;S.add(pad);
 const padRing=new T.Mesh(new T.RingGeometry(7.5,7.75,96),new T.MeshBasicMaterial({color:0x33e1ff,transparent:true,opacity:.7,side:T.DoubleSide}));padRing.rotation.x=-Math.PI/2;padRing.position.y=.13;S.add(padRing);
 
@@ -2126,7 +2198,7 @@ const stN=900,stP=new Float32Array(stN*3);for(let i=0;i<stN;i++){const a=Math.ra
 const stG=new T.BufferGeometry();stG.setAttribute('position',new T.BufferAttribute(stP,3));S.add(new T.Points(stG,new T.PointsMaterial({color:0x6aa8ff,size:.18,map:GLOW,transparent:true,opacity:.6,blending:T.AdditiveBlending,depthWrite:false})));
 
 /* ---------- Data pipeline: modelled stations + always-on data streams ---------- */
-const NODE=[['PLC','อ่านค่าจากเซนเซอร์',[13,3.6,0]],['Node-RED','ใส่กฎ แปลงข้อมูล',[26,4.6,0]],['SCADA','จอหน้างาน',[39,4.2,0]],['IoT','MQTT · เก็บข้อมูล',[52,5.6,0]],['Dashboard','ห้องประชุมผู้บริหาร',[92,3.85,0]]];
+const NODE=[['PLC','PLC · Controller',[13,3.6,0]],['Node-RED · Kepware','Data Logger · ส่งข้อมูล',[26,4.6,0]],['SQL Server · PostgreSQL','ฐานข้อมูล',[39,4.4,0]],['SCADA · Genesis64','จอหน้างาน',[52,4.2,0]],['MS Teams · E-mail','แจ้งเตือน',[65,4.3,0]],['Dashboard','Power BI · Superset · Web App',[105,3.85,0]]];
 function ctex(w,h){const c=document.createElement('canvas');c.width=w*TQ;c.height=h*TQ;const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;t.anisotropy=R.capabilities.getMaxAnisotropy();const g=c.getContext('2d');g.scale(TQ,TQ);return {c,g,t};}
 const holoAdd=(c,o)=>new T.MeshBasicMaterial({color:c,transparent:true,opacity:o,blending:T.AdditiveBlending,depthWrite:false,side:T.DoubleSide});
 const cloudMat=std(0x7fc8ff,.1,.35),screenMat=std(0x0c1626,.5,.35);
@@ -2157,13 +2229,15 @@ function mkNR(){const g=new T.Group();
  wires.forEach(w=>b.add(new T.TubeGeometry(new T.CubicBezierCurve3(...w.map(p=>new T.Vector3(...p))),20,.014,6),steelMat));
  b.build(g);
  P.forEach(p=>{const t=txtPlane(.72,.2,p[2],p[3]);t.position.set(p[0],p[1],.05);g.add(t);});
+ Bld().add(cbox(.62,.5,.5,.05),darkMat,-1.55,-.62,.1).add(cbox(.64,.05,.52,.02),trimMat,-1.55,-.35,.1).add(cbox(.5,.36,.32,.04),gunMat,1.55,-.68,.1).add(cbox(.38,.2,.02,.01),blackMat,1.55,-.62,.27).build(g);
+ [[-1.55,-.62,.36,'Kepware','OPC SERVER'],[1.55,-.98,.27,'Data Logger','LOGGER']].forEach(([x,y,z,t,s2])=>{const p=txtPlane(.62,.18,t,s2);p.position.set(x,y,z);g.add(p);});
  const pn=new T.Mesh(new T.PlaneGeometry(2.7,1.45),holoAdd(0x5ce1ff,.05));pn.position.set(0,.36,-.06);g.add(pn);
  g.userData.wires=wires;return g;}
 /* SCADA operator screen */
 function mkSCADA(){const g=new T.Group();
  Bld().add(cbox(2.2,1.36,.1,.04),screenMat,0,0,0).add(cyl(.06,.7,12),steelMat,0,-1.0,-.08).add(cbox(.9,.06,.5,.02),gunMat,0,-1.36,-.08).add(cbox(.4,.2,.08,.02),gunMat,0,-.66,-.08).build(g);
  const sc=ctex(512,300);const sp=new T.Mesh(new T.PlaneGeometry(2.06,1.22),new T.MeshBasicMaterial({map:sc.t}));sp.position.z=.056;g.add(sp);
- const hist=[];g.userData.draw=(st,al)=>{const c=sc.g,bad=al>.5;c.fillStyle='#03101f';c.fillRect(0,0,512,300);c.fillStyle=bad?'#ff3b6b':'#0d3b63';c.fillRect(0,0,512,30);c.fillStyle='#eaf4ff';c.font='600 16px "JetBrains Mono", monospace';c.textAlign='left';c.fillText('SCADA · CELL M-01',12,21);c.textAlign='right';c.fillText(bad?'ALARM':st==='stop'?'STOPPED':'RUNNING',500,21);
+ const hist=[];g.userData.draw=(st,al)=>{const c=sc.g,bad=al>.5;c.fillStyle='#03101f';c.fillRect(0,0,512,300);c.fillStyle=bad?'#ff3b6b':'#0d3b63';c.fillRect(0,0,512,30);c.fillStyle='#eaf4ff';c.font='600 16px "JetBrains Mono", monospace';c.textAlign='left';c.fillText('GENESIS64 · CELL M-01',12,21);c.textAlign='right';c.fillText(bad?'ALARM':st==='stop'?'STOPPED':'RUNNING',500,21);
   c.strokeStyle='#5ce1ff';c.lineWidth=2;c.strokeRect(16,44,170,110);c.fillStyle=bad?'rgba(255,59,107,.35)':st==='stop'?'rgba(255,178,30,.3)':'rgba(60,240,160,.25)';c.fillRect(18,46,166,106);c.fillStyle='#eaf4ff';c.font='600 15px "IBM Plex Sans Thai", Tahoma, sans-serif';c.textAlign='center';c.fillText('เครื่อง CNC',101,92);c.font='13px "JetBrains Mono", monospace';c.fillText('M-01',101,114);
   c.fillStyle='#1aa6d1';const lv=(G.on?G.coolLvl:72)/100;c.fillRect(200,154-100*lv,30,100*lv);c.strokeStyle='#5ce1ff';c.strokeRect(200,54,30,100);c.fillStyle='#9db3d6';c.font='12px "IBM Plex Sans Thai", Tahoma, sans-serif';c.fillText('น้ำหล่อเย็น',215,172);
   const rows=[['TEMP',V.temp.toFixed(1)+' °C',V.temp>=80],['VIB',V.vib.toFixed(1)+' mm/s',V.vib>=5.5],['BORE','Ø'+V.meas.toFixed(3),Math.abs(V.meas-86)>.015],['COUNT',String(Math.floor(V.cnt)),false]];
@@ -2171,7 +2245,7 @@ function mkSCADA(){const g=new T.Group();
   hist.push(V.temp);if(hist.length>60)hist.shift();c.strokeStyle='rgba(92,225,255,.25)';c.strokeRect(16,190,480,96);c.strokeStyle='rgba(255,59,107,.6)';c.setLineDash([5,5]);const yy=v=>286-(v-50)/50*96;c.beginPath();c.moveTo(16,yy(85));c.lineTo(496,yy(85));c.stroke();c.setLineDash([]);
   c.strokeStyle=bad?'#ff3b6b':'#3cf0a0';c.lineWidth=2.5;c.beginPath();hist.forEach((v,i)=>{const x=16+i*8;i?c.lineTo(x,yy(clamp(v,50,100))):c.moveTo(x,yy(clamp(v,50,100)));});c.stroke();c.fillStyle='#9db3d6';c.font='12px "IBM Plex Sans Thai", Tahoma, sans-serif';c.fillText('แนวโน้มอุณหภูมิหัวกัด',22,206);sc.t.needsUpdate=true;};
  return g;}
-/* IoT: MQTT broker cloud + data storage */
+/* (former IoT station, unused) */
 function mkIoT(){const g=new T.Group();
  const b=Bld();[[0,.1,0,.62],[-.6,-.06,.05,.46],[.62,-.04,0,.5],[-.25,.4,-.05,.44],[.3,.36,.08,.42],[0,-.18,.2,.4]].forEach(([x,y,z,r])=>b.add(new T.SphereGeometry(r,20,14),cloudMat,x,y,z,0,0,0,[1,.82,.8]));
  [-1.0,-1.22,-1.44].forEach(y=>b.add(lathe([[0,0],[.42,0],[.44,.03],[.44,.15],[.42,.18],[0,.18]],32),gunMat,0,y-.09,0));
@@ -2179,6 +2253,30 @@ function mkIoT(){const g=new T.Group();
  const hub=new T.Mesh(new T.TorusGeometry(1.05,.022,8,64),holoAdd(0xffb340,.8));hub.rotation.x=H*.82;g.add(hub);g.userData.hub=hub;
  const arcs=[0,1,2].map(i=>{const a=new T.Mesh(new T.TorusGeometry(.3+i*.22,.02,6,32,PI*.6),holoAdd(0x5ce1ff,.8));a.rotation.z=PI*.2;a.position.set(0,.72,0);g.add(a);return a;});g.userData.arcs=arcs;
  const st=txtPlane(.9,.24,'DATA LAKE','MQTT · OPC UA','#5ce1ff');st.position.set(0,-1.22,.47);g.add(st);
+ return g;}
+/* Database: SQL Server + PostgreSQL */
+const dbMatA=std(0xb8352a,.4,.4),dbMatB=std(0x336791,.4,.4),envMat=std(0xe8edf3,.1,.6);[[dbMatA,0xff8a7a],[dbMatB,0x7fb6ff],[envMat,0xdff6ff]].forEach(([m,c])=>MATCOL.set(m,c));
+function mkDB(){const g=new T.Group(),b=Bld();
+ [[-.62,dbMatA],[.62,dbMatB]].forEach(([x,m])=>{[-.42,-.12,.18].forEach(y=>b.add(lathe([[0,0],[.42,0],[.44,.03],[.44,.24],[.42,.27],[0,.27]],32),m,x,y,0));b.add(lathe([[0,0],[.3,0],[.3,.05],[0,.05]],24),steelMat,x,.45,0);});
+ b.add(cbox(2.3,.12,.95,.03),gunMat,0,-.5,0).build(g);
+ [[-.62,'SQL Server','PRODUCTION DB','#ff9a8a'],[.62,'PostgreSQL','TIME-SERIES','#8fc0ff']].forEach(([x,t,s2,col])=>{const p=txtPlane(.9,.25,t,s2,col);p.position.set(x,-.86,.5);g.add(p);});
+ const hub=new T.Mesh(new T.TorusGeometry(1.35,.02,8,64),holoAdd(0x5ce1ff,.7));hub.rotation.x=H*.9;g.add(hub);g.userData.hub=hub;return g;}
+/* Notification: technician phone with an MS Teams-style alert + e-mail envelope */
+function mkNotify(){const g=new T.Group();
+ Bld().add(cbox(.66,1.3,.08,.06),blackMat,-.55,.1,0,0,.25,0).add(cbox(1.0,.66,.06,.03),envMat,.72,-.12,0).add(cbox(2.4,.1,.8,.03),gunMat,0,-.75,0)
+  .add(tube([[.24,.18,.04],[.72,-.15,.04],[1.2,.18,.04]],.018),trimMat).build(g);
+ const sc=ctex(180,360);const sp=new T.Mesh(new T.PlaneGeometry(.58,1.16),new T.MeshBasicMaterial({map:sc.t}));sp.position.set(-.55+Math.sin(.25)*.046,.1,Math.cos(.25)*.046);sp.rotation.y=.25;g.add(sp);
+ const arcs=[0,1,2].map(i=>{const a=new T.Mesh(new T.TorusGeometry(.2+i*.16,.018,6,32,PI*.55),holoAdd(0xb59bff,.8));a.rotation.z=-PI*.28;a.position.set(-.18,.62,0);g.add(a);return a;});g.userData.arcs=arcs;
+ const em=txtPlane(.9,.22,'E-mail','→ หัวหน้างาน','#8fc0ff');em.position.set(.72,-.58,.05);g.add(em);
+ g.userData.draw=(st,al)=>{const c=sc.g,F='"IBM Plex Sans Thai", Tahoma, sans-serif',bad=al>.5;c.fillStyle='#14152b';c.fillRect(0,0,180,360);
+  c.fillStyle='#5b5fc7';c.fillRect(0,0,180,40);c.fillStyle='#fff';c.textAlign='left';c.font='700 15px '+F;c.fillText('MS Teams',12,26);c.font='11px '+F;c.fillStyle='#dcdcff';c.textAlign='right';c.fillText('M-01 Maint.',170,26);
+  c.fillStyle=bad?'#3a1424':'#24264a';c.beginPath();c.roundRect?c.roundRect(10,54,160,128,10):c.rect(10,54,160,128);c.fill();
+  c.textAlign='left';c.fillStyle='#b9bce8';c.font='600 11px '+F;c.fillText('DX Bot · เมื่อสักครู่',20,74);
+  c.fillStyle=bad?'#ff8fa8':'#7ff0bf';c.font='700 14px '+F;c.fillText(bad?'ALARM · TEMP สูง':'M-01 ทำงานปกติ',20,98);
+  c.fillStyle='#e6e7ff';c.font='12px '+F;c.fillText('TEMP '+V.temp.toFixed(1)+' °C',20,120);c.fillText(bad?'ต้องการช่างด่วน':'ไม่มีงานค้าง',20,140);
+  if(bad){c.fillStyle='#5b5fc7';c.fillRect(20,152,64,22);c.fillStyle='#fff';c.font='700 11px '+F;c.fillText('รับงาน',33,167);}
+  c.fillStyle='#9fa3d6';c.font='11px '+F;c.textAlign='center';c.fillText('✉ E-mail สำเนาถึงหัวหน้างาน',90,214);
+  c.fillStyle='#24264a';c.fillRect(10,234,160,1);c.fillStyle='#7b7fb0';c.fillText('อัปเดต '+$('#hudClock').textContent,90,256);sc.t.needsUpdate=true;};
  return g;}
 /* Dashboard: big management screen */
 function mkDash(){const g=new T.Group();
@@ -2197,21 +2295,22 @@ function mkDash(){const g=new T.Group();
   c.lineWidth=16;c.strokeStyle='rgba(255,255,255,.1)';c.beginPath();c.arc(510,265,70,0,PI*2);c.stroke();c.strokeStyle=av<90?'#ffb340':'#3cf0a0';c.beginPath();c.arc(510,265,70,-H,-H+PI*2*av/100);c.stroke();c.lineWidth=1;
   c.fillStyle='#eaf4ff';c.textAlign='center';c.font='600 28px "JetBrains Mono", monospace';c.fillText(av.toFixed(0)+'%',510,275);sc.t.needsUpdate=true;};
  return g;}
-const nodes=[mkPLC(),mkNR(),mkSCADA(),mkIoT(),mkDash()].map((g,k)=>{const n=NODE[k];g.position.set(...n[2]);g.rotation.y=0;S.add(g);pedestal(g,[-1.15,-.95,-1.42,-1.62,-2.25][k]);
- const lb=label(n[0],n[1],'#33e1ff');lb.position.y=[1.15,1.35,1.1,1.25,1.4][k];lb.scale.multiplyScalar(.9);g.add(lb);return {g,lb};});
-/* segments: machine → PLC → Node-RED → (SCADA) + (IoT → Dashboard) */
+const nodes=[mkPLC(),mkNR(),mkDB(),mkSCADA(),mkNotify(),mkDash()].map((g,k)=>{const n=NODE[k];g.position.set(...n[2]);g.rotation.y=0;S.add(g);pedestal(g,[-1.15,-.95,-1.05,-1.42,-1.15,-2.25][k]);
+ const lb=label(n[0],n[1],'#33e1ff');lb.position.y=[1.15,1.35,1.25,1.1,1.3,1.4][k];lb.scale.multiplyScalar(.9);g.add(lb);return {g,lb};});
+/* segments follow the journey: machine → PLC → transmission → database → SCADA → notification → dashboard */
 const SRC=new T.Vector3(1.6,5.65,-1.2);
-const nodeIn=k=>new T.Vector3(...NODE[k][2]).add(new T.Vector3(...[[-1.0,0,0],[-1.3,.05,0],[-.3,.75,0],[-.9,0,0],[-1.2,.9,0]][k])),nodeOut=k=>new T.Vector3(...NODE[k][2]).add(new T.Vector3(...[[1.0,.1,0],[1.25,.4,0],[0,0,0],[.9,0,0],[0,0,0]][k]));
+const nodeIn=k=>new T.Vector3(...NODE[k][2]).add(new T.Vector3(...[[-1.0,0,0],[-2.0,-.5,0],[-1.15,0,0],[-1.15,.3,0],[-.95,0,0],[-1.2,.9,0]][k])),nodeOut=k=>new T.Vector3(...NODE[k][2]).add(new T.Vector3(...[[1.0,.1,0],[1.25,.4,0],[1.15,0,0],[1.15,.3,0],[.95,0,0],[0,0,0]][k]));
 function arc(a,b,lift){const m=a.clone().lerp(b,.5);m.y=Math.max(a.y,b.y)+lift;return new T.QuadraticBezierCurve3(a,m,b);}
 const SEG=[
  {c:arc(SRC,nodeIn(0),1.2),col:0x5ce1ff,txt:()=>'4–20 mA',sub:'สัญญาณจากเซนเซอร์'},
- {c:arc(nodeOut(0),nodeIn(1),1.0),col:0x5ce1ff,txt:()=>'D100 = '+Math.round(V.temp*10),sub:'ค่าใน PLC'},
- {c:arc(nodeOut(1),nodeIn(2),.6),col:0x5ce1ff,txt:()=>'{"temp":'+V.temp.toFixed(1)+'}',sub:'JSON → SCADA'},
- {c:arc(nodeOut(1),nodeIn(3),1.1),col:0x9fe8ff,txt:()=>'m01/temp',sub:'MQTT topic'},
- {c:arc(nodeOut(3),nodeIn(4),.8),col:0xffb340,txt:()=>'OEE '+(86.8).toFixed(1)+'%',sub:'KPI สำหรับผู้บริหาร'}];
+ {c:arc(nodeOut(0),nodeIn(1),1.0),col:0x5ce1ff,txt:()=>'D100 = '+Math.round(V.temp*10),sub:'PLC → Kepware (OPC)'},
+ {c:arc(nodeOut(1),nodeIn(2),.9),col:0x5ce1ff,txt:()=>'{"temp":'+V.temp.toFixed(1)+'}',sub:'Node-RED → SQL'},
+ {c:arc(nodeOut(2),nodeIn(3),.9),col:0x9fe8ff,txt:()=>'TEMP '+V.temp.toFixed(1)+' °C',sub:'→ Genesis64'},
+ {c:arc(nodeOut(3),nodeIn(4),.9),col:0xb59bff,txt:()=>'ALERT > 85 °C',sub:'→ MS Teams · E-mail'},
+ {c:arc(nodeOut(4),nodeIn(5),.8),col:0xffb340,txt:()=>'OEE '+(86.8).toFixed(1)+'%',sub:'KPI สำหรับผู้บริหาร'}];
 const segMat=SEG.map(s=>holoAdd(s.col,.35));
 SEG.forEach((s,i)=>{S.add(new T.Mesh(new T.TubeGeometry(s.c,80,.035,6,false),segMat[i]));s.len=s.c.getLength();
- const lb=label(s.txt(),s.sub,i===4?'#ffb340':'#5ce1ff');lb.scale.multiplyScalar(.62);lb.material.opacity=0;S.add(lb);s.lb=lb;s.lu=Math.random();});
+ const lb=label(s.txt(),s.sub,s.col===0xffb340?'#ffb340':'#5ce1ff');lb.scale.multiplyScalar(.62);lb.material.opacity=0;S.add(lb);s.lb=lb;s.lu=Math.random();});
 /* Node-RED internal wires become streams too (world space) */
 nodes[1].g.updateMatrixWorld(true);nodes[1].g.userData.wires.forEach(w=>{const c=new T.CubicBezierCurve3(...w.map(p=>new T.Vector3(...p).applyMatrix4(nodes[1].g.matrixWorld)));SEG.push({c,col:0xffb340,len:c.getLength(),inner:true});});
 /* stream particles */
@@ -2236,17 +2335,28 @@ function pipeStep(dt,dataOn,alarm,status){const on=dataOn>.02;
 const phone=new T.Group();phone.add(mesh(new T.BoxGeometry(1.5,3,.16),std(0x0b0f18,.6,.3)));
 const phc=document.createElement('canvas');phc.width=300;phc.height=600;const phTex=new T.CanvasTexture(phc);phTex.encoding=T.sRGBEncoding;
 const phScr=new T.Mesh(new T.PlaneGeometry(1.36,2.8),new T.MeshBasicMaterial({map:phTex}));phScr.position.z=.09;phone.add(phScr);
-const phGlow=glow(0x3cf0a0,4);phGlow.position.z=-.3;phone.add(phGlow);
+const phGlow=glow(0x7b83eb,4);phGlow.position.z=-.3;phone.add(phGlow);
 phone.position.set(-8.5,4.4,-1.5);phone.rotation.y=.55;S.add(phone);
-let phState='';
+let phState='',phT0=0,phDone='';
 function rr(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.fill();}
-function drawPhone(st){const pk=st+TOUR.ev;if(pk===phState)return;phState=pk;const pe=TOUR.ev!=='none'?EVT[TOUR.ev]:EVT.hot;const g=phc.getContext('2d');const gr=g.createLinearGradient(0,0,0,600);gr.addColorStop(0,'#2b3f7a');gr.addColorStop(1,'#070b18');g.fillStyle=gr;g.fillRect(0,0,300,600);
- g.fillStyle='#000';g.fillRect(105,14,90,22);g.fillStyle='#fff';g.textAlign='center';g.font='300 70px "Chakra Petch", Tahoma, sans-serif';g.fillText('18:34',150,130);g.font='18px "IBM Plex Sans Thai", Tahoma, sans-serif';g.fillStyle='#c9d6f2';g.fillText('มือถือช่างซ่อมบำรุง',150,165);
- if(st!=='none'){g.fillStyle='rgba(235,242,255,.95)';rr(g,20,200,260,180,20);
-  g.textAlign='left';g.fillStyle='#56698c';g.font='16px "IBM Plex Sans Thai", Tahoma, sans-serif';g.fillText('DX Alert · เมื่อสักครู่',40,232);
-  g.fillStyle='#0b1a38';g.font='600 22px "IBM Plex Sans Thai", Tahoma, sans-serif';g.fillText(st==='done'?'เครื่องกลับมาปกติ':pe.t,40,268);
-  g.font='17px "IBM Plex Sans Thai", Tahoma, sans-serif';g.fillText(st==='done'?'ปิดงานแล้ว · ใช้เวลา 6 นาที':pe.ph,40,298);
-  g.fillStyle=st==='done'?'#14a86a':'#1a5cff';rr(g,40,322,220,40,12);g.fillStyle='#fff';g.textAlign='center';g.font='600 19px "IBM Plex Sans Thai", Tahoma, sans-serif';g.fillText(st==='done'?'✓ เสร็จแล้ว':st==='acc'?'กำลังไปที่เครื่อง…':'รับงาน',150,349);}
+function drawPhone(st){const pk=st+TOUR.ev,now=performance.now()/1000;if(pk!==phState){phState=pk;phT0=now;phDone='';}if(phDone===pk)return;const a=Math.min(1,(now-phT0)/.5);if(a>=1)phDone=pk;
+ const pe=TOUR.ev!=='none'?EVT[TOUR.ev]:EVT.hot,g=phc.getContext('2d'),F='"IBM Plex Sans Thai", Tahoma, sans-serif',bk=x=>{const c=1.70158;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2);};
+ const gr=g.createLinearGradient(0,0,0,600);gr.addColorStop(0,'#24275a');gr.addColorStop(1,'#090a18');g.fillStyle=gr;g.fillRect(0,0,300,600);g.fillStyle='#000';rr(g,110,12,80,22,11);
+ if(st==='none'||st==='notif'){g.fillStyle='#fff';g.textAlign='center';g.font='300 68px "Chakra Petch", Tahoma, sans-serif';g.fillText('18:34',150,118);g.font='17px '+F;g.fillStyle='#c9d6f2';g.fillText('มือถือช่างซ่อมบำรุง',150,150);
+  if(st==='notif'){const y=176-(1-bk(a))*340;
+   g.fillStyle='rgba(245,246,255,.97)';rr(g,14,y,272,214,22);g.fillStyle='#5b5fc7';rr(g,30,y+16,30,30,8);g.fillStyle='#fff';rr(g,37,y+24,16,11,3);
+   g.textAlign='left';g.fillStyle='#55597a';g.font='600 14px '+F;g.fillText('Microsoft Teams',70,y+30);g.font='13px '+F;g.fillText('เมื่อสักครู่',70,y+46);
+   g.fillStyle='#1b1d3a';g.font='700 18px '+F;g.fillText('DX Bot · M-01 Maintenance',30,y+82);g.fillStyle='#c4314b';g.font='700 19px '+F;g.fillText('ALARM · '+pe.t,30,y+112);
+   g.fillStyle='#33354f';g.font='15px '+F;g.fillText(pe.ph,30,y+138);
+   g.fillStyle='#5b5fc7';rr(g,30,y+158,116,40,10);g.fillStyle='#e7e8fb';rr(g,154,y+158,116,40,10);g.textAlign='center';g.font='700 16px '+F;g.fillStyle='#fff';g.fillText('รับงาน',88,y+184);g.fillStyle='#5b5fc7';g.fillText('ดูข้อมูล',212,y+184);
+   g.fillStyle='#9fa3d6';g.font='14px '+F;g.fillText('✉ E-mail สำเนาถึงหัวหน้างานแล้ว',150,560);}}
+ else{g.fillStyle='#5b5fc7';g.fillRect(0,40,300,64);g.textAlign='left';g.fillStyle='#fff';g.font='700 18px '+F;g.fillText('M-01 Maintenance',20,70);g.font='13px '+F;g.fillStyle='#dcdcff';g.fillText('Microsoft Teams · DX Bot, ช่างสมชาย, หัวหน้างาน',20,92);
+  g.fillStyle='#2f3150';rr(g,16,122,240,98,14);g.fillStyle='#b9bce8';g.font='600 13px '+F;g.fillText('DX Bot',30,144);g.fillStyle='#ff8fa8';g.font='700 16px '+F;g.fillText('ALARM · '+pe.t,30,168);g.fillStyle='#dfe1ff';g.font='14px '+F;g.fillText(pe.ph,30,194);
+  g.globalAlpha=st==='acc'?a:1;g.fillStyle='#5b5fc7';rr(g,52,236,232,64,14);g.fillStyle='#fff';g.font='600 13px '+F;g.fillText('ช่างสมชาย',66,258);g.font='15px '+F;g.fillText('รับงานแล้ว กำลังไปที่เครื่อง',66,284);g.globalAlpha=1;
+  if(st==='done'){g.globalAlpha=a;g.fillStyle='#1f7a4f';rr(g,52,314,232,64,14);g.fillStyle='#fff';g.font='600 13px '+F;g.fillText('ช่างสมชาย',66,336);g.font='15px '+F;g.fillText('✓ ซ่อมเสร็จ เครื่องกลับมาปกติ',66,362);g.globalAlpha=1;
+   g.fillStyle='#3cf0a0';g.textAlign='center';g.font='600 15px '+F;g.fillText('ปิดงานแล้ว · ใช้เวลา 6 นาที',150,410);}
+  else{g.fillStyle='#b9bce8';g.textAlign='center';g.font='14px '+F;g.fillText('กำลังไปที่เครื่อง…',150,330);}
+  g.fillStyle='#9fa3d6';g.textAlign='center';g.font='14px '+F;g.fillText('✉ E-mail สำเนาถึงหัวหน้างานแล้ว',150,560);}
  phTex.needsUpdate=true;}
 drawPhone('none');
 const chainCurve=new T.CatmullRomCurve3([new T.Vector3(0,6,.6),new T.Vector3(-2.5,7.4,.4),new T.Vector3(-5.2,6.8,-.6),new T.Vector3(-7.6,5.4,-1.3)]);
@@ -2261,7 +2371,7 @@ const KF=[
  {p:[8.5,6.4,15.5],t:[-3.2,2.8,1]},
  {p:[15,11,17],t:[3.8,3.8,.6]},
  {p:[5.5,5.6,11],t:[-3,3.2,.6]},
- {p:[35,13,44],t:[35,3,0]},
+ {p:[38,14,50],t:[38,3,0]},
  {p:[-8,6.2,15],t:[2.8,3.4,.6]},
  {p:[-1,10,21],t:[-1.4,4.4,0]},
  {p:[-16,15,24],t:[3,3.5,0]}];
@@ -2304,7 +2414,7 @@ const selBox=new T.BoxHelper(undefined,0xffc928);selBox.visible=false;S.add(selB
 const MARK={};
 function marker(k){if(!MARK[k]){const g=new T.Group();g.add(glow(0xff3b6b,2.4));const l=label('!','','#ff3b6b');l.scale.set(.55,.55*130/640*4.9,1);g.add(l);const rg=new T.Mesh(new T.RingGeometry(.5,.58,40),new T.MeshBasicMaterial({color:0xff3b6b,transparent:true,side:T.DoubleSide,depthWrite:false,depthTest:false}));rg.renderOrder=21;g.add(rg);g.userData.ring=rg;S.add(g);MARK[k]=g;}return MARK[k];}
 const ORB={az:.62,el:.3,dist:18,tgt:new T.Vector3(.8,2.6,1.2),dAz:.62,dEl:.3,dDist:18,dTgt:new T.Vector3(.8,2.6,1.2)};
-const CAMS={all:[.62,.3,18,V3(.8,2.6,1.2)],head:[.5,.18,7,null],block:[-.42,.7,6.2,V3(0,2,-.3)],robot:[1.25,.3,10,V3(2.6,2.4,3.1)],conv:[.15,.32,10.5,V3(.4,1.3,4.3)],data:[0,.24,56,V3(33,3.5,0)]};
+const CAMS={all:[.62,.3,18,V3(.8,2.6,1.2)],head:[.5,.18,7,null],block:[-.42,.7,6.2,V3(0,2,-.3)],robot:[1.25,.3,10,V3(2.6,2.4,3.1)],conv:[.15,.32,10.5,V3(.4,1.3,4.3)],data:[0,.24,66,V3(40,3.5,0)]};
 function camTo(k){const c=CAMS[k];if(!c)return;G.camKey=k;ORB.dAz=c[0]+Math.round((ORB.az-c[0])/(2*Math.PI))*2*Math.PI;ORB.dEl=c[1];ORB.dDist=c[2];ORB.dTgt.copy(c[3]||new T.Box3().setFromObject(head).getCenter(new T.Vector3()));$$('[data-cam]').forEach(b=>b.classList.toggle('on',b.dataset.cam===k||(b.dataset.cam==='spin'&&G.spin)));}
 function focusPart(k){const o=ROOT[k];if(!o)return;const box=new T.Box3().setFromObject(o);const c=box.getCenter(new T.Vector3()),sz=box.getSize(new T.Vector3()).length();ORB.dTgt.copy(c);ORB.dDist=clamp(sz*2.2,6,14);G.camKey='';$$('[data-cam]').forEach(b=>b.classList.toggle('on',b.dataset.cam==='spin'&&G.spin));}
 let aiT=null,aiVoice=false;
@@ -2480,40 +2590,49 @@ const narrow=()=>innerWidth<900;
 R.localClippingEnabled=true;
 const FPL=new T.Plane(new T.Vector3(0,-1,0),1e5);
 {const ms=new Set();HMESH.forEach(m=>ms.add(m.userData.real));MATCOL.forEach((c,m)=>ms.add(m));ms.forEach(m=>{if(m&&m.isMaterial)m.clippingPlanes=[FPL];});}
-const PARTOBJ={machine:M,tower,head,motor,robot:RB.root,conv,table,panel,n0:nodes[0].g,n1:nodes[1].g,n2:nodes[2].g,n3:nodes[3].g};
+const PARTOBJ={machine:M,tower,head,motor,robot:RB.root,conv,table,panel};nodes.slice(0,-1).forEach((n,i)=>PARTOBJ['n'+i]=n.g);
 const PNAME={machine:'เครื่องจักรทั้งเครื่อง',tower:'ไฟสถานะ',head:'หัวกัด',motor:'มอเตอร์',robot:'หุ่นยนต์ป้อนงาน',conv:'สายพาน',table:'เสื้อสูบบนโต๊ะงาน',panel:'ตู้ควบคุม'};
 /* each topic gets its own camera angle around its part: az/el in radians, d = distance */
 /* parts at the back get a camera behind the machine, so switching topics swings the camera right around it */
 const TAGSHOT={status:{p:'machine',a:'tower',az:.7,el:.26,d:22},temp:{p:'head',s:'temp',az:.55,el:.15,d:8},vib:{p:'motor',s:'vib',az:-2.45,el:.32,d:8},cycle:{p:'robot',az:1.45,el:.38,d:10},
  cnt:{p:'conv',s:'cnt',az:-.5,el:.28,d:11},meas:{p:'table',s:'meas',az:.1,el:.9,d:7.5},kw:{p:'panel',s:'kw',az:.45,el:.12,d:6.5},alarm:{p:'tower',az:-2.9,el:.02,d:9}};
-const RV={key:'',list:[],edges:[],t:0,y0:0,y1:0,box:new T.Box3(),c:new T.Vector3()};
+/* ch.04: where the camera goes for each alarm, and which part turns real and blinks red */
+const EVSHOT={hot:{p:'head',s:'temp',az:.5,el:.18,d:9},vib:{p:'motor',s:'vib',az:-2.45,el:.3,d:9},quality:{p:'table',s:'meas',az:.15,el:.85,d:8},manual:{p:'panel',s:'kw',az:.45,el:.12,d:7.5}};
+const PHSHOT={az:.7,el:.12,d:8};
+const evVal=k=>k==='hot'?V.temp.toFixed(1)+' °C':k==='vib'?V.vib.toFixed(1)+' mm/s':k==='quality'?'Ø'+V.meas.toFixed(3):'Operator ขอความช่วยเหลือ';
+const RV={key:'',list:[],edges:[],t:0,y0:0,y1:0,box:new T.Box3(),c:new T.Vector3(),alarm:false,tint:false};
+const EMI=new Map();
+function realTint(on,amt){const seen=new Set();RV.list.forEach(m=>{const mt=m.material;if(!mt.emissive||seen.has(mt))return;seen.add(mt);if(!EMI.has(mt))EMI.set(mt,[mt.emissive.getHex(),mt.emissiveIntensity]);
+ if(on){mt.emissive.setHex(0xff1a3c);mt.emissiveIntensity=amt;}else{const o=EMI.get(mt);mt.emissive.setHex(o[0]);mt.emissiveIntensity=o[1];}});RV.tint=on;}
 const focL=new T.PointLight(0xfff4e6,0,30);S.add(focL);const FOC={w:0};
 const sweepR=new T.Mesh(new T.RingGeometry(.94,1,72),holoAdd(0xffb340,.9));sweepR.rotation.x=-H;sweepR.visible=false;S.add(sweepR);
-function realSet(key){if(RV.key===key)return;RV.list.forEach(applyHolo);RV.edges.forEach(e=>e.visible=HOLO);RV.list=[];RV.edges=[];RV.key=key;FPL.constant=1e5;
+function realSet(key,alarm){if(RV.key===key){RV.alarm=!!alarm;return;}if(RV.tint)realTint(false);RV.alarm=!!alarm;RV.list.forEach(applyHolo);RV.edges.forEach(e=>e.visible=HOLO);RV.list=[];RV.edges=[];RV.key=key;FPL.constant=1e5;
  const o=key&&PARTOBJ[key];if(!o)return;RV.box.setFromObject(o);RV.box.getCenter(RV.c);RV.y0=RV.box.min.y-.05;RV.y1=RV.box.max.y+.05;RV.t=0;if(!HOLO)return;
  o.traverse(m=>{if(m.isMesh&&m.userData.hreg){m.material=m.userData.real;RV.list.push(m);}else if(m.userData.isEdge)RV.edges.push(m);});}
 function realStep(dt){if(!RV.list.length){focL.intensity*=Math.max(0,1-dt*5);sweepR.visible=false;return;}
  RV.t+=dt;const u=clamp(RV.t/1.1,0,1),y=lerp(RV.y0,RV.y1,easeIO(u));FPL.constant=u<1?y:1e5;if(u>=1)RV.edges.forEach(l=>l.visible=false);
  sweepR.visible=u<1;sweepR.position.set(RV.c.x,y,RV.c.z);RV.box.getSize(_rv);sweepR.scale.setScalar(Math.max(_rv.x,_rv.z)*.62+.2);
- focL.position.lerpVectors(RV.c,cam.position,.55);focL.position.y+=1;focL.intensity+=(.65-focL.intensity)*Math.min(1,dt*4);}
+ focL.position.lerpVectors(RV.c,cam.position,.55);focL.position.y+=1;focL.intensity+=(.65-focL.intensity)*Math.min(1,dt*4);
+ if(RV.alarm)realTint(true,.25+.75*(.5+.5*Math.sin(time*9)));else if(RV.tint)realTint(false);}
 /* the camera frames the whole part; the leader line points at its sensor (or the status light) */
-function tagAnchor(k,out){const s=TAGSHOT[k],sn=s.s&&SENS.find(x=>x.key===s.s);if(sn)return out.copy(sn.g.position);if(s.a!=='tower')return out;tower.getWorldPosition(out);out.y+=1.1;return out;}
-function tagCenter(k,out){const s=TAGSHOT[k];if(!s)return null;
- if(s.p==='tower'){tower.getWorldPosition(out);out.y+=1.1;return out;}return RV.key===s.p?out.copy(RV.c):_bx.setFromObject(PARTOBJ[s.p]).getCenter(out);}
+function specAnchor(s,out){const sn=s.s&&SENS.find(x=>x.key===s.s);if(sn)return out.copy(sn.g.position);if(s.a!=='tower')return out;tower.getWorldPosition(out);out.y+=1.1;return out;}
+function partCenter(p,out){if(p==='tower'){tower.getWorldPosition(out);out.y+=1.1;return out;}return RV.key===p?out.copy(RV.c):_bx.setFromObject(PARTOBJ[p]).getCenter(out);}
+function tagCenter(k,out){const s=TAGSHOT[k];return s?partCenter(s.p,out):null;}
 /* ch.02 camera orbits (azimuth / elevation / distance are eased, not the position), so topic changes swing around the machine */
 const ORB2={on:false,az:0,el:.3,d:10,tg:new T.Vector3()};
-function tagOrbit(key,c,dt,oP,oT){const s=TAGSHOT[key];
+/* side -1: card on the left (part goes right of centre); +1: card on the right */
+function tagOrbit(s,c,dt,oP,oT,side){
  if(!ORB2.on){ORB2.tg.copy(camTgt);_gf.subVectors(camPos,camTgt);ORB2.d=_gf.length();ORB2.el=Math.asin(clamp(_gf.y/ORB2.d,-1,1));ORB2.az=Math.atan2(_gf.x,_gf.z);ORB2.on=true;}
  const k=1-Math.exp(-dt*1.6);let da=s.az-ORB2.az;da=Math.atan2(Math.sin(da),Math.cos(da));ORB2.az+=da*k;ORB2.el+=(s.el-ORB2.el)*k;ORB2.d+=(s.d-ORB2.d)*k;ORB2.tg.lerp(c,Math.min(1,k*1.4));
  const az=ORB2.az+(reduce?0:Math.sin(time*.22)*.07),ce=Math.cos(ORB2.el);oP.set(ORB2.tg.x+Math.sin(az)*ce*ORB2.d,ORB2.tg.y+Math.sin(ORB2.el)*ORB2.d,ORB2.tg.z+Math.cos(az)*ce*ORB2.d);oT.copy(ORB2.tg);
  /* header card sits top-left and the part dock along the bottom: keep the part just right of centre, a little high */
- if(!narrow()){_gf.subVectors(oT,oP).normalize();_gr.crossVectors(_gf,UPV).normalize();oT.addScaledVector(_gr,-ORB2.d*.1);oT.y-=ORB2.d*.05;}else oT.y-=ORB2.d*.15;}
+ if(!narrow()){_gf.subVectors(oT,oP).normalize();_gr.crossVectors(_gf,UPV).normalize();oT.addScaledVector(_gr,side<0?-ORB2.d*.1:ORB2.d*.17);oT.y-=ORB2.d*.05;}else oT.y-=ORB2.d*.15;}
 
 /* ---------- ch.03: the stops sit on one long, spaced-out line far from the machine; the camera slides along it ---------- */
-const STX=[0,...NODE.map(n=>n[2][0])],TRZ=9;
+const STX=[0,...NODE.map(n=>n[2][0])],TRZ=9,DNODE=nodes.length-1;
 const TRK=new T.Group();TRK.visible=false;S.add(TRK);
 const trkM=holoAdd(0x5ce1ff,.5),trkFM=holoAdd(0xffb340,.95);
-{const b=new T.Mesh(new T.BoxGeometry(1,.02,.07),trkM);b.scale.x=STX[5]+8;b.position.set(STX[5]/2,.04,TRZ);TRK.add(b);}
+{const b=new T.Mesh(new T.BoxGeometry(1,.02,.07),trkM);b.scale.x=STX[JLAST]+8;b.position.set(STX[JLAST]/2,.04,TRZ);TRK.add(b);}
 const trkFill=new T.Mesh(new T.BoxGeometry(1,.03,.12),trkFM);trkFill.geometry.translate(.5,0,0);trkFill.position.set(0,.05,TRZ);trkFill.scale.x=.001;TRK.add(trkFill);
 const TMK=STX.map((x,i)=>{const g=new T.Group();g.position.set(x,0,TRZ);
  const ring=new T.Mesh(new T.RingGeometry(.44,.6,40),holoAdd(0x5ce1ff,.9));ring.rotation.x=-H;ring.position.y=.06;g.add(ring);
@@ -2523,13 +2642,13 @@ const TMK=STX.map((x,i)=>{const g=new T.Group();g.position.set(x,0,TRZ);
  TRK.add(g);return {ring,dot,lb,txt:String(i+1).padStart(2,'0')+'  '+JSTEPS[i][0]};});
 function stopCenter(s,out){if(s===0)return out.copy(SENS[0].g.position);out.copy(nodes[s-1].g.position);if(s===2)out.y+=.3;return out;}
 /* wide side-on shots: the station sits left of centre, the callout takes the right */
-function stopShot(s,oP,oT){if(s===5)return finShot(JR.step===5?JR.finT:0,oP,oT);const x=STX[s],y=s===0?3.2:nodes[s-1].g.position.y;
+function stopShot(s,oP,oT){if(s===JLAST)return finShot(JR.step===JLAST?JR.finT:0,oP,oT);const x=STX[s],y=s===0?3.2:nodes[s-1].g.position.y;
  if(s===0){if(narrow()){oP.set(x,y+6,27);oT.set(x,y-2.6,0);}else{oP.set(x-2,y+5,21);oT.set(x+4,y-1,0);}return;}
  if(narrow()){oP.set(x,y+4,21);oT.set(x,y-2,0);}else{oP.set(x-1,y+3.2,15.5);oT.set(x+3,y-.4,0);}}
 
 /* ---------- Boardroom at the end of the line: real materials, people, an animated presenter ---------- */
-const MEET={w:0},RSY=2.2*1.7,RFLOOR=NODE[4][2][1]-RSY;
-const ROOM=new T.Group();ROOM.position.set(NODE[4][2][0],RFLOOR,NODE[4][2][2]);ROOM.visible=false;S.add(ROOM);
+const MEET={w:0},RSY=2.2*1.7,RFLOOR=NODE[DNODE][2][1]-RSY;
+const ROOM=new T.Group();ROOM.position.set(NODE[DNODE][2][0],RFLOOR,NODE[DNODE][2][2]);ROOM.visible=false;S.add(ROOM);
 const RFR=new T.Object3D();RFR.position.copy(ROOM.position);RFR.updateMatrixWorld(true);
 /* room colours are authored in sRGB; convert so they render as picked instead of washing out */
 const rstd=(c,m,r,o)=>{const x=std(c,m,r,o);x.color.convertSRGBToLinear();x.emissive.convertSRGBToLinear();return x;};
@@ -2600,7 +2719,7 @@ function drawCEO(mt){const c=CEO.g,W=1280,Hh=752,F1='"IBM Plex Sans Thai", Tahom
  const bg=c.createLinearGradient(0,0,0,Hh);bg.addColorStop(0,'#05163a');bg.addColorStop(1,'#020814');c.fillStyle=bg;c.fillRect(0,0,W,Hh);
  c.strokeStyle='rgba(92,225,255,.05)';c.lineWidth=1;c.beginPath();for(let x=0;x<W;x+=40){c.moveTo(x,0);c.lineTo(x,Hh);}for(let y=0;y<Hh;y+=40){c.moveTo(0,y);c.lineTo(W,y);}c.stroke();
  c.fillStyle='rgba(92,225,255,.1)';c.fillRect(0,0,W,78);c.fillStyle='#5ce1ff';c.fillRect(0,76,W*clamp(mt/1.2,0,1),3);
- c.textAlign='left';c.fillStyle='#eaf4ff';c.font='700 34px "Chakra Petch", Tahoma, sans-serif';c.fillText('EXECUTIVE DASHBOARD',32,50);c.fillStyle='#9db3d6';c.font='20px '+F1;c.fillText('โรงงานเสื้อสูบ · Cell M-01 · ภาพรวมแบบเรียลไทม์',420,48);
+ c.textAlign='left';c.fillStyle='#eaf4ff';c.font='700 34px "Chakra Petch", Tahoma, sans-serif';c.fillText('EXECUTIVE DASHBOARD',32,50);c.fillStyle='#9db3d6';c.font='20px '+F1;c.fillText('Power BI · Superset · Web App · Cell M-01',420,48);
  const bl=Math.floor(mt*2.4)%2;c.fillStyle=bl?'#ff3b6b':'#6a1428';c.beginPath();c.arc(W-232,40,9,0,7);c.fill();c.textAlign='right';c.fillStyle='#eaf4ff';c.font='600 22px '+FM;c.fillText('LIVE '+$('#hudClock').textContent,W-28,48);
  const cu=(v,t0)=>v*sm(clamp((mt-t0)/1.6,0,1));
  const K=[['OEE',cu(86.8,.6).toFixed(1)+'%','▲ +7.2 pt จากเดือนก่อน','#3cf0a0'],['ชิ้นงานวันนี้',Math.floor(cu(V.cnt,.8)).toLocaleString('en-US'),'▲ 102% ของแผน','#eaf4ff'],['เวลาเครื่องหยุด','−'+Math.round(cu(38,1))+'%','ซ่อมก่อนพัง ไม่ใช่ซ่อมตอนพัง','#ffb340'],['มูลค่าที่ประหยัด / ปี','฿'+cu(2.4,1.2).toFixed(1)+'M','จากข้อมูลเครื่องจักร','#5ce1ff']];
@@ -2625,8 +2744,8 @@ function drawCEO(mt){const c=CEO.g,W=1280,Hh=752,F1='"IBM Plex Sans Thai", Tahom
  c.textAlign='right';c.fillStyle='#6f84a8';c.font='15px '+F1;c.fillText('ตัวเลขบนจอนี้เป็นค่าสาธิตจากเดโม ไม่ใช่ข้อมูลจริง',W-36,Hh-14);
  CEO.t.needsUpdate=true;}
 let ceoT=0;
-function roomStep(dt,mt){const w=MEET.w,du=nodes[4].g.userData,on=w>.02;
- if(on!==ROOM.visible){ROOM.visible=on;nodes[4].g.traverse(m=>{if(m.isMesh&&m.userData.hreg){if(on)m.material=m.userData.real;else applyHolo(m);}else if(m.userData.isEdge)m.visible=!on&&HOLO;});}
+function roomStep(dt,mt){const w=MEET.w,du=nodes[DNODE].g.userData,on=w>.02;
+ if(on!==ROOM.visible){ROOM.visible=on;nodes[DNODE].g.traverse(m=>{if(m.isMesh&&m.userData.hreg){if(on)m.material=m.userData.real;else applyHolo(m);}else if(m.userData.isEdge)m.visible=!on&&HOLO;});}
  const useC=w>.25;if(useC!==(du.sp.material.map===CEO.t))du.sp.material.map=useC?CEO.t:du.tex;
  RL.forEach(l=>l.intensity=l.userData.i*w);if(!on)return;
  ceoT+=dt;if(ceoT>.05){ceoT=0;drawCEO(mt);}
@@ -2661,7 +2780,7 @@ function coChoose(ax,ay){const el=CALL.el,A=coAvoid(),Z={l:ax-90,t:ay-90,r:ax+90
  for(let i=0;i<CSIDES.length;i++){const s=CSIDES[i];el.classList.toggle('wide',s==='t'||s==='b');const R=coRect(s,ax,ay,el.offsetWidth,el.offsetHeight);
   let sc=i*30+R.sh*2+rOv(R,Z)*.5;A.forEach(a=>sc+=rOv(R,a)*.3);if(s===CALL.side)cur=sc;if(!best||sc<best.sc)best={s,sc};}
  const s=(!CALL.fresh&&cur!=null&&cur<=best.sc+2500)?CALL.side:best.s;CALL.side=s;el.classList.toggle('wide',s==='t'||s==='b');el.dataset.side=s;}
-function coSet(key,html,kind){if(CALL.key===key)return;CALL.key=key;CALL.el.innerHTML=html;CALL.el.classList.toggle('mini',kind==='tag');CALL.el.classList.toggle('jr',kind==='jr');CALL.gap=kind==='jr'?(narrow()?70:210):(narrow()?70:120);CALL.chooseT=0;CALL.fresh=true;}
+function coSet(key,html,kind){if(CALL.key===key)return;CALL.key=key;CALL.el.innerHTML=html;CALL.el.classList.toggle('mini',kind!=='jr');CALL.el.classList.toggle('jr',kind==='jr');CALL.el.classList.toggle('alarm',kind==='ev');CALL.el.classList.toggle('teams',kind==='dec');CALL.svg.classList.toggle('alarm',kind==='ev');CALL.gap=kind==='jr'?(narrow()?70:210):(narrow()?70:120);CALL.chooseT=0;CALL.fresh=true;}
 function coHide(){if(!CALL.show&&!CALL.key)return;CALL.show=false;CALL.key='';CALL.el.classList.remove('show');CALL.svg.classList.remove('show');}
 function coFrame(dt,anchor){_gd.copy(anchor).project(cam);if(_gd.z>1||Math.abs(_gd.x)>1.3||Math.abs(_gd.y)>1.3){coHide();return;}
  const ax=(_gd.x+1)/2*innerWidth,ay=(1-_gd.y)/2*innerHeight;
@@ -2673,15 +2792,19 @@ function coFrame(dt,anchor){_gd.copy(anchor).project(cam);if(_gd.z>1||Math.abs(_
  if(s.includes('r')){qx=l;qy=py;ex=ax+Math.min(64,(l-ax)*.3);ey=qy;}else if(s.includes('l')){qx=r;qy=py;ex=ax-Math.min(64,(ax-r)*.3);ey=qy;}else if(s==='t'){qx=px;qy=b;ex=qx;ey=ay-Math.min(64,(ay-b)*.3);}else{qx=px;qy=t;ex=qx;ey=ay+Math.min(64,(t-ay)*.3);}
  const vx=ex-ax,vy=ey-ay,vl=Math.hypot(vx,vy)||1;CALL.path.setAttribute('d','M'+(ax+vx/vl*24).toFixed(1)+' '+(ay+vy/vl*24).toFixed(1)+'L'+ex.toFixed(1)+' '+ey.toFixed(1)+'L'+qx.toFixed(1)+' '+qy.toFixed(1));
  CALL.dots.forEach(c=>{c.setAttribute('cx',ax.toFixed(1));c.setAttribute('cy',ay.toFixed(1));});CALL.end.setAttribute('cx',qx.toFixed(1));CALL.end.setAttribute('cy',qy.toFixed(1));CALL.svg.classList.add('show');}
-function coStepHTML(s){const J=JINFO[s],F=JFLOW[s];return '<div class="jr-hd"><b class="jr-n">'+String(s+1).padStart(2,'0')+'</b><div><span class="k">'+J.en+'</span><h3>'+J.h+'</h3></div></div>'+
- '<div class="co-pic">'+JPIC[s]+'</div><p>'+J.p+'</p>'+
+function coStepHTML(s){const J=JINFO[s],F=JFLOW[s],L=JLAYER[s];return '<div class="jr-hd"><b class="jr-n">'+String(s+1).padStart(2,'0')+'</b><div><span class="k"><i class="lyr">LAYER '+L[0]+'</i>'+L[1]+'</span><h3>'+J.h+'</h3></div></div>'+
+ '<div class="co-apps">'+JAPPS[s].map(appChip).join('')+'</div><div class="co-pic">'+JPIC[s]+'</div><p>'+J.p+'</p>'+
  '<div class="co-flow"><div><em>ข้อมูลเข้า</em><code data-cin>'+esc(F.i())+'</code></div><i>→</i><div class="out"><em>ข้อมูลออก</em><code data-copk>'+esc(J.pk())+'</code></div></div>'+
  '<ul class="co-pts">'+F.pts.map(x=>'<li>'+x+'</li>').join('')+'</ul><p class="why">'+J.why+'</p>'+
- '<div class="co-tap"><span class="co-prog">'+JSTEPS.map((_,i)=>'<i class="'+(i<s?'d':i===s?'c':'')+'"></i>').join('')+'</span><span>แตะที่ว่างเพื่อ'+(s>=5?'จบการเดินทาง':'ไปต่อ · '+JSTEPS[s+1][0])+'</span><b>▸</b><span class="co-hold"><i></i></span></div>';}
+ '<div class="co-tap"><span class="co-prog">'+JSTEPS.map((_,i)=>'<i class="'+(i<s?'d':i===s?'c':'')+'"></i>').join('')+'</span><span>แตะที่ว่างเพื่อ'+(s>=JLAST?'ดู Technology Stack':'ไปต่อ · '+JSTEPS[s+1][0])+'</span><b>▸</b><span class="co-hold"><i></i></span></div>';}
 function coTagHTML(t){const P=TAGSHOT[t.k];return '<span class="k"><i>LIVE</i>ชิ้นส่วนจริง · '+(PNAME[P&&P.p]||'')+'</span><div class="co-hd"><span class="co-ic">'+TICON[t.k]+'</span><h3>'+t.n+'</h3></div><div class="pk"><em>ค่าตอนนี้</em><code data-copk>'+esc(t.v())+'</code></div><p class="q">“'+t.q+'”</p><p>'+t.d+'</p>';}
+function coEvHTML(k){const e=EVT[k],P=EVSHOT[k];return '<span class="k"><i>ALARM</i>ชิ้นส่วนจริง · '+PNAME[P.p]+'</span><div class="co-hd"><span class="co-ic">'+TICON.alarm+'</span><h3>'+e.t+'</h3></div><div class="pk"><em>ค่าตอนนี้</em><code data-copk>'+esc(evVal(k))+'</code></div><p>'+e.d+'</p><p class="why">'+e.biz+'</p>';}
+function coDecHTML(){const r=TOUR.resolved;return '<span class="k"><i>MS TEAMS</i>มือถือช่างซ่อมบำรุง</span><div class="co-hd"><span class="co-ic">'+APPS.teams[1]+'</span><h3>'+(r?'ปิดงานแล้ว':'ข้อความเด้งเข้า Teams')+'</h3></div>'+
+ '<p>'+(r?'ช่างกดเสร็จงานใน Teams ระบบบันทึกเวลาซ่อมให้อัตโนมัติ':'Node-RED ส่งข้อความเข้า MS Teams ของช่าง พร้อมปุ่ม “รับงาน” ทันทีที่เกิด Alarm')+'</p><div class="co-apps">'+appChip('teams')+appChip('email')+'</div><p class="why">E-mail สำเนาส่งถึงหัวหน้างานพร้อมกัน</p>';}
 const JTL=$('#jtl');
 function guideFrame(dt,f){const story=f>=0;
- const g2=story?ss(1.55,1.8,f)*(1-ss(2.2,2.45,f)):0,g3=story?ss(2.5,2.8,f)*(1-ss(3.2,3.5,f)):0,g3w=story?ss(2.3,2.75,f)*(1-ss(3.25,3.7,f)):0;
+ const g2=story?ss(1.55,1.8,f)*(1-ss(2.2,2.45,f)):0,g3=story?ss(2.5,2.8,f)*(1-ss(3.2,3.5,f)):0,g3w=story?ss(2.3,2.75,f)*(1-ss(3.25,3.7,f)):0,
+  g4=story?ss(3.55,3.8,f)*(1-ss(4.2,4.45,f)):0,g5=story?ss(4.55,4.8,f)*(1-ss(5.2,5.45,f)):0;
  JR.vis=g3>.5;S.fog.density=story?lerp(.024,.008,g3w):(G.camKey==='data'?.009:.024);
  /* ch.03 starts on the machine as soon as you arrive; taps move it on */
  if(story&&g3>.6&&!JR.on&&!JR.done)startJourney();
@@ -2689,49 +2812,64 @@ function guideFrame(dt,f){const story=f>=0;
  if(JR.on&&JR.vis){JR.t+=dt;
   if(JR.mode==='travel'){if(!JR.path){JR.cut=false;if(JR.from===0){JR.path=new T.CurvePath();JR.path.add(new T.LineCurve3(SENS[0].g.position.clone(),SRC.clone()));JR.path.add(SEG[0].c);}else JR.path=SEG[JR.from].c;}
    JR.u=clamp(JR.t/JR.dur,0,1);if(JR.u>=1){JR.step=JR.from+1;JR.mode='hold';JR.t=0;JR.finT=0;TOUR.pulse[JR.step-1]=time;renderJourney();}}
-  else if(JR.mode==='hold'){if(JR.step===5)JR.finT+=dt;if(auto&&JR.t>JHOLD[JR.step])journeyNext();}}
- /* packets */
+  else if(JR.mode==='hold'){if(JR.step===JLAST)JR.finT+=dt;if(auto&&JR.t>JHOLD[JR.step])journeyNext();}
+  else if(JR.mode==='stack'&&auto&&JR.t>STACKHOLD)closeStack();}
+ const toDash=JR.on&&JR.mode==='travel'&&JR.from===JLAST-1;
+ /* packet */
  JP.visible=JP2.visible=false;
- if(JR.on&&g3>.3){const pk=(JR.mode==='travel'?JR.from:JR.step)>=3?JP2:JP;
-  if(JR.mode==='travel'){if(JR.path&&!(JR.from===4&&JR.u>.45)){JR.path.getPointAt(Math.min(.999,easeIO(JR.u)),pk.position);pk.visible=true;pk.scale.setScalar(1.3);}}
-  else if(JR.step<5){stopCenter(JR.step,pk.position);pk.visible=true;pk.scale.setScalar(.5+Math.sin(time*6)*.08);}}
+ if(JR.on&&g3>.3){
+  if(JR.mode==='travel'){if(JR.path&&!(toDash&&JR.u>.45)){JR.path.getPointAt(Math.min(.999,easeIO(JR.u)),JP.position);JP.visible=true;JP.scale.setScalar(1.3);}}
+  else if(JR.mode==='hold'&&JR.step<JLAST){stopCenter(JR.step,JP.position);JP.visible=true;JP.scale.setScalar(.5+Math.sin(time*6)*.08);}}
  /* camera */
- let want=0,anc=null,ancJ=false;
- if(JR.on&&g3>.01){want=g3;ancJ=true;
-  /* IoT → Dashboard: pan off to the right into black, cut to the dashboard panel, fade back in */
-  if(JR.mode==='travel'&&JR.path&&JR.from===4){const u=JR.u;
-   if(u<.5){stopShot(4,_sA,_tA);const pn=ss(0,.5,u)*14;GD.dp.copy(_sA);GD.dp.x+=pn;GD.dt.copy(_tA);GD.dt.x+=pn+ss(0,.5,u)*5;GD.rate=6;}
+ let want=0,anc=null,ancK='',orb=false;
+ if(JR.on&&g3>.01){want=g3;ancK='j';
+  /* last network stop → Dashboard: pan off to the right into black, cut to the dashboard panel, fade back in */
+  if(toDash&&JR.path){const u=JR.u;
+   if(u<.5){stopShot(JLAST-1,_sA,_tA);const pn=ss(0,.5,u)*14;GD.dp.copy(_sA);GD.dp.x+=pn;GD.dt.copy(_tA);GD.dt.x+=pn+ss(0,.5,u)*5;GD.rate=6;}
    else{finShot(0,GD.dp,GD.dt);GD.rate=12;if(!JR.cut){JR.cut=true;GD.p.copy(GD.dp);GD.t.copy(GD.dt);camPos.copy(GD.dp);camTgt.copy(GD.dt);}}}
-  else if(JR.mode==='travel'&&JR.path){const e=easeIO(JR.u),pk=JR.from>=3?JP2:JP;stopShot(JR.from,_sA,_tA);stopShot(JR.from+1,_sB,_tB);GD.dp.lerpVectors(_sA,_sB,e);GD.dp.y+=Math.sin(PI*e)*1.2;GD.dt.lerpVectors(_tA,_tB,e).lerp(pk.position,Math.sin(PI*e)*.35);GD.rate=6;}
-  else{stopShot(JR.step,GD.dp,GD.dt);GD.rate=JR.step===5?6:2.6;}
-  if(JR.mode==='hold'&&JR.t>.7&&(JR.step<5||JR.finT>6.8))anc=JR.step<5?stopCenter(JR.step,_anc):_anc.copy(nodes[4].g.position);}
- else if(TOUR.tag&&g2>.01){const c=tagCenter(TOUR.tag,_gc);if(c){want=g2;tagOrbit(TOUR.tag,c,dt,GD.dp,GD.dt);GD.rate=14;if(g2>.5)anc=tagAnchor(TOUR.tag,_anc.copy(c));}}
- if(!(TOUR.tag&&g2>.01)||JR.on&&g3>.01)ORB2.on=false;
- {const fo=JR.on&&JR.mode==='travel'&&JR.from===4&&g3>.3?(JR.u<.5?ss(.12,.48,JR.u):1-ss(.55,1,JR.u)):0,fe=$('#fadeb');if(fe._o!==fo){fe._o=fo;fe.style.opacity=fo.toFixed(3);}}
+  else if(JR.mode==='travel'&&JR.path){const e=easeIO(JR.u);stopShot(JR.from,_sA,_tA);stopShot(JR.from+1,_sB,_tB);GD.dp.lerpVectors(_sA,_sB,e);GD.dp.y+=Math.sin(PI*e)*1.2;GD.dt.lerpVectors(_tA,_tB,e).lerp(JP.position,Math.sin(PI*e)*.35);GD.rate=6;}
+  else{stopShot(JR.step,GD.dp,GD.dt);GD.rate=JR.step===JLAST?6:2.6;}
+  if(JR.mode==='hold'&&JR.t>.7&&(JR.step<JLAST||JR.finT>6.8))anc=JR.step<JLAST?stopCenter(JR.step,_anc):_anc.copy(nodes[DNODE].g.position);}
+ else if(TOUR.tag&&g2>.01){const c=tagCenter(TOUR.tag,_gc);if(c){want=g2;orb=true;tagOrbit(TAGSHOT[TOUR.tag],c,dt,GD.dp,GD.dt,-1);GD.rate=14;if(g2>.5){anc=specAnchor(TAGSHOT[TOUR.tag],_anc.copy(c));ancK='tag';}}}
+ /* ch.04: fly to the part that raised the alarm */
+ else if(g4>.01&&TOUR.ev!=='none'&&EVSHOT[TOUR.ev]){const P=EVSHOT[TOUR.ev],c=partCenter(P.p,_gc);want=g4;orb=true;tagOrbit(P,c,dt,GD.dp,GD.dt,1);GD.rate=14;if(g4>.5){anc=specAnchor(P,_anc.copy(c));ancK='ev';}}
+ /* ch.05: "notify" → the technician's phone; "stop" → the whole machine */
+ else if(g5>.01&&TOUR.dec==='notify'&&phone.visible){want=g5;orb=true;tagOrbit(PHSHOT,phone.position,dt,GD.dp,GD.dt,1);GD.rate=14;if(g5>.5&&TOUR.decT>1.4){anc=_anc.copy(phone.position);anc.y+=.9;ancK='dec';}}
+ else if(g5>.01&&TOUR.dec==='stop'){want=g5;orb=true;tagOrbit(TAGSHOT.status,partCenter('machine',_gc),dt,GD.dp,GD.dt,1);GD.rate=14;}
+ if(!orb)ORB2.on=false;
+ {const fo=toDash&&g3>.3?(JR.u<.5?ss(.12,.48,JR.u):1-ss(.55,1,JR.u)):0,fe=$('#fadeb');if(fe._o!==fo){fe._o=fo;fe.style.opacity=fo.toFixed(3);}}
  GD.w+=(want-GD.w)*(1-Math.exp(-dt*2.6));
  if(want>0){if(!GD.init){GD.p.copy(camPos);GD.t.copy(camTgt);GD.init=true;}const k=1-Math.exp(-dt*GD.rate);GD.p.lerp(GD.dp,k);GD.t.lerp(GD.dt,k);}else if(GD.w<.01)GD.init=false;
  if(story&&GD.w>.001){const e=sm(clamp(GD.w,0,1));tp.lerp(GD.p,e);tt.lerp(GD.t,e);}
- /* real-model reveal: the focused ch.02 part, or the station the journey is stopped at */
- let rk='';if(story&&JR.on&&JR.vis&&JR.mode==='hold'&&JR.step<5)rk=JR.step===0?'head':'n'+(JR.step-1);else if(story&&TOUR.tag&&g2>.5&&TAGSHOT[TOUR.tag])rk=TAGSHOT[TOUR.tag].p;
- realSet(rk);realStep(dt);
+ /* real-model reveal: focused ch.02 part, the journey station, the ch.04 alarm part (blinking red), or the stopped machine */
+ let rk='',ra=false;
+ if(story&&JR.on&&JR.vis&&JR.mode==='hold'&&JR.step<JLAST)rk=JR.step===0?'head':'n'+(JR.step-1);
+ else if(story&&TOUR.tag&&g2>.5&&TAGSHOT[TOUR.tag])rk=TAGSHOT[TOUR.tag].p;
+ else if(g4>.5&&TOUR.ev!=='none'&&EVSHOT[TOUR.ev]){rk=EVSHOT[TOUR.ev].p;ra=!TOUR.resolved;}
+ else if(g5>.5&&TOUR.dec==='stop')rk='machine';
+ realSet(rk,ra);realStep(dt);
  /* focus: dim every other hologram, its edges, glows and the bloom so the real part reads clearly */
  FOC.w+=((RV.list.length?1:0)-FOC.w)*(1-Math.exp(-dt*3));const fw=FOC.w;HU.dim.value=lerp(1,.22,fw);EDGEM.opacity=.42*lerp(1,.3,fw);if(bloom)bloom.strength=lerp(.55,.2,fw);coolL.intensity=1.2*(1-.85*fw);R.toneMappingExposure*=lerp(1,.78,fw);
  if(fw>.001){SENS.forEach(s=>{s.lb.material.opacity*=1-.85*fw;s.gl.material.opacity=1-.7*fw;});spMat.opacity*=1-.6*fw;dMat.opacity*=1-.8*fw;}else SENS.forEach(s=>s.gl.material.opacity=1);
  /* callout */
- if(anc&&ancJ)coSet('j'+JR.step,coStepHTML(JR.step),'jr');else if(anc){const t=TAGS.find(x=>x.k===TOUR.tag);coSet('t'+t.k,coTagHTML(t),'tag');}
- if(anc){coFrame(dt,anc);CALL.valT+=dt;if(CALL.valT>.25){CALL.valT=0;const v=CALL.el.querySelector('[data-copk]');if(v)v.textContent=ancJ?JINFO[JR.step].pk():(TAGS.find(x=>x.k===TOUR.tag)||{v:()=>''}).v();const ci=CALL.el.querySelector('[data-cin]');if(ci&&ancJ)ci.textContent=JFLOW[JR.step].i();}
+ if(anc){if(ancK==='j')coSet('j'+JR.step,coStepHTML(JR.step),'jr');else if(ancK==='tag'){const t=TAGS.find(x=>x.k===TOUR.tag);coSet('t'+t.k,coTagHTML(t),'tag');}
+  else if(ancK==='ev')coSet('e'+TOUR.ev,coEvHTML(TOUR.ev),'ev');else coSet('d'+(TOUR.resolved?1:0),coDecHTML(),'dec');
+  coFrame(dt,anc);CALL.valT+=dt;if(CALL.valT>.25){CALL.valT=0;const v=CALL.el.querySelector('[data-copk]');
+   if(v)v.textContent=ancK==='j'?JINFO[JR.step].pk():ancK==='ev'?evVal(TOUR.ev):ancK==='tag'?(TAGS.find(x=>x.k===TOUR.tag)||{v:()=>''}).v():v.textContent;
+   const ci=CALL.el.querySelector('[data-cin]');if(ci&&ancK==='j')ci.textContent=JFLOW[JR.step].i();}
   const hb=CALL.el.querySelector('.co-hold');if(hb){hb.style.visibility=auto?'visible':'hidden';if(auto)hb.firstChild.style.width=clamp(JR.t/JHOLD[JR.step],0,1)*100+'%';}}
  else coHide();
  /* dot timeline (screen) + floor track (3D) */
- const showJ=JR.on&&g3>.5,pos=JR.on?(JR.mode==='travel'?JR.from+easeIO(JR.u||0):JR.step):JR.done?5:0;JTL.hidden=!showJ;document.body.classList.toggle('journey',showJ);
- if(showJ)JTL.style.setProperty('--p',(pos/5).toFixed(4));
+ const showJ=JR.on&&g3>.5,pos=JR.on?(JR.mode==='travel'?JR.from+easeIO(JR.u||0):JR.step):JR.done?JLAST:0;JTL.hidden=!showJ;document.body.classList.toggle('journey',showJ);
+ if(showJ)JTL.style.setProperty('--p',(pos/JLAST).toFixed(4));
  TRK.visible=g3w>.01;
- if(TRK.visible){const i0=Math.floor(pos),px=lerp(STX[i0],STX[Math.min(5,i0+1)],pos-i0),cur=JR.on&&JR.mode==='hold'?JR.step:-1;trkFill.scale.x=Math.max(.001,px);trkM.opacity=.5*g3w;trkFM.opacity=.95*g3w;
+ if(TRK.visible){const i0=Math.floor(pos),px=lerp(STX[i0],STX[Math.min(JLAST,i0+1)],pos-i0),cur=JR.on&&JR.mode==='hold'?JR.step:-1;trkFill.scale.x=Math.max(.001,px);trkM.opacity=.5*g3w;trkFM.opacity=.95*g3w;
   TMK.forEach((m,i)=>{const done=(JR.done||JR.on)&&i<=pos+.001&&i!==cur,css=i===cur?'#ffb340':done?'#3cf0a0':'#5ce1ff';m.ring.material.color.set(css);m.dot.material.color.set(css);m.ring.material.opacity=m.dot.material.opacity=.9*g3w;
    m.ring.scale.setScalar(i===cur?1.3+Math.sin(time*5)*.12:1);m.lb.material.opacity=g3w;m.lb.set(m.txt,'',css);});}
  /* boardroom + finale */
- MEET.w+=(g3w-MEET.w)*(1-Math.exp(-dt*2.5));roomStep(dt,JR.on&&JR.step===5?JR.finT:99);
- const fin=story&&JR.on&&JR.step===5&&JR.mode==='hold'&&g3>.5;document.body.classList.toggle('finale',fin);$('#fin').classList.toggle('show',fin&&JR.finT>4.4&&JR.finT<13);}
+ const atFin=JR.on&&JR.step===JLAST&&(JR.mode==='hold'||JR.mode==='stack');
+ MEET.w+=(g3w-MEET.w)*(1-Math.exp(-dt*2.5));roomStep(dt,atFin?JR.finT:99);
+ const fin=story&&atFin&&g3>.5;document.body.classList.toggle('finale',fin);$('#fin').classList.toggle('show',fin&&JR.mode==='hold'&&JR.finT>4.4&&JR.finT<13);}
 /* ---------- Breakdown: nuclear-style blast (play mode, purely visual) ---------- */
 const NK={t:-1,g:new T.Group()};NK.g.visible=false;S.add(NK.g);
 const nkM=(c,solid)=>new T.MeshBasicMaterial({color:c,transparent:true,blending:solid?T.NormalBlending:T.AdditiveBlending,depthWrite:false,side:T.DoubleSide});
@@ -2824,7 +2962,7 @@ function frame(now){
  dMat.opacity=Math.max(sensorsOn*(G.on?.25:.9),dataOn*.3)*(1-action*.5);dMat.color.setHex(alarm>.5?0xff3b6b:0x33e1ff);
  for(let i=0;i<DN;i++){dPos[i*3+1]+=dSp[i]*dt;if(dPos[i*3+1]>12)dPos[i*3+1]=1;}dGeo.attributes.position.needsUpdate=true;
  pipeStep(dt,dataOn,alarm,status);
- nodes.forEach((n,k)=>{n.g.visible=dataOn>.02;n.g.scale.setScalar([1.15,1.35,1.15,1.1,1][k]*(k===4?1+sm(MEET.w)*.7:1)*(.35+.65*dataOn)*(1+Math.max(0,1-(time-(TOUR.pulse[k]!=null?TOUR.pulse[k]:-9))*1.5)*.35));n.lb.material.opacity=dataOn*(k===4?1-MEET.w:1);});
+ nodes.forEach((n,k)=>{n.g.visible=dataOn>.02;n.g.scale.setScalar([1.15,1.35,1.15,1.15,1.15,1][k]*(k===DNODE?1+sm(MEET.w)*.7:1)*(.35+.65*dataOn)*(1+Math.max(0,1-(time-(TOUR.pulse[k]!=null?TOUR.pulse[k]:-9))*1.5)*.35));n.lb.material.opacity=dataOn*(k===DNODE?1-MEET.w:1);});
  const prog=G.on?0:(TOUR.dec==='notify'?Math.min(1,TOUR.decT/1.4):0)*(1-ss(5.6,6,f));chainGeo.setDrawRange(0,Math.floor(chainCount*prog/3)*3);chainMat.opacity=.85*(1-ss(5.6,6,f));
  CH.forEach((g,k)=>{const on=ss(k/4,k/4+.2,prog);g.scale.setScalar(Math.max(.001,on*(1-ss(5.6,6,f))));});
  phone.visible=!G.on&&action>.02&&f<6.2;phone.scale.setScalar(Math.max(.001,action*(1-ss(5.6,6.1,f))));phone.position.y=4.4+Math.sin(time*1.4)*.12;
