@@ -1908,7 +1908,10 @@ function renderJourney(){const cur=JR.mode==='travel'?JR.from+1:JR.step;
  b.textContent=!JR.on?(JR.done?'↻ ส่งอีกค่า':'▶ ส่งข้อมูลจากเครื่อง'):JR.mode==='travel'?'กำลังเดินทาง…':JR.mode==='stack'?'Technology Stack':JR.step>=JLAST?'✓ จบการเดินทาง':'ถัดไป: '+JSTEPS[JR.step+1][0]+' ▶';}
 function startJourney(){Object.assign(JR,{on:true,step:0,mode:'hold',t:0,path:null,done:false,finT:0});TOUR.pulse=[];renderJourney();}
 function journeyNext(){if(!JR.on){startJourney();return;}if(JR.mode!=='hold')return;if(JR.step>=JLAST){openStack(true);return;}Object.assign(JR,{from:JR.step,mode:'travel',t:0,dur:JR.step===0?2.6:2.1,path:null});renderJourney();}
-function jumpJourney(k){if(k<0)return;Object.assign(JR,{on:true,done:false,step:k,mode:'hold',t:0,finT:0,path:null});renderJourney();}
+function jumpJourney(k){if(k<0)return;
+ /* jumping to the Dashboard still travels the last leg, so it gets the same fade to black as "next" */
+ if(k===JLAST&&!(JR.on&&JR.mode==='travel')){Object.assign(JR,{on:true,done:false,step:JLAST-1,mode:'hold',t:0,finT:0,path:null});journeyNext();return;}
+ Object.assign(JR,{on:true,done:false,step:k,mode:'hold',t:0,finT:0,path:null});renderJourney();}
 function finishJourney(){Object.assign(JR,{on:false,mode:'idle',done:true,doneAt:performance.now()/1000});renderJourney();}
 /* Technology Stack page: closes the journey (or opens on its own from the ch.03 card) */
 $('#stkL').innerHTML=STACK.map((L,i)=>'<li style="--c:'+L.c[0]+';--c2:'+L.c[1]+';--i:'+(STACK.length-1-i)+'"><div class="stk-b"><b>'+L.n+'</b><span><strong>'+L.t+'</strong><em>'+L.th+'</em></span></div><div class="stk-apps">'+L.apps.map(appChip).join('')+'</div></li>').join('');
